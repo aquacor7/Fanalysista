@@ -108,6 +108,7 @@ flowchart TD
         ddata[data.py<br/>cached loaders + sidebar selector]
         dtheme[theme.py<br/>shared colour palette]
         dmodals[modals.py<br/>@st.dialog team / player summaries]
+        dui[ui.py<br/>breadcrumbs and shared layout]
         dapp[app.py]
         dpages["pages/<br/>1_League_Table<br/>2_Team_Detail<br/>3_Player_Detail<br/>4_Players<br/>5_Regret"]
     end
@@ -320,8 +321,15 @@ The dashboard has no formal test suite yet (a `tests/` folder is reserved), but 
 
 ```python
 from streamlit.testing.v1 import AppTest
-at = AppTest.from_file("src/dashboard/app.py").run()
+
+# Multi-page apps: load the entry point, then switch to the page under test.
+# This registers all sibling pages so st.page_link / st.switch_page work.
+at = AppTest.from_file("src/dashboard/app.py", default_timeout=60).run()
+at.switch_page("pages/2_Team_Detail.py")
+at = at.run()
 assert not at.exception
 ```
 
-This is enough to verify a page boots without crashing — useful when refactoring shared loaders. See [ROADMAP.md](ROADMAP.md) for the planned testing direction.
+Loading a page directly via `AppTest.from_file("src/dashboard/pages/X.py")` only registers that single file, so any `st.page_link` to another page raises `KeyError: 'url_pathname'`. The `switch_page`-from-entrypoint pattern avoids that.
+
+See [ROADMAP.md](ROADMAP.md) for the planned testing direction.

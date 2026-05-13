@@ -17,6 +17,7 @@ from data import (
     require_data,
 )
 from theme import CATEGORY_COLOR, CATEGORY_ORDER
+from ui import breadcrumbs
 
 POSITION_LABEL = {"P": "Goalkeeper (P)", "D": "Defender (D)", "C": "Midfielder (C)", "A": "Attacker (A)"}
 
@@ -33,7 +34,6 @@ def _categorize(row: pd.Series) -> str:
 
 # ---- page ----
 st.set_page_config(page_title="Player Detail", layout="wide")
-st.title("Player Detail")
 
 league, comp = require_data()
 ap = load_appearances(league, comp)
@@ -80,7 +80,12 @@ me = me.merge(opps, on="giornata", how="left")
 # Convenience rows
 season = ps[(ps.team == sel_team) & (ps.player == sel_player)].iloc[0]
 
-# ---- header ----
+# ---- breadcrumbs + header ----
+breadcrumbs(
+    ("League Table", "pages/1_League_Table.py"),
+    (sel_team, "pages/2_Team_Detail.py"),
+    (sel_player, None),
+)
 position = me.position.iloc[0]
 st.markdown(f"### {sel_player}  &nbsp;·&nbsp; {POSITION_LABEL[position]}  &nbsp;·&nbsp; {sel_team}")
 

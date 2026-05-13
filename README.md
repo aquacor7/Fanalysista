@@ -123,6 +123,7 @@ fanalysista/
 │       ├── data.py            cached loaders + sidebar selector
 │       ├── theme.py           shared colour palette
 │       ├── modals.py          @st.dialog team/player summary modals
+│       ├── ui.py              shared UI helpers (breadcrumbs)
 │       └── pages/
 │           ├── 1_League_Table.py
 │           ├── 2_Team_Detail.py

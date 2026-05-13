@@ -20,6 +20,7 @@ import streamlit as st
 
 from data import load_matches, load_player_season, load_team_season, require_data
 from modals import maybe_open_player_modal
+from ui import breadcrumbs
 from theme import (
     ACTIVE_COLOR,
     MISSED_COLOR,
@@ -46,6 +47,10 @@ sel_team = st.sidebar.selectbox(
 )
 st.session_state.selected_team = sel_team
 
+breadcrumbs(
+    ("League Table", "pages/1_League_Table.py"),
+    (sel_team, None),
+)
 st.title(sel_team)
 
 # ---- season KPI row ----
@@ -137,8 +142,9 @@ elif sort_mode == "Position then name":
 else:
     team_ps = team_ps.sort_values("total_fv", ascending=False)
 
-# ---- stacked bar: per-player active + missed ----
-st.markdown("**Total FV per player — captured (green) vs missed (orange)**")
+# ---- stacked bar: per-player active + missed (clickable) ----
+st.markdown("**Total FV per player — captured (green) vs missed (orange).** "
+            "Click any bar to open that player's summary.")
 fig_bar = go.Figure(data=[
     go.Bar(
         name="Captured (active)", x=team_ps.player, y=team_ps.total_active_fv,
@@ -162,7 +168,16 @@ fig_bar.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     height=520, margin=dict(l=10, r=10, t=30, b=10),
 )
-st.plotly_chart(fig_bar, width="stretch")
+event_bar = st.plotly_chart(
+    fig_bar, width="stretch",
+    on_select="rerun", selection_mode="points",
+    key="td_squad_bar_select",
+)
+if event_bar.selection and event_bar.selection.points:
+    p = event_bar.selection.points[0]
+    clicked_player = p.get("x")  # player name lives on the x axis
+    if clicked_player:
+        maybe_open_player_modal(league, comp, sel_team, clicked_player)
 
 # ---- sunburst position -> player ----
 st.markdown("**Pie of pie — position, then player share of active FV**")

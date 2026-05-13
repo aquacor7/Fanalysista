@@ -57,7 +57,8 @@ Items marked **✓** have shipped; everything else is open.
 - ✓ Centralised colour theme in `src/dashboard/theme.py` (position, category, subject/opponent/what-if)
 - ✓ Click-to-navigate row selection on league table, players, top contributors, and the team's player table
 - ✓ **Modal summary dialogs** (`@st.dialog`) for Team and Player — clicking a row or a chart point opens a digest modal; the modal has a primary button to escalate to the full Detail page. The modal-open is gated via a transition guard in `src/dashboard/modals.py` so it doesn't re-open on every rerun while a row stays selected.
-- ✓ **Clickable points in Plotly charts** — works on the Players page capture-rate scatter (per-point `custom_data` → team/player on click) and the League Table dumbbell chart (team name read from the y-axis). Same modal pattern as table row clicks.
+- ✓ **Clickable points in Plotly charts** — works on the Players page capture-rate scatter (per-point `custom_data` → team/player on click), the League Table dumbbell chart (team name read from the y-axis), and the Team Detail stacked bar (player name from the x-axis). Same modal pattern as table row clicks.
+- ✓ **Breadcrumb trail** at the top of Team Detail and Player Detail pages, via `st.page_link` in `src/dashboard/ui.py::breadcrumbs()`. Earlier crumbs are clickable; the current location is bold.
 
 ### Open
 
@@ -75,7 +76,9 @@ Items marked **✓** have shipped; everything else is open.
 
 - **TOTALE distribution density per team** — small multiples of TOTALE distributions, one panel per team. Quickly compares consistency vs volatility across the league.
 
-- **Extend chart click-to-modal coverage**. Currently wired on the Players scatter and League Table dumbbell. Natural next places: stacked bars in Team Detail (click a player's bar), the sunburst (already drills hierarchically; could escalate to modal on a leaf click), the heatmap cells in League Table (open a per-(team, giornata) detail modal — would need a match modal that doesn't exist yet).
+- **Extend chart click-to-modal coverage**. Currently wired on the Players scatter, League Table dumbbell, and Team Detail stacked bar. Open surfaces:
+  - **Sunburst leaf click** on Team Detail. Sunburst has a built-in "zoom into a slice" behaviour; adding a modal on the same click would create two simultaneous interactions. Solvable by listening only to *leaf* selections (a player slice rather than a position slice) and skipping the zoom — needs Plotly event tuning.
+  - **Heatmap cells** in League Table. Each cell is one (team, giornata) — natural target for a "match modal" that doesn't exist yet. Build the match modal first (shows the two lineups, score, who-played-best), then wire the heatmap.
 
 - **League Trends page** (deferred / low priority). A single page bundling all cross-team comparisons: P/D/C/A contribution stacked bar (currently displaced when Position Rollup was removed), regret distribution density, capture-rate spread per position, etc. At single-season scale these aren't especially engaging; they get interesting if/when multi-season data exists. Rebuild then.
 
@@ -148,6 +151,57 @@ Items marked **✓** have shipped; everything else is open.
   - `python-i18n` and `gettext` are heavier alternatives with pluralisation and date formatting. For our UI surface (mostly static strings), a flat JSON dict is enough and much simpler.
   - Player names: stay as-is. We do NOT want to romanise / sinicize "Pulisic" or "卡纳维罗" inconsistently; the source-of-truth is fantacalcio.it's transliteration.
   - Chinese-specific: column widths need adjusting (CJK characters are wider than Latin). May require `column_config` tweaks per locale.
+
+## AI integration (long-term, framework-defining)
+
+A natural evolution: embed an AI assistant that gives data-driven insights and answers questions about teams, players, and the season — the same kind of observation Claude produced during development ("Your biggest regret was g17 where 433 cost you 14 fv vs the optimal 352. Hojlund and Simeone were both on the bench for g1 — they would've added 21.5 fv.") but accessible inside the app for every user, without a chat session with Claude.
+
+This is the feature that will likely force a move off Streamlit.
+
+### Vision
+
+Three concrete surfaces, roughly in order of build complexity:
+
+1. **"Ask the AI" chat panel** — sidebar chat (or a fixed bottom drawer). User asks "Who's my best attacker?" or "Why did I lose g14?" — AI answers in natural language, with the underlying numbers / a small chart inline.
+2. **Auto-generated insights** — when a user opens Team Detail or Player Detail, an "AI Notes" section renders 3-5 observations specific to that entity. Generated lazily on first view, cached per session.
+3. **Pre-match suggestion** — given the submitted formation for the upcoming giornata and the opponent's history, suggest a swap or a different module ("Hojlund on the bench again; he's averaged 7.1 active fv. Consider starting him over Castellanos (5.5).").
+4. **Season retrospective** — one-click "summarise my season" producing a multi-paragraph narrative for sharing with leaguemates.
+
+### Architecture sketch
+
+- **LLM backend**: Anthropic Claude (via the `anthropic` Python SDK) is the obvious starting choice given familiarity. **Prompt caching** keeps costs flat — most of the per-page context (player_season for one team, the team's schedule) is the same across many user queries, so it benefits enormously from cache hits. OpenAI / self-hosted Llama are drop-in alternatives.
+- **Tool calling**: rather than dump CSVs into the prompt, expose small tools the LLM can call — `get_player_season(team, player)`, `get_team_schedule(team)`, `get_regret(team)`, `get_appearances(team, player)`. The LLM decides what to query, which keeps prompts focused and cache-friendly.
+- **Cost**: at Claude Haiku rates (~$0.25 / million input, $1.25 / million output tokens), a typical query that pulls one or two tool results costs well under a cent. The dashboard load already touches a few cents worth of context across many users — sustainable for a hobby project, billable as a per-user feature if needed.
+- **Privacy**: data sent to the LLM is the user's fantasy team data (player names, fantavoto). For a hosted version, this flows through Anthropic / OpenAI. Document the privacy stance; offer a self-hosted Llama option for groups that care.
+
+### Why this is the framework-defining feature
+
+Streamlit's `st.chat_input` + `st.chat_message` + `st.write_stream` is enough for **Phase 1** — a sidebar chat that answers questions. We can ship that on top of the current code with minimal disruption.
+
+Where Streamlit becomes the bottleneck:
+
+- **Token-by-token streaming** in `st.write_stream` works, but every token triggers a re-render of the entire page. On heavy pages (Team Detail with multiple Plotly charts) the dashboard starts to stutter.
+- **Inline AI suggestions** — e.g., a small "🤖 insight" affordance attached to a specific cell in a table, or a tooltip pop-up over a chart point that says "this is the gap that cost you the game" — needs reactive DOM manipulation that Streamlit's "rerun the script" model fights.
+- **Persistent chat across pages** — Streamlit's session state can hold the chat history, but the chat UI itself doesn't naturally "follow" the user from page to page; it'd be sidebar-only.
+- **Real-time bidirectional UX** — typing indicators, partial tool-call streams, AI editing its own previous response — none of this is impossible in Streamlit, but all of it fights the framework.
+
+These limits aren't fatal at Phase 1. They become decisive once AI is *the primary surface* rather than a side feature.
+
+### Migration path when AI becomes primary
+
+The Bronze → Silver → Gold split means the data layer is portable. The presentation layer is what gets rewritten:
+
+1. **FastAPI** for the backend — wraps the gold DuckDB / Postgres tables, exposes a REST API plus an SSE/WebSocket endpoint for AI streaming.
+2. **A modern frontend** — likely **SvelteKit** or **Next.js**. The frontend renders charts (Plotly.js or D3), tables, and the AI chat UI natively. AI suggestions can be inlined anywhere.
+3. **Anthropic streaming** flows through the backend to the frontend over SSE.
+4. **Authentication** — proper user sessions (e.g., Auth.js / Clerk) since the AI assistant is per-user.
+
+This is a multi-month project, not an evening's work. Target trigger: when Streamlit Phase 1 has been live for a season and users want the things Streamlit can't give them (inline AI, persistent chat, fluid panel transitions).
+
+### What to do now
+
+- **Nothing yet, by design.** Capture the vision (this section), keep the data layer portable (already done), and don't make Streamlit-specific architectural commitments that would block a future rewrite.
+- When ready for Phase 1, the addition is small: `src/dashboard/ai.py` with an Anthropic client, a tools manifest, and a chat panel rendered in the sidebar. Estimated effort: 1-2 days.
 
 ## Deployment & infrastructure direction
 
