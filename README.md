@@ -62,15 +62,23 @@ Both log in via the reverse-engineered fantacalcio.it API, look up the competiti
 ### Present
 
 - `src/report_team.py` — generates a wide-format xlsx "season report card" for a chosen team (rows: players, cols: per-giornata voto/fv/active + season totals)
-- `src/dashboard/` — interactive Streamlit app with eight pages:
-  0. **Home** — KPIs, league table preview, top performers
-  1. **Players** — filterable cross-team table + capture-rate scatter
-  2. **Player Detail** — drill into one player: appearance breakdown pie, voto KPIs with "manager usage" verdict, per-giornata performance bars, fv histogram + box plot, notable games, rank vs team/league peers
-  3. **League Table** — table + points bar + team-vs-opp avg + TOTALE heatmap + standings race chart (cumulative points and cumulative TOTALE)
-  4. **Position Rollup** — per-team breakdown + cross-team stacked bars
-  5. **Schedule** — per-team match log + TOTALE trend
-  6. **Regret** — actual vs optimal player_fv per giornata + league-wide regret comparison
-  7. **Squad Composition** — stacked bars, sunburst (pie-of-pie), and donut showing where each team's points come from
+- `src/dashboard/` — interactive Streamlit app, organised as a Football Manager-style drill-in hierarchy (League → Team → Player):
+  - **Home (`app.py`)** — competition KPIs, top contributors. Click a player row to drill into their detail.
+  - **1. League Table** — table, points bar, dumbbell chart of team vs opp average TOTALE, single-giornata peaks, TOTALE heatmap, cumulative standings race. **Click any team row → Team Detail.**
+  - **2. Team Detail** — season KPIs, full schedule, TOTALE-vs-opponent line chart, stacked bar of player contributions (active vs missed), sunburst of position→player. **Click any player row → Player Detail.**
+  - **3. Player Detail** — appearance breakdown pie, voto KPIs with "manager usage" verdict, per-giornata performance bars, fv histogram + box plot, notable games, rank vs team/league peers.
+  - **4. Players** — cross-team filterable table + capture-rate scatter. **Click any player row → Player Detail.**
+  - **5. Regret** — per-team giornata-by-giornata actual vs optimal player_fv + league-wide regret comparison.
+
+The whole dashboard uses a consistent colour theme defined in `src/dashboard/theme.py`:
+
+| Concept | Colours |
+|---|---|
+| Player position | P=gold, D=green, C=blue, A=red (Italian football convention) |
+| Appearance category | Starter=dark green, Substitute=light green, Benched=orange, No voto=grey |
+| Captured vs missed FV | Dark green = counted, orange = missed |
+| Real-vs-real comparison (team vs opp, player vs player) | Dark blue (subject) vs **red** (other) |
+| Real-vs-hypothetical (actual vs optimal) | Dark blue (actual) vs **light blue** (what-if) |
 
 ## CLI reference
 
@@ -111,14 +119,13 @@ fanalysista/
 │   └── dashboard/             │  Presentation (Streamlit)
 │       ├── app.py
 │       ├── data.py            cached loaders + sidebar selector
+│       ├── theme.py           shared colour palette
 │       └── pages/
-│           ├── 1_Players.py
-│           ├── 2_Player_Detail.py
-│           ├── 3_League_Table.py
-│           ├── 4_Position_Rollup.py
-│           ├── 5_Schedule.py
-│           ├── 6_Regret.py
-│           └── 7_Squad_Composition.py
+│           ├── 1_League_Table.py
+│           ├── 2_Team_Detail.py
+│           ├── 3_Player_Detail.py
+│           ├── 4_Players.py
+│           └── 5_Regret.py
 │
 ├── data/                      ← data layers (gitignored, generated)
 │   ├── bronze/{league}/{comp}/Formazioni_*_giornata.xlsx

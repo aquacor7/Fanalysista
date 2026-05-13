@@ -53,15 +53,18 @@ st.dataframe(
 )
 
 # ---- Top performers across competition ----
-st.subheader("Top 10 contributors (any team)")
-top = ps.sort_values("total_active_fv", ascending=False).head(10)
-st.dataframe(
+st.subheader("Top 10 contributors (any team) — click a row to open Player Detail")
+top = ps.sort_values("total_active_fv", ascending=False).head(10).reset_index(drop=True)
+event_home = st.dataframe(
     top[[
         "team", "position", "player", "apps_active", "total_active_fv",
         "avg_active_fv", "pct_fv_captured", "best_active_fv",
     ]],
     width="stretch",
     hide_index=True,
+    on_select="rerun",
+    selection_mode="single-row",
+    key="home_top_select",
     column_config={
         "pct_fv_captured": st.column_config.ProgressColumn(
             "% FV captured", min_value=0.0, max_value=1.0, format="percent",
@@ -71,5 +74,13 @@ st.dataframe(
         "best_active_fv": st.column_config.NumberColumn("Best game", format="%.1f"),
     },
 )
+if event_home.selection.rows:
+    row = top.iloc[event_home.selection.rows[0]]
+    st.session_state.selected_team = row.team
+    st.session_state.selected_player = row.player
+    st.switch_page("pages/3_Player_Detail.py")
 
-st.caption("Use the pages in the sidebar for deeper views: Players, League Table, Position Rollup, Schedule.")
+st.caption(
+    "**Pages:** League Table → Team Detail → Player Detail (drill-in hierarchy). "
+    "Players, Regret, and Position Rollup are cross-team comparison views."
+)

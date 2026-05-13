@@ -106,8 +106,9 @@ flowchart TD
 
     subgraph dash["src/dashboard/"]
         ddata[data.py<br/>cached loaders + sidebar selector]
+        dtheme[theme.py<br/>shared colour palette]
         dapp[app.py]
-        dpages["pages/<br/>1_Players<br/>2_Player_Detail<br/>3_League_Table<br/>4_Position_Rollup<br/>5_Schedule<br/>6_Regret<br/>7_Squad_Composition"]
+        dpages["pages/<br/>1_League_Table<br/>2_Team_Detail<br/>3_Player_Detail<br/>4_Players<br/>5_Regret"]
     end
 
     do --> cli
@@ -285,7 +286,9 @@ The page numbering controls the sidebar order — pick a number that fits where 
 
 ### Adding a new dashboard page
 
-Pages must (a) insert the parent directory into `sys.path`, (b) call `require_data()` from `data.py` to render the shared sidebar selectors, and (c) use `width="stretch"` (not the deprecated `use_container_width=True`).
+Pages must (a) insert the parent directory into `sys.path`, (b) call `require_data()` from `data.py` to render the shared sidebar selectors, (c) use `width="stretch"` (not the deprecated `use_container_width=True`), and (d) pull colours from `theme.py` rather than hardcoding hex values — that's what keeps the palette consistent across pages.
+
+To support click-to-navigate, write team/player selectors against the shared session-state keys `selected_team` and `selected_player`. Pages that emit navigation (League Table → Team Detail, Players → Player Detail, etc.) set those keys before calling `st.switch_page("pages/N_Target.py")`. Pages that receive navigation use them as default values for their sidebar selectboxes.
 
 A minimal template (for a page at `src/dashboard/pages/N_My_Page.py`):
 

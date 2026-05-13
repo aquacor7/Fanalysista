@@ -1,13 +1,23 @@
-"""Full league table with bar charts for points and TOTALE comparison."""
+"""League table — the season at a glance.
+
+Includes:
+    - the table (clickable: pick a team to drill into Team Detail)
+    - points bar
+    - dumbbell chart of team_avg vs opp_avg
+    - per-team single-giornata peak
+    - TOTALE heatmap (teams × giornate)
+    - cumulative standings race (points and TOTALE)
+"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from data import load_matches, load_team_season, require_data
+from theme import OPPONENT_COLOR, SUBJECT_COLOR
 
 st.set_page_config(page_title="League Table", layout="wide")
 st.title("League Table")
@@ -15,11 +25,15 @@ st.title("League Table")
 league, comp = require_data()
 ts = load_team_season(league, comp)
 
-# ---- league table ----
-st.dataframe(
+# ---- league table (clickable for drill-in) ----
+st.markdown("**Click any team row to open Team Detail**")
+event_lt = st.dataframe(
     ts,
     width="stretch",
     hide_index=True,
+    on_select="rerun",
+    selection_mode="single-row",
+    key="lt_select",
     column_config={
         "points": st.column_config.NumberColumn("Pts", format="%d"),
         "goal_diff": st.column_config.NumberColumn("GD", format="%+d"),
@@ -28,18 +42,55 @@ st.dataframe(
         "totale_diff_avg": st.column_config.NumberColumn(format="%+.2f"),
     },
 )
+if event_lt.selection.rows:
+    st.session_state.selected_team = ts.iloc[event_lt.selection.rows[0]].team
+    st.switch_page("pages/2_Team_Detail.py")
 
 # ---- points bar ----
 st.subheader("Points")
-st.bar_chart(ts.set_index("team")["points"], height=400)
+st.bar_chart(ts.set_index("team")["points"], height=400, color=SUBJECT_COLOR)
 
-# ---- avg totale: own vs opponent ----
+# ---- dumbbell chart: team_avg vs opp_avg, sorted by team_avg ----
 st.subheader("Average TOTALE — team vs opponents")
-cmp = (
-    ts.set_index("team")[["totale_avg", "opp_totale_avg"]]
-      .rename(columns={"totale_avg": "team_avg", "opp_totale_avg": "opp_avg"})
+dumbbell = ts[["team", "totale_avg", "opp_totale_avg"]].sort_values(
+    "totale_avg", ascending=True  # so highest is at the top of the chart
 )
-st.bar_chart(cmp, height=400)
+fig_db = go.Figure()
+# connector lines first (so dots sit on top)
+for _, row in dumbbell.iterrows():
+    fig_db.add_trace(go.Scatter(
+        x=[row.opp_totale_avg, row.totale_avg],
+        y=[row.team, row.team],
+        mode="lines",
+        line=dict(color="#CCCCCC", width=2),
+        hoverinfo="skip",
+        showlegend=False,
+    ))
+fig_db.add_trace(go.Scatter(
+    x=dumbbell.opp_totale_avg, y=dumbbell.team,
+    mode="markers",
+    marker=dict(size=13, color=OPPONENT_COLOR, line=dict(color="white", width=1)),
+    name="Opponent avg",
+    hovertemplate="<b>%{y}</b><br>Opp avg: %{x:.2f}<extra></extra>",
+))
+fig_db.add_trace(go.Scatter(
+    x=dumbbell.totale_avg, y=dumbbell.team,
+    mode="markers",
+    marker=dict(size=13, color=SUBJECT_COLOR, line=dict(color="white", width=1)),
+    name="Team avg",
+    hovertemplate="<b>%{y}</b><br>Team avg: %{x:.2f}<extra></extra>",
+))
+fig_db.update_layout(
+    height=450, margin=dict(l=10, r=10, t=10, b=10),
+    xaxis_title="Average TOTALE", yaxis_title="",
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+)
+st.plotly_chart(fig_db, width="stretch")
+st.caption(
+    "Each row: one team. Blue dot = the team's own avg TOTALE. "
+    "Red dot = avg TOTALE their opponents put up against them. "
+    "The longer the line, the bigger the gap between scoring and conceding."
+)
 
 # ---- per-team peak ----
 st.subheader("Best single-giornata TOTALE per team")
@@ -52,7 +103,6 @@ st.dataframe(best, width="stretch", hide_index=True)
 st.subheader("TOTALE heatmap — teams × giornate")
 mt = load_matches(league, comp)
 pivot = mt.pivot(index="team", columns="giornata", values="totale")
-# Order rows by points-driven team_season order so the heatmap reads like the table
 pivot = pivot.reindex(ts.team)
 fig_hm = px.imshow(
     pivot,
@@ -71,43 +121,35 @@ st.caption(
 
 # ---- Cumulative standings race ----
 st.subheader("Standings race — cumulative through the season")
-
 mt_sorted = mt.sort_values(["team", "giornata"]).copy()
 mt_sorted["match_pts"] = mt_sorted.result.map({"W": 3, "D": 1, "L": 0}).fillna(0)
 mt_sorted["cum_pts"] = mt_sorted.groupby("team")["match_pts"].cumsum()
 mt_sorted["cum_totale"] = mt_sorted.groupby("team")["totale"].cumsum()
-
-# Order teams in legend by final standing for readability
-team_order = ts.team.tolist()  # already sorted by points
+team_order = ts.team.tolist()
 
 tab_pts, tab_tot = st.tabs(["Competition points", "Cumulative TOTALE"])
-
 with tab_pts:
     fig_race_p = px.line(
         mt_sorted, x="giornata", y="cum_pts", color="team",
-        category_orders={"team": team_order},
-        markers=True,
+        category_orders={"team": team_order}, markers=True,
         labels={"cum_pts": "Cumulative points", "giornata": "Giornata"},
     )
     fig_race_p.update_layout(height=520, hovermode="x unified",
                              margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(fig_race_p, width="stretch")
     st.caption(
-        "The actual standings race — 3 points per win, 1 per draw. "
+        "Standings race — 3 points per win, 1 per draw. "
         "Click a team in the legend to isolate; double-click to toggle others off."
     )
-
 with tab_tot:
     fig_race_t = px.line(
         mt_sorted, x="giornata", y="cum_totale", color="team",
-        category_orders={"team": team_order},
-        markers=False,
+        category_orders={"team": team_order}, markers=False,
         labels={"cum_totale": "Cumulative TOTALE", "giornata": "Giornata"},
     )
     fig_race_t.update_layout(height=520, hovermode="x unified",
                              margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(fig_race_t, width="stretch")
     st.caption(
-        "Raw fantasy scoring over time. The slope shows a team's average per-game "
-        "production — a steeper line means more fv produced each giornata."
+        "Raw fantasy scoring over time. Steeper slope = more fv produced each giornata."
     )

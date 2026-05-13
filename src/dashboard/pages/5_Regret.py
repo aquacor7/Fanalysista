@@ -11,9 +11,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 from data import load_regret, load_team_season, require_data
+from theme import SUBJECT_COLOR, WHATIF_COLOR
 
 st.set_page_config(page_title="Regret", layout="wide")
 st.title("Regret / Optimal Lineup")
@@ -22,9 +24,15 @@ league, comp = require_data()
 rg = load_regret(league, comp)
 ts = load_team_season(league, comp)
 
-# ---- per-team KPIs ----
+# ---- shared focus team selector ----
 teams = sorted(rg.team.unique())
-sel_team = st.sidebar.selectbox("Focus team", teams)
+default = st.session_state.get("selected_team")
+if default not in teams:
+    default = teams[0]
+sel_team = st.sidebar.selectbox(
+    "Focus team", teams, index=teams.index(default), key="rg_team_box",
+)
+st.session_state.selected_team = sel_team
 team_rg = rg[rg.team == sel_team].sort_values("giornata")
 
 c1, c2, c3, c4 = st.columns(4)
@@ -63,14 +71,32 @@ st.dataframe(
     },
 )
 
-# ---- trend chart: actual vs optimal over giornate ----
+# ---- trend chart: actual (dark blue) vs optimal (light blue) — same hue: what-if comparison ----
 st.subheader("Actual vs optimal player FV over time")
-trend = team_rg.set_index("giornata")[["actual_player_fv", "optimal_player_fv"]].rename(
-    columns={"actual_player_fv": "actual", "optimal_player_fv": "optimal"})
-st.line_chart(trend, height=380)
+trend = team_rg[["giornata", "actual_player_fv", "optimal_player_fv"]].melt(
+    id_vars="giornata", var_name="kind", value_name="value",
+)
+trend["kind"] = trend["kind"].map(
+    {"actual_player_fv": "actual", "optimal_player_fv": "optimal"}
+)
+fig_trend = px.line(
+    trend, x="giornata", y="value", color="kind", markers=True,
+    color_discrete_map={"actual": SUBJECT_COLOR, "optimal": WHATIF_COLOR},
+    labels={"value": "Player FV", "giornata": "Giornata", "kind": ""},
+)
+fig_trend.update_layout(
+    height=380, hovermode="x unified",
+    margin=dict(l=10, r=10, t=10, b=10),
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+)
+st.plotly_chart(fig_trend, width="stretch")
+st.caption(
+    "Dark blue = what you actually scored. Light blue = the theoretical best "
+    "given the same 25-player squad. The gap is your regret."
+)
 
 st.subheader("Regret per giornata")
-st.bar_chart(team_rg.set_index("giornata")["regret"], height=300)
+st.bar_chart(team_rg.set_index("giornata")["regret"], height=300, color=SUBJECT_COLOR)
 
 st.divider()
 
@@ -94,6 +120,7 @@ st.dataframe(
 st.bar_chart(
     comparison.set_index("team")["regret_total"],
     height=350,
+    color=SUBJECT_COLOR,
 )
 st.caption(
     "High regret + high points = a stacked squad you slightly under-used. "

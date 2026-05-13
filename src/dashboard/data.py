@@ -60,11 +60,6 @@ def load_team_season(league: str, comp: str) -> pd.DataFrame:
 
 
 @st.cache_data
-def load_position_rollup(league: str, comp: str) -> pd.DataFrame:
-    return pd.read_csv(GOLD_ROOT / league / comp / "position_rollup.csv")
-
-
-@st.cache_data
 def load_matches(league: str, comp: str) -> pd.DataFrame:
     return pd.read_csv(SILVER_ROOT / league / comp / "matches.csv")
 

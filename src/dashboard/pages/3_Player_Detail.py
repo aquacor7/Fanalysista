@@ -16,17 +16,9 @@ from data import (
     load_player_season,
     require_data,
 )
+from theme import CATEGORY_COLOR, CATEGORY_ORDER
 
-# ---- constants ----
 POSITION_LABEL = {"P": "Goalkeeper (P)", "D": "Defender (D)", "C": "Midfielder (C)", "A": "Attacker (A)"}
-POSITION_COLOR = {"P": "#FFC107", "D": "#1E88E5", "C": "#43A047", "A": "#E53935"}
-CATEGORY_COLOR = {
-    "Starter":    "#2E7D32",   # dark green
-    "Substitute": "#81C784",   # light green
-    "Benched":    "#EF6C00",   # orange
-    "No voto":    "#9E9E9E",   # grey
-}
-CATEGORY_ORDER = ["Starter", "Substitute", "Benched", "No voto"]
 
 
 def _categorize(row: pd.Series) -> str:
@@ -48,9 +40,16 @@ ap = load_appearances(league, comp)
 mt = load_matches(league, comp)
 ps = load_player_season(league, comp)
 
-# Sidebar: cascading team -> player
+# Sidebar: cascading team -> player. Both backed by shared session state so a
+# click from another page (League Table, Players, Team Detail) lands here pre-filled.
 teams = sorted(ap.team.unique())
-sel_team = st.sidebar.selectbox("Team", teams, key="pd_team")
+default_team = st.session_state.get("selected_team")
+if default_team not in teams:
+    default_team = teams[0]
+sel_team = st.sidebar.selectbox(
+    "Team", teams, index=teams.index(default_team), key="pd_team_box",
+)
+st.session_state.selected_team = sel_team
 
 team_players = (ps[ps.team == sel_team]
                 .sort_values("total_fv", ascending=False)
@@ -58,7 +57,16 @@ team_players = (ps[ps.team == sel_team]
 if not team_players:
     st.warning(f"No players found for {sel_team}.")
     st.stop()
-sel_player = st.sidebar.selectbox("Player", team_players, key="pd_player")
+
+default_player = st.session_state.get("selected_player")
+if default_player not in team_players:
+    default_player = team_players[0]
+sel_player = st.sidebar.selectbox(
+    "Player", team_players,
+    index=team_players.index(default_player),
+    key="pd_player_box",
+)
+st.session_state.selected_player = sel_player
 
 # Filter to this player's appearances
 me = ap[(ap.team == sel_team) & (ap.player == sel_player)].copy()

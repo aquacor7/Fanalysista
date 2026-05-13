@@ -44,7 +44,7 @@ Items marked **✓** have shipped; everything else is open.
 
 ### Done
 
-- ✓ Stacked vertical bar of total_fv = active + missed per player (Squad Composition)
+- ✓ Stacked vertical bar of total_fv = active + missed per player (now on Team Detail)
 - ✓ Sunburst (pie-of-pie): position → player share of active fv
 - ✓ Donut: single-ring player share of team total
 - ✓ TOTALE heatmap (teams × giornate, RdYlGn scale)
@@ -53,6 +53,9 @@ Items marked **✓** have shipped; everything else is open.
 - ✓ Per-player performance bars over time, with avg line
 - ✓ Histogram + box plot for fv distribution
 - ✓ Capture-rate vs total-active-fv scatter
+- ✓ Dumbbell chart for team vs opp average TOTALE
+- ✓ Centralised colour theme in `src/dashboard/theme.py` (position, category, subject/opponent/what-if)
+- ✓ Click-to-navigate row selection on league table, players, top contributors, and the team's player table
 
 ### Open
 
@@ -69,6 +72,12 @@ Items marked **✓** have shipped; everything else is open.
 - **Trade timeline annotations** — when a player has a `*` rename mid-season, mark the cutoff giornata on the performance chart. Useful when reviewing why a player's contribution stopped.
 
 - **TOTALE distribution density per team** — small multiples of TOTALE distributions, one panel per team. Quickly compares consistency vs volatility across the league.
+
+- **Clickable points inside charts** (extends current row-click pattern). `st.plotly_chart(fig, on_select="rerun", selection_mode="points")` returns a selection event. If each trace is built with `customdata=[..., (team, player), ...]`, the click handler reads the customdata and calls `st.switch_page()`. Feasible; would let users click a dot in the capture-rate scatter, a slice in a sunburst, or a bar in a stacked chart and land on the relevant Team / Player Detail page.
+
+- **Modal detail dialogs (`@st.dialog`)** instead of redirects. Streamlit 1.31+ supports modal overlays via the `@st.dialog` decorator. Click → modal opens over the current page with a condensed Team / Player summary → close button → the underlying page is untouched (no browser-back needed). Much better UX than the current redirect pattern. Trade-off: modal width is constrained (`small` / `large`); the modal would likely show a digest with an "Open full page →" link for the deep view. Feasible and high-impact.
+
+- **League Trends page** (deferred / low priority). A single page bundling all cross-team comparisons: P/D/C/A contribution stacked bar (currently displaced when Position Rollup was removed), regret distribution density, capture-rate spread per position, etc. At single-season scale these aren't especially engaging; they get interesting if/when multi-season data exists. Rebuild then.
 
 ## Data
 
@@ -97,8 +106,10 @@ Items marked **✓** have shipped; everything else is open.
 ### Done
 
 - ✓ `src/` layout for source code, `docs/` for documentation
+- ✓ `data/` folder consolidates bronze / silver / gold
 - ✓ Streamlit `AppTest`-based smoke-testing of every page
 - ✓ Generic `.env.example`; real credentials gitignored
+- ✓ Dashboard pages reorganised as a FM-style drill-in hierarchy (League → Team → Player)
 
 ### Open
 
@@ -120,6 +131,65 @@ Items marked **✓** have shipped; everything else is open.
 - **Logging** — current scripts use `print()`. Switch to `logging` with a configurable level (`-v/--verbose`).
 
 - **`pyproject.toml`** — replace `requirements.txt` with a proper `pyproject.toml` once the project stabilises. Lockfile via `pip-tools` or `uv`.
+
+## Deployment & infrastructure direction
+
+The current dashboard is local-only — `streamlit run` on the user's machine, reading CSVs from disk. The medium-term goal is to host it so leaguemates (and eventually a broader audience) can use it as a web app. This section captures the thinking on how that evolution looks.
+
+### Database migration (probably the first non-trivial step)
+
+The trigger for a DB is *not* concurrent users yet — it's the friction of:
+- Cross-season / cross-league queries via SQL becoming natural.
+- A single index file that the dashboard can read instead of multiple CSV directories.
+- The path to a hosted version: web apps want a DB, not a folder full of CSVs.
+
+**Likely route**:
+1. **DuckDB** as the transitional backend. File-based (single `.duckdb` file), no server, very fast OLAP, drop-in for the analytical queries the dashboard makes. Loaders switch from `pd.read_csv` to `pd.read_sql_query` against a DuckDB connection. Bronze stays as xlsx files; silver and gold migrate into DuckDB tables. The `sql/` folder holds the schema and views.
+2. **Postgres** later, if/when multi-user concurrency or write paths matter (e.g., a hosted version where users upload their own league data).
+
+### Hosting options, matched to scale
+
+| Scale | Option | Notes |
+|---|---|---|
+| Single user (you on your laptop) | current state | nothing changes |
+| Small private group (≤10 concurrent) | **Streamlit Community Cloud** (free), **fly.io** / **Render** / **Railway**, or a $5/month VPS | low-friction, Streamlit-native |
+| Larger / public | reconsider framework first (below) | Streamlit's per-session memory model gets expensive at scale |
+
+### Is Streamlit the right framework long-term?
+
+**Where Streamlit is strong** — and where we are now:
+- Fast iteration, low boilerplate
+- Built-in caching, dataframe widgets, multi-page support
+- Sufficient for this analytical use case at small user counts
+
+**Where Streamlit gets uncomfortable**:
+- Every interaction re-runs the script top-to-bottom — fine for tabular slicing, painful for complex interactivity
+- Per-session memory is high (the full script state per user)
+- Multi-page navigation is awkward (we're already pushing it with `st.switch_page` + shared session state)
+- No native auth/permissions (third-party `streamlit-authenticator` exists but isn't first-class)
+- Deep linking / URL state was limited until v1.30; still not great for shareable links
+
+**Crossover signals** — when to seriously evaluate alternatives:
+- Concurrent users start hitting memory limits on the host
+- Interactions need to feel "instant" (sub-100ms) rather than "scripty"
+- Real auth / per-user data isolation becomes a hard requirement
+- The dashboard becomes a product, not a tool
+
+**Streamlit alternatives**, sorted by how disruptive a switch would be:
+
+1. **Dash (Plotly)** — production-grade, callback-based, faster, more verbose. Closest like-for-like swap if Streamlit becomes constraining without rewriting the data layer.
+2. **Panel (HoloViz)** — similar tradeoffs to Streamlit, more layout flexibility. Reasonable alternative.
+3. **Marimo** — reactive notebook framework, newer and interesting. Bleeding edge; watch but don't bet on yet.
+4. **FastAPI + a frontend (React / Svelte / Vue)** — full control, real web app, way more work. The right answer once this is a product rather than an analytical tool. Allows native modals, deep linking, real auth, shareable URLs.
+
+### Recommendation for now
+
+- **Stay on Streamlit** for the analytical phase.
+- **Migrate to DuckDB** when convenient — the win/effort ratio is good and it doesn't require any other architectural change.
+- **Try `st.dialog` modals** (see Visualization → Open) before reaching for a framework change; they may solve the navigation friction you're feeling.
+- **Revisit framework choice** only when concrete pain shows up. Avoid premature rewriting.
+
+When (and only when) Streamlit becomes the bottleneck, the natural path is **Dash → FastAPI+frontend**. The Bronze/Silver/Gold split makes a framework swap relatively cheap: the data layer is portable, the dashboard layer is the part that gets rewritten.
 
 ## Open questions (worth thinking about before designing)
 
