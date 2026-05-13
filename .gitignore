@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Data layers and presentation outputs (generated; user-specific)
+data/
+reports/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
