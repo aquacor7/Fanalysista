@@ -10,6 +10,7 @@ import plotly.express as px
 import streamlit as st
 
 from data import load_player_season, require_data
+from modals import maybe_open_player_modal
 from theme import POSITION_COLOR, POSITION_ORDER
 
 st.set_page_config(page_title="Players", layout="wide")
@@ -39,7 +40,7 @@ filtered = ps[
     & (ps.apps_in_squad >= min_apps)
 ].sort_values(sort_col, ascending=False).reset_index(drop=True)
 
-st.markdown(f"**{len(filtered)} players** match filters — click a row to open Player Detail")
+st.markdown(f"**{len(filtered)} players** match filters — click a row (or a dot in the chart below) for a summary modal")
 
 # ---- table (clickable) ----
 event = st.dataframe(
@@ -68,9 +69,7 @@ event = st.dataframe(
 )
 if event.selection.rows:
     row = filtered.iloc[event.selection.rows[0]]
-    st.session_state.selected_team = row.team
-    st.session_state.selected_player = row.player
-    st.switch_page("pages/3_Player_Detail.py")
+    maybe_open_player_modal(league, comp, row.team, row.player)
 
 # ---- scatter: capture rate vs total active fv (positions in standard colour) ----
 st.subheader("Capture rate vs total active FV")
@@ -82,13 +81,26 @@ fig = px.scatter(
     color="position", size="apps_active",
     color_discrete_map=POSITION_COLOR,
     category_orders={"position": POSITION_ORDER},
+    custom_data=["team", "player"],  # picked up by the click-selection event
     hover_data={"team": True, "player": True, "apps_active": True, "apps_missed": True},
     labels={"capture_pct": "% FV captured", "total_active_fv": "Total active FV"},
 )
 fig.update_layout(height=450, margin=dict(l=10, r=10, t=10, b=10))
-st.plotly_chart(fig, width="stretch")
+event_pt = st.plotly_chart(
+    fig,
+    width="stretch",
+    on_select="rerun",
+    selection_mode="points",
+    key="pl_scatter_select",
+)
+if event_pt.selection and event_pt.selection.points:
+    p = event_pt.selection.points[0]
+    cd = p.get("customdata") or []
+    if len(cd) >= 2:
+        maybe_open_player_modal(league, comp, cd[0], cd[1])
+
 st.caption(
     "Top-right = high contribution AND high efficiency. "
     "Top-left = scored a lot but you missed a lot too (high-regret player). "
-    "Hover to identify; use filters to narrow."
+    "Click any dot to open that player's summary."
 )

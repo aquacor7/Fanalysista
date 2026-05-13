@@ -19,6 +19,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from data import load_matches, load_player_season, load_team_season, require_data
+from modals import maybe_open_player_modal
 from theme import (
     ACTIVE_COLOR,
     MISSED_COLOR,
@@ -180,7 +181,7 @@ st.plotly_chart(fig_sun, width="stretch")
 st.caption("Click a position slice in the sunburst to zoom in.")
 
 # ---- clickable player table ----
-st.markdown("**Click a player to open their Detail page**")
+st.markdown("**Click a player row for a summary modal**")
 player_table = team_ps[[
     "position", "player", "apps_active", "apps_missed",
     "total_active_fv", "total_fv_missed", "total_fv",
@@ -205,6 +206,4 @@ event = st.dataframe(
 )
 if event.selection.rows:
     selected = player_table.iloc[event.selection.rows[0]]
-    st.session_state.selected_team = sel_team
-    st.session_state.selected_player = selected.player
-    st.switch_page("pages/3_Player_Detail.py")
+    maybe_open_player_modal(league, comp, sel_team, selected.player)

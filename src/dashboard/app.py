@@ -76,11 +76,11 @@ event_home = st.dataframe(
 )
 if event_home.selection.rows:
     row = top.iloc[event_home.selection.rows[0]]
-    st.session_state.selected_team = row.team
-    st.session_state.selected_player = row.player
-    st.switch_page("pages/3_Player_Detail.py")
+    from modals import maybe_open_player_modal
+    maybe_open_player_modal(league, comp, row.team, row.player)
 
 st.caption(
     "**Pages:** League Table → Team Detail → Player Detail (drill-in hierarchy). "
-    "Players, Regret, and Position Rollup are cross-team comparison views."
+    "Players and Regret are cross-team comparison views. "
+    "Click any team or player to open a summary modal — escalate to the full page from there."
 )

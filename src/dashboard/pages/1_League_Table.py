@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from data import load_matches, load_team_season, require_data
+from modals import maybe_open_team_modal
 from theme import OPPONENT_COLOR, SUBJECT_COLOR
 
 st.set_page_config(page_title="League Table", layout="wide")
@@ -25,8 +26,8 @@ st.title("League Table")
 league, comp = require_data()
 ts = load_team_season(league, comp)
 
-# ---- league table (clickable for drill-in) ----
-st.markdown("**Click any team row to open Team Detail**")
+# ---- league table (clickable: opens team summary modal) ----
+st.markdown("**Click any team row for a summary** (the modal has an Open full page button).")
 event_lt = st.dataframe(
     ts,
     width="stretch",
@@ -43,8 +44,7 @@ event_lt = st.dataframe(
     },
 )
 if event_lt.selection.rows:
-    st.session_state.selected_team = ts.iloc[event_lt.selection.rows[0]].team
-    st.switch_page("pages/2_Team_Detail.py")
+    maybe_open_team_modal(league, comp, ts.iloc[event_lt.selection.rows[0]].team)
 
 # ---- points bar ----
 st.subheader("Points")
@@ -85,11 +85,20 @@ fig_db.update_layout(
     xaxis_title="Average TOTALE", yaxis_title="",
     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
 )
-st.plotly_chart(fig_db, width="stretch")
+event_db = st.plotly_chart(
+    fig_db, width="stretch",
+    on_select="rerun", selection_mode="points",
+    key="lt_dumbbell_select",
+)
+if event_db.selection and event_db.selection.points:
+    p = event_db.selection.points[0]
+    clicked_team = p.get("y")  # team name lives on the y axis
+    if clicked_team:
+        maybe_open_team_modal(league, comp, clicked_team)
 st.caption(
     "Each row: one team. Blue dot = the team's own avg TOTALE. "
     "Red dot = avg TOTALE their opponents put up against them. "
-    "The longer the line, the bigger the gap between scoring and conceding."
+    "The longer the line, the bigger the gap. Click any dot to open that team's summary."
 )
 
 # ---- per-team peak ----

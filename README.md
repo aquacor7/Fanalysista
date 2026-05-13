@@ -70,6 +70,8 @@ Both log in via the reverse-engineered fantacalcio.it API, look up the competiti
   - **4. Players** — cross-team filterable table + capture-rate scatter. **Click any player row → Player Detail.**
   - **5. Regret** — per-team giornata-by-giornata actual vs optimal player_fv + league-wide regret comparison.
 
+  Clicking any team or player anywhere (table row, scatter dot, dumbbell point) opens a **summary modal** (`@st.dialog`) over the current page. Each modal shows key metrics, one small chart, and a primary button to escalate to the full Detail page. Closing the modal preserves the underlying page state.
+
 The whole dashboard uses a consistent colour theme defined in `src/dashboard/theme.py`:
 
 | Concept | Colours |
@@ -120,6 +122,7 @@ fanalysista/
 │       ├── app.py
 │       ├── data.py            cached loaders + sidebar selector
 │       ├── theme.py           shared colour palette
+│       ├── modals.py          @st.dialog team/player summary modals
 │       └── pages/
 │           ├── 1_League_Table.py
 │           ├── 2_Team_Detail.py

@@ -107,6 +107,7 @@ flowchart TD
     subgraph dash["src/dashboard/"]
         ddata[data.py<br/>cached loaders + sidebar selector]
         dtheme[theme.py<br/>shared colour palette]
+        dmodals[modals.py<br/>@st.dialog team / player summaries]
         dapp[app.py]
         dpages["pages/<br/>1_League_Table<br/>2_Team_Detail<br/>3_Player_Detail<br/>4_Players<br/>5_Regret"]
     end

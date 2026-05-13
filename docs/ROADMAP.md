@@ -56,6 +56,8 @@ Items marked **✓** have shipped; everything else is open.
 - ✓ Dumbbell chart for team vs opp average TOTALE
 - ✓ Centralised colour theme in `src/dashboard/theme.py` (position, category, subject/opponent/what-if)
 - ✓ Click-to-navigate row selection on league table, players, top contributors, and the team's player table
+- ✓ **Modal summary dialogs** (`@st.dialog`) for Team and Player — clicking a row or a chart point opens a digest modal; the modal has a primary button to escalate to the full Detail page. The modal-open is gated via a transition guard in `src/dashboard/modals.py` so it doesn't re-open on every rerun while a row stays selected.
+- ✓ **Clickable points in Plotly charts** — works on the Players page capture-rate scatter (per-point `custom_data` → team/player on click) and the League Table dumbbell chart (team name read from the y-axis). Same modal pattern as table row clicks.
 
 ### Open
 
@@ -73,9 +75,7 @@ Items marked **✓** have shipped; everything else is open.
 
 - **TOTALE distribution density per team** — small multiples of TOTALE distributions, one panel per team. Quickly compares consistency vs volatility across the league.
 
-- **Clickable points inside charts** (extends current row-click pattern). `st.plotly_chart(fig, on_select="rerun", selection_mode="points")` returns a selection event. If each trace is built with `customdata=[..., (team, player), ...]`, the click handler reads the customdata and calls `st.switch_page()`. Feasible; would let users click a dot in the capture-rate scatter, a slice in a sunburst, or a bar in a stacked chart and land on the relevant Team / Player Detail page.
-
-- **Modal detail dialogs (`@st.dialog`)** instead of redirects. Streamlit 1.31+ supports modal overlays via the `@st.dialog` decorator. Click → modal opens over the current page with a condensed Team / Player summary → close button → the underlying page is untouched (no browser-back needed). Much better UX than the current redirect pattern. Trade-off: modal width is constrained (`small` / `large`); the modal would likely show a digest with an "Open full page →" link for the deep view. Feasible and high-impact.
+- **Extend chart click-to-modal coverage**. Currently wired on the Players scatter and League Table dumbbell. Natural next places: stacked bars in Team Detail (click a player's bar), the sunburst (already drills hierarchically; could escalate to modal on a leaf click), the heatmap cells in League Table (open a per-(team, giornata) detail modal — would need a match modal that doesn't exist yet).
 
 - **League Trends page** (deferred / low priority). A single page bundling all cross-team comparisons: P/D/C/A contribution stacked bar (currently displaced when Position Rollup was removed), regret distribution density, capture-rate spread per position, etc. At single-season scale these aren't especially engaging; they get interesting if/when multi-season data exists. Rebuild then.
 
@@ -132,6 +132,23 @@ Items marked **✓** have shipped; everything else is open.
 
 - **`pyproject.toml`** — replace `requirements.txt` with a proper `pyproject.toml` once the project stabilises. Lockfile via `pip-tools` or `uv`.
 
+- **Localisation (i18n)** — the **initial test release is for a Chinese-speaking fanta group**, so Chinese (Simplified) translations of every UI string are a near-term requirement. Italian comes next if the project gets traction beyond the test group.
+
+  *Scope*:
+  - UI strings only — page titles, section headings, button labels, captions, axis titles, legend names, column headers, KPI labels. Data values (team names, player names like "Belotti", competition names, positions P/D/C/A) stay untranslated.
+  - A language picker in the sidebar (or a fixed top-of-page toggle). The choice persists in `st.session_state` and applies across pages.
+
+  *Sketch of how to implement*:
+  1. Create `src/dashboard/i18n/{lang}.json` files mapping string keys to translations (`en.json`, `zh.json`, `it.json`).
+  2. A `t(key, **fmt)` helper that looks up the key in the active locale and falls back to English. Loaded once and cached.
+  3. Refactor pages to use `t("league_table.title")` etc. instead of hardcoded English. The refactor itself is the bulk of the work — ~50 strings per page, ~6 pages.
+  4. Plotly chart titles, axis labels, legend names are all parameters we already pass; they become `t()` calls.
+
+  *Trade-offs*:
+  - `python-i18n` and `gettext` are heavier alternatives with pluralisation and date formatting. For our UI surface (mostly static strings), a flat JSON dict is enough and much simpler.
+  - Player names: stay as-is. We do NOT want to romanise / sinicize "Pulisic" or "卡纳维罗" inconsistently; the source-of-truth is fantacalcio.it's transliteration.
+  - Chinese-specific: column widths need adjusting (CJK characters are wider than Latin). May require `column_config` tweaks per locale.
+
 ## Deployment & infrastructure direction
 
 The current dashboard is local-only — `streamlit run` on the user's machine, reading CSVs from disk. The medium-term goal is to host it so leaguemates (and eventually a broader audience) can use it as a web app. This section captures the thinking on how that evolution looks.
@@ -152,8 +169,29 @@ The trigger for a DB is *not* concurrent users yet — it's the friction of:
 | Scale | Option | Notes |
 |---|---|---|
 | Single user (you on your laptop) | current state | nothing changes |
-| Small private group (≤10 concurrent) | **Streamlit Community Cloud** (free), **fly.io** / **Render** / **Railway**, or a $5/month VPS | low-friction, Streamlit-native |
-| Larger / public | reconsider framework first (below) | Streamlit's per-session memory model gets expensive at scale |
+| Initial test release (≤10 concurrent, max ~50–100) | **Streamlit Community Cloud** (free) or **fly.io / Render** with a 2 GB machine (~$5–10 / month) | Streamlit is comfortably enough. See "Initial release sizing" below. |
+| Public / larger audience | reconsider framework first (below) | Streamlit's per-session memory model gets expensive past ~100 concurrent |
+
+### Initial release sizing (target: ≤10 concurrent normal, ≤100 peak)
+
+Streamlit-on-a-cheap-host is fine at this scale. Concrete advice for the first deploy:
+
+- **Streamlit Community Cloud** is the lowest-friction option. Free, public repo only, sleeps after inactivity (cold-start ~5 s). Probably the right starting point unless you need private data.
+- **fly.io** with a `shared-cpu-1x@2048` machine (~$5 / month) gives you logs, SSH, and no cold start. Good upgrade once you outgrow free tier.
+- **DigitalOcean droplet** (~$6–12 / month) for similar control if you prefer.
+- **Tune `server.maxSessionAge`** (default 2 minutes; bump to ~30 min) so abandoned sessions free memory promptly. Each Streamlit session holds ~100–500 MB depending on cached data, so at 100 concurrent on a 2 GB host you want short session lifetimes.
+- **Cache aggressively** with `@st.cache_data` (already done for all the silver/gold loaders) so cached DataFrames are shared across sessions.
+
+### When to actually worry about Streamlit being the wrong choice
+
+Concrete signals to watch for once deployed:
+
+- Memory usage on the host stays above ~80 % even after sessions expire.
+- Average page-render time rises above 1–2 s for any non-cached interaction.
+- You start needing per-user auth or per-user private data.
+- You want shareable URLs (`?team=ABC&player=XYZ`) that aren't easily expressible.
+
+If none of these bite, stay on Streamlit. The reason is simple: a framework swap rewrites the entire presentation layer.
 
 ### Is Streamlit the right framework long-term?
 
