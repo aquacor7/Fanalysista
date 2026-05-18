@@ -147,10 +147,15 @@ class FantaClient:
     def get_competition_rounds(self, competition_id: str) -> list[int]:
         """Return the list of giornata numbers configured for the competition.
 
-        Returns an empty list if the server says no rounds exist (e.g. the
-        competition is archived or its calendar hasn't been scheduled). The
-        response shape is ``{"data": null}`` in that case — not a missing key —
-        so we coerce explicitly rather than relying on dict-default.
+        This endpoint is **admin-only**: as a regular league member you'll get
+        ``{"data": null, "error_msgs": [{"id": "AD01", ...}]}`` and an empty
+        list back. Callers should fall back to probing the download endpoint
+        (which non-admins can use) — see ``probe_rounds()`` and the
+        ``download_all.py`` probe-mode code path.
+
+        An empty list can therefore mean any of: not the admin, competition
+        archived, or calendar truly not scheduled. The error_msgs field
+        distinguishes them but the caller's recovery is the same.
         """
         if not self.league_alias:
             raise RuntimeError("set_league() first")
