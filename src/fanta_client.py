@@ -145,7 +145,13 @@ class FantaClient:
         )
 
     def get_competition_rounds(self, competition_id: str) -> list[int]:
-        """Return the list of giornata numbers configured for the competition."""
+        """Return the list of giornata numbers configured for the competition.
+
+        Returns an empty list if the server says no rounds exist (e.g. the
+        competition is archived or its calendar hasn't been scheduled). The
+        response shape is ``{"data": null}`` in that case — not a missing key —
+        so we coerce explicitly rather than relying on dict-default.
+        """
         if not self.league_alias:
             raise RuntimeError("set_league() first")
         resp = self.session.get(
@@ -154,7 +160,8 @@ class FantaClient:
             timeout=API_TIMEOUT,
         )
         resp.raise_for_status()
-        return [g["g"] for g in resp.json().get("data", [])]
+        data = resp.json().get("data") or []
+        return [g["g"] for g in data]
 
     # ---------------- download ----------------
 

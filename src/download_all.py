@@ -31,6 +31,14 @@ def main():
     client, _league, comp, out_dir = login_and_select(args)
 
     rounds = client.get_competition_rounds(comp.id)
+    if not rounds:
+        print(
+            f"[rounds]     0 configured for {comp.name!r} "
+            f"(id={comp.id}) — nothing to download.\n"
+            f"             The competition has no calendar yet, or it's archived. "
+            f"Try a different competition in this league."
+        )
+        return
     print(f"[rounds]     {len(rounds)} configured: {rounds[0]}..{rounds[-1]}")
     out_dir.mkdir(parents=True, exist_ok=True)
 
