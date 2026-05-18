@@ -26,6 +26,11 @@ USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
 
+# HTTP timeouts so the script can't hang silently when fantacalcio.it is slow.
+# Without these, requests waits indefinitely.
+API_TIMEOUT = 30        # seconds — login, page scrape, rounds endpoint
+DOWNLOAD_TIMEOUT = 90   # seconds — xlsx blob downloads
+
 
 @dataclass
 class Competition:
@@ -59,6 +64,7 @@ class FantaClient:
             params={"alias_lega": self.league_alias or ""},
             headers={"Content-Type": "application/json"},
             data=json.dumps({"username": username, "password": password}),
+            timeout=API_TIMEOUT,
         )
         resp.raise_for_status()
         payload = resp.json()
@@ -111,7 +117,10 @@ class FantaClient:
         if not self.league_alias:
             raise RuntimeError("set_league() first")
 
-        resp = self.session.get(f"{BASE_URL}/{self.league_alias}/formazioni/1")
+        resp = self.session.get(
+            f"{BASE_URL}/{self.league_alias}/formazioni/1",
+            timeout=API_TIMEOUT,
+        )
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
 
@@ -142,6 +151,7 @@ class FantaClient:
         resp = self.session.get(
             f"{BASE_URL}/servizi/V1_LegheCalcolo/Giornate",
             params={"alias_lega": self.league_alias, "id_competizione": competition_id},
+            timeout=API_TIMEOUT,
         )
         resp.raise_for_status()
         return [g["g"] for g in resp.json().get("data", [])]
@@ -167,6 +177,7 @@ class FantaClient:
             f"{BASE_URL}/servizi/V1_LegheFormazioni/excel",
             params=params,
             headers={"Content-Type": "application/json; charset=utf-8"},
+            timeout=DOWNLOAD_TIMEOUT,
         )
         resp.raise_for_status()
 

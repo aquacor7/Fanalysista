@@ -4,12 +4,21 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import sys
+import time
 from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
 
 from fanta_client import Competition, FantaClient, League
+
+
+# Make stdout line-buffered so progress messages flush as they happen. The
+# default block buffering hides progress when output isn't a terminal (e.g.
+# an IDE's integrated terminal), making the script look stuck.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(line_buffering=True)
 
 
 # Default on-disk locations for each medallion layer. The data/ folder keeps the
@@ -91,16 +100,20 @@ def login_and_select(args) -> tuple[FantaClient, League, Competition, Path]:
     username = os.environ["FANTA_USERNAME"]
     password = os.environ["FANTA_PASSWORD"]
 
-    print(f"[login] as {username} ...")
+    t0 = time.monotonic()
+    print(f"[login]      connecting to fantacalcio.it as {username}...")
     client = FantaClient()
     client.login(username, password)
-    print(f"        user id: {client.user_info.get('utente', {}).get('id')}")
+    print(f"             success in {time.monotonic() - t0:.1f}s — "
+          f"user id: {client.user_info.get('utente', {}).get('id')}")
 
+    print(f"[league]     looking up {args.league!r} among your leagues...")
     league = client.set_league(args.league)
-    print(f"[league]     {league.name!r} -> alias={league.alias!r}, id={league.id}")
+    print(f"             -> alias={league.alias!r}, id={league.id}")
 
+    print(f"[competition] looking up {args.competition!r} in {league.name!r}...")
     comp = client.find_competition(args.competition)
-    print(f"[competition] {comp.name!r} -> id_competizione={comp.id}")
+    print(f"             -> id_competizione={comp.id}")
 
     if args.team:
         print(f"[team]       {args.team!r} (validation deferred to analysis stage)")
