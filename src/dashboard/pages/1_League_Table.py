@@ -44,11 +44,35 @@ event_lt = st.dataframe(
     },
 )
 if event_lt.selection.rows:
-    maybe_open_team_modal(league, comp, ts.iloc[event_lt.selection.rows[0]].team)
+    maybe_open_team_modal(league, comp, ts.iloc[event_lt.selection.rows[0]].team, key="lt_select")
 
-# ---- points bar ----
-st.subheader("Points")
-st.bar_chart(ts.set_index("team")["points"], height=400, color=SUBJECT_COLOR)
+# ---- points bar (clickable: opens team summary modal) ----
+st.subheader("Points — click any bar for a team summary")
+pts_df = ts[["team", "points"]].copy()
+fig_pts = px.bar(
+    pts_df, x="team", y="points",
+    custom_data=["team"],
+    color_discrete_sequence=[SUBJECT_COLOR],
+)
+fig_pts.update_traces(
+    hovertemplate="<b>%{x}</b><br>Points: %{y}<extra></extra>",
+)
+fig_pts.update_layout(
+    height=400, xaxis_tickangle=-45, yaxis_title="Points", xaxis_title="",
+    margin=dict(l=10, r=10, t=10, b=10), showlegend=False,
+    clickmode="event+select",
+)
+event_pts = st.plotly_chart(
+    fig_pts, width="stretch",
+    on_select="rerun", selection_mode="points",
+    key="lt_points_bar_select",
+)
+if event_pts.selection and event_pts.selection.points:
+    p = event_pts.selection.points[0]
+    cd = p.get("customdata") or []
+    clicked_team = cd[0] if cd else p.get("x")
+    if clicked_team:
+        maybe_open_team_modal(league, comp, clicked_team, key="lt_points_bar_select")
 
 # ---- dumbbell chart: team_avg vs opp_avg, sorted by team_avg ----
 st.subheader("Average TOTALE — team vs opponents")
@@ -94,7 +118,7 @@ if event_db.selection and event_db.selection.points:
     p = event_db.selection.points[0]
     clicked_team = p.get("y")  # team name lives on the y axis
     if clicked_team:
-        maybe_open_team_modal(league, comp, clicked_team)
+        maybe_open_team_modal(league, comp, clicked_team, key="lt_dumbbell_select")
 st.caption(
     "Each row: one team. Blue dot = the team's own avg TOTALE. "
     "Red dot = avg TOTALE their opponents put up against them. "

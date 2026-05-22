@@ -2,9 +2,10 @@
 Parse a downloaded Formazioni_{league}_{N}_giornata.xlsx into structured records.
 
 xlsx structure: one sheet, matches stacked vertically. Each match has two teams
-side-by-side:
-  - left team in cols A,B,D,E    (position, name, voto, fantavoto)
-  - right team in cols G,H,J,K   (same)
+side-by-side. By convention the home team is on the left, the away team on the
+right of the spreadsheet, and this is how we tag them in the parsed records.
+  - home team in cols A,B,D,E    (position, name, voto, fantavoto)
+  - away team in cols G,H,J,K   (same)
   - score in col F on the match-header row, e.g. "2-0"
 
 Per-team block layout:
@@ -52,7 +53,7 @@ class PlayerRow:
 @dataclass
 class TeamFormation:
     team: str
-    side: str                   # 'left' or 'right'
+    side: str                   # 'home' or 'away'
     module: str
     totale: Optional[float]
     modificatore_difesa: Optional[float]
@@ -63,10 +64,10 @@ class TeamFormation:
 @dataclass
 class Match:
     giornata: int
-    score_left: Optional[int]
-    score_right: Optional[int]
-    left: TeamFormation
-    right: TeamFormation
+    score_home: Optional[int]
+    score_away: Optional[int]
+    home: TeamFormation
+    away: TeamFormation
 
 
 # -------- low-level helpers --------
@@ -92,10 +93,11 @@ def _canonical_name(raw: str) -> str:
     return TRAILING_STAR_RE.sub("", raw or "").strip()
 
 
-# Column layout per side
+# Column layout per side ("home" = the team on the left of the xlsx, by
+# fantacalcio.it convention; "away" = the team on the right).
 _SIDE_COLS = {
-    "left":  ("A", "B", "D", "E"),
-    "right": ("G", "H", "J", "K"),
+    "home": ("A", "B", "D", "E"),
+    "away": ("G", "H", "J", "K"),
 }
 
 
@@ -177,14 +179,14 @@ def parse_all_matches(path: Path) -> list[Match]:
     matches: list[Match] = []
     for hdr in _find_match_headers(ws):
         score = SCORE_RE.match(str(ws[f"F{hdr}"].value))
-        left = _parse_team_block(ws, hdr, "left")
-        right = _parse_team_block(ws, hdr, "right")
+        home = _parse_team_block(ws, hdr, "home")
+        away = _parse_team_block(ws, hdr, "away")
         matches.append(Match(
             giornata=giornata,
-            score_left=int(score.group(1)) if score else None,
-            score_right=int(score.group(2)) if score else None,
-            left=left,
-            right=right,
+            score_home=int(score.group(1)) if score else None,
+            score_away=int(score.group(2)) if score else None,
+            home=home,
+            away=away,
         ))
     return matches
 
@@ -193,7 +195,7 @@ def parse_team_in_file(path: Path, team_name: str) -> Optional[TeamFormation]:
     """Convenience wrapper: find one team in one xlsx."""
     target = team_name.strip().lower()
     for match in parse_all_matches(path):
-        for tf in (match.left, match.right):
+        for tf in (match.home, match.away):
             if tf.team.strip().lower() == target:
                 return tf
     return None

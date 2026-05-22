@@ -15,10 +15,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
 
-from data import load_matches, load_player_season, load_team_season, require_data
+from data import (
+    load_matches,
+    load_player_season,
+    load_team_season,
+    persist_sidebar_selectbox,
+    require_data,
+)
 from modals import maybe_open_player_modal
 from ui import breadcrumbs
 from theme import (
@@ -37,15 +42,11 @@ mt = load_matches(league, comp)
 ps = load_player_season(league, comp)
 ts = load_team_season(league, comp)
 
-# ---- sidebar team picker (shared selected_team across pages) ----
+# ---- sidebar team picker (persists across nav via canonical key) ----
 teams = sorted(mt.team.unique())
-default = st.session_state.get("selected_team")
-if default not in teams:
-    default = teams[0]
-sel_team = st.sidebar.selectbox(
-    "Team", teams, index=teams.index(default), key="td_team_box",
+sel_team = persist_sidebar_selectbox(
+    "Team", teams, widget_key="selected_team", canon_key="_canon_team",
 )
-st.session_state.selected_team = sel_team
 
 breadcrumbs(
     ("League Table", "pages/1_League_Table.py"),
@@ -89,6 +90,7 @@ st.dataframe(
     width="stretch",
     hide_index=True,
     column_config={
+        "side": st.column_config.TextColumn("Side"),
         "totale": st.column_config.NumberColumn(format="%.1f"),
         "opp_totale": st.column_config.NumberColumn(format="%.1f"),
         "score_for": st.column_config.NumberColumn("GF", format="%d"),
@@ -145,28 +147,42 @@ else:
 # ---- stacked bar: per-player active + missed (clickable) ----
 st.markdown("**Total FV per player — captured (green) vs missed (orange).** "
             "Click any bar to open that player's summary.")
-fig_bar = go.Figure(data=[
-    go.Bar(
-        name="Captured (active)", x=team_ps.player, y=team_ps.total_active_fv,
-        marker_color=ACTIVE_COLOR,
-        customdata=team_ps[["position", "apps_active"]],
-        hovertemplate=("<b>%{x}</b><br>Position: %{customdata[0]}<br>"
-                       "Active FV: %{y:.1f}<br>"
-                       "Active apps: %{customdata[1]}<extra></extra>"),
+# Long-format dataframe so px.bar attaches per-row customdata identically across
+# both stacked traces — makes click→player extraction robust regardless of which
+# segment the user clicked.
+bar_long = team_ps.melt(
+    id_vars=["player", "position", "apps_active", "apps_missed"],
+    value_vars=["total_active_fv", "total_fv_missed"],
+    var_name="bucket", value_name="fv",
+)
+bar_long["bucket"] = bar_long["bucket"].map({
+    "total_active_fv": "Captured (active)",
+    "total_fv_missed": "Missed (on bench)",
+})
+fig_bar = px.bar(
+    bar_long, x="player", y="fv", color="bucket",
+    color_discrete_map={
+        "Captured (active)": ACTIVE_COLOR,
+        "Missed (on bench)": MISSED_COLOR,
+    },
+    category_orders={
+        "player": team_ps.player.tolist(),
+        "bucket": ["Captured (active)", "Missed (on bench)"],
+    },
+    custom_data=["player", "position", "apps_active", "apps_missed"],
+)
+fig_bar.update_traces(
+    hovertemplate=(
+        "<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>"
+        "%{fullData.name}: %{y:.1f}<extra></extra>"
     ),
-    go.Bar(
-        name="Missed (on bench)", x=team_ps.player, y=team_ps.total_fv_missed,
-        marker_color=MISSED_COLOR,
-        customdata=team_ps[["position", "apps_missed"]],
-        hovertemplate=("<b>%{x}</b><br>Position: %{customdata[0]}<br>"
-                       "Missed FV: %{y:.1f}<br>"
-                       "Missed apps: %{customdata[1]}<extra></extra>"),
-    ),
-])
+)
 fig_bar.update_layout(
-    barmode="stack", xaxis_tickangle=-45, yaxis_title="Fantavoto",
-    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    barmode="stack", xaxis_tickangle=-45, yaxis_title="Fantavoto", xaxis_title="",
+    legend_title_text="", legend=dict(orientation="h", yanchor="bottom",
+                                       y=1.02, xanchor="right", x=1),
     height=520, margin=dict(l=10, r=10, t=30, b=10),
+    clickmode="event+select",
 )
 event_bar = st.plotly_chart(
     fig_bar, width="stretch",
@@ -175,11 +191,12 @@ event_bar = st.plotly_chart(
 )
 if event_bar.selection and event_bar.selection.points:
     p = event_bar.selection.points[0]
-    clicked_player = p.get("x")  # player name lives on the x axis
+    cd = p.get("customdata") or []
+    clicked_player = cd[0] if cd else p.get("x")
     if clicked_player:
-        maybe_open_player_modal(league, comp, sel_team, clicked_player)
+        maybe_open_player_modal(league, comp, sel_team, clicked_player, key="td_squad_bar_select")
 
-# ---- sunburst position -> player ----
+# ---- sunburst position -> player (clickable outer ring) ----
 st.markdown("**Pie of pie — position, then player share of active FV**")
 sun_df = team_ps[team_ps.total_active_fv > 0]
 fig_sun = px.sunburst(
@@ -192,8 +209,24 @@ fig_sun.update_traces(
                   "%{percentParent:.1%} of segment<extra></extra>",
 )
 fig_sun.update_layout(height=560, margin=dict(l=10, r=10, t=10, b=10))
-st.plotly_chart(fig_sun, width="stretch")
-st.caption("Click a position slice in the sunburst to zoom in.")
+event_sun = st.plotly_chart(
+    fig_sun, width="stretch",
+    on_select="rerun", selection_mode="points",
+    key="td_sunburst_select",
+)
+# Outer-ring sectors have a position as their parent (P/D/C/A); inner-ring
+# sectors have parent="" (root). Only fire the player modal when an outer
+# sector is clicked — let Plotly handle the inner-ring zoom-in itself.
+if event_sun.selection and event_sun.selection.points:
+    p = event_sun.selection.points[0]
+    label = p.get("label")
+    parent = p.get("parent")
+    if label and parent in POSITION_ORDER:
+        maybe_open_player_modal(league, comp, sel_team, label, key="td_sunburst_select")
+st.caption(
+    "Click a position slice to zoom in. Click a player slice (outer ring) "
+    "to open that player's summary."
+)
 
 # ---- clickable player table ----
 st.markdown("**Click a player row for a summary modal**")
@@ -221,4 +254,4 @@ event = st.dataframe(
 )
 if event.selection.rows:
     selected = player_table.iloc[event.selection.rows[0]]
-    maybe_open_player_modal(league, comp, sel_team, selected.player)
+    maybe_open_player_modal(league, comp, sel_team, selected.player, key="td_player_select")

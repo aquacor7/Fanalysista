@@ -14,6 +14,7 @@ from data import (
     load_appearances,
     load_matches,
     load_player_season,
+    persist_sidebar_selectbox,
     require_data,
 )
 from theme import CATEGORY_COLOR, CATEGORY_ORDER
@@ -40,16 +41,13 @@ ap = load_appearances(league, comp)
 mt = load_matches(league, comp)
 ps = load_player_season(league, comp)
 
-# Sidebar: cascading team -> player. Both backed by shared session state so a
-# click from another page (League Table, Players, Team Detail) lands here pre-filled.
+# Sidebar: cascading team -> player. Both are backed by canonical keys
+# (_canon_team, _canon_player) so the selection survives modal AND sidebar
+# navigation.
 teams = sorted(ap.team.unique())
-default_team = st.session_state.get("selected_team")
-if default_team not in teams:
-    default_team = teams[0]
-sel_team = st.sidebar.selectbox(
-    "Team", teams, index=teams.index(default_team), key="pd_team_box",
+sel_team = persist_sidebar_selectbox(
+    "Team", teams, widget_key="selected_team", canon_key="_canon_team",
 )
-st.session_state.selected_team = sel_team
 
 team_players = (ps[ps.team == sel_team]
                 .sort_values("total_fv", ascending=False)
@@ -58,15 +56,10 @@ if not team_players:
     st.warning(f"No players found for {sel_team}.")
     st.stop()
 
-default_player = st.session_state.get("selected_player")
-if default_player not in team_players:
-    default_player = team_players[0]
-sel_player = st.sidebar.selectbox(
+sel_player = persist_sidebar_selectbox(
     "Player", team_players,
-    index=team_players.index(default_player),
-    key="pd_player_box",
+    widget_key="selected_player", canon_key="_canon_player",
 )
-st.session_state.selected_player = sel_player
 
 # Filter to this player's appearances
 me = ap[(ap.team == sel_team) & (ap.player == sel_player)].copy()

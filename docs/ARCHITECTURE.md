@@ -168,7 +168,7 @@ One row per (team, giornata). Each match contributes two rows (one for each team
 | `giornata` | int | |
 | `team` | str | this row's POV |
 | `opponent` | str | the other side |
-| `side` | str | `left` or `right` — `left` is the home team (gets `fattore_campo`) |
+| `side` | str | `home` or `away` — `home` is the team listed on the left of the xlsx and gets `fattore_campo`. Older silver CSVs produced by earlier versions of `build_silver.py` may still contain `left`/`right`; the dashboard loader normalizes those on read. |
 | `score_for` / `score_against` | int | match score |
 | `result` | str | `W` / `D` / `L` |
 | `totale` | float | final TOTALE for this team |
@@ -290,7 +290,25 @@ The page numbering controls the sidebar order — pick a number that fits where 
 
 Pages must (a) insert the parent directory into `sys.path`, (b) call `require_data()` from `data.py` to render the shared sidebar selectors, (c) use `width="stretch"` (not the deprecated `use_container_width=True`), and (d) pull colours from `theme.py` rather than hardcoding hex values — that's what keeps the palette consistent across pages.
 
-To support click-to-navigate, write team/player selectors against the shared session-state keys `selected_team` and `selected_player`. Pages that emit navigation (League Table → Team Detail, Players → Player Detail, etc.) set those keys before calling `st.switch_page("pages/N_Target.py")`. Pages that receive navigation use them as default values for their sidebar selectboxes.
+To support click-to-navigate **and** persist the current selection across page navigation, sidebar selectors use a helper from `data.py`:
+
+```python
+from data import persist_sidebar_selectbox
+sel_team = persist_sidebar_selectbox(
+    "Team", teams, widget_key="selected_team", canon_key="_canon_team",
+)
+```
+
+It backs each selectbox with two keys — a Streamlit widget key (`selected_*`) and a non-widget *canonical* key (`_canon_*`). The canonical key survives Streamlit 1.57's multipage widget-state garbage collection; on every render the widget is force-seeded from canon and an `on_change` callback mirrors the user's choice back into canon. The four canonical keys in use are `_canon_league`, `_canon_competition`, `_canon_team`, `_canon_player`. Modal navigation (`modals.py`) writes the canonical keys before `st.switch_page` so the destination page lands on the correct selection.
+
+#### Modal dispatch
+
+`src/dashboard/modals.py` provides `maybe_open_team_modal(...)` and `maybe_open_player_modal(...)`. Both require a `key=<widget_key>` argument identifying the source widget (table, scatter, bar, sunburst, etc.). The helpers maintain:
+
+- A **per-widget guard** (`_last_team_modal_sel_<key>` / `_last_player_modal_sel_<key>`) so a chart's persisted selection doesn't re-open the modal on every rerun, while still allowing the *same* team/player to be opened from a *different* widget.
+- A **per-script-run flag** (`_modal_opened_this_run`) so only one `@st.dialog` can fire per script run (Streamlit otherwise raises `StreamlitDuplicateElementId`). The flag is reset at the top of every page by `require_data()`.
+
+For Plotly chart click handlers, prefer reading the clicked sector's identifying field (`customdata[i]` or `label`/`parent` for sunburst) over the widget's `event.selection.points[0]` raw fields — that keeps the click logic independent of axis labelling.
 
 A minimal template (for a page at `src/dashboard/pages/N_My_Page.py`):
 

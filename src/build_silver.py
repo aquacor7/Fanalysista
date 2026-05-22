@@ -43,8 +43,8 @@ def matches_to_dataframes(matches: list[Match]) -> tuple[pd.DataFrame, pd.DataFr
     match_rows = []
 
     for m in matches:
-        sf_l, sa_l = m.score_left, m.score_right
-        sf_r, sa_r = m.score_right, m.score_left
+        sf_h, sa_h = m.score_home, m.score_away
+        sf_a, sa_a = m.score_away, m.score_home
 
         def result(sf, sa):
             if sf is None or sa is None:
@@ -56,8 +56,8 @@ def matches_to_dataframes(matches: list[Match]) -> tuple[pd.DataFrame, pd.DataFr
             return "D"
 
         for tf, opp, sf, sa in (
-            (m.left,  m.right.team, sf_l, sa_l),
-            (m.right, m.left.team,  sf_r, sa_r),
+            (m.home, m.away.team, sf_h, sa_h),
+            (m.away, m.home.team, sf_a, sa_a),
         ):
             match_rows.append({
                 "giornata": m.giornata,

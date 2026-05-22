@@ -14,7 +14,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from data import load_regret, load_team_season, require_data
+from data import load_regret, load_team_season, persist_sidebar_selectbox, require_data
 from theme import SUBJECT_COLOR, WHATIF_COLOR
 
 st.set_page_config(page_title="Regret", layout="wide")
@@ -26,13 +26,9 @@ ts = load_team_season(league, comp)
 
 # ---- shared focus team selector ----
 teams = sorted(rg.team.unique())
-default = st.session_state.get("selected_team")
-if default not in teams:
-    default = teams[0]
-sel_team = st.sidebar.selectbox(
-    "Focus team", teams, index=teams.index(default), key="rg_team_box",
+sel_team = persist_sidebar_selectbox(
+    "Focus team", teams, widget_key="selected_team", canon_key="_canon_team",
 )
-st.session_state.selected_team = sel_team
 team_rg = rg[rg.team == sel_team].sort_values("giornata")
 
 c1, c2, c3, c4 = st.columns(4)

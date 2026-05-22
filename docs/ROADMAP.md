@@ -56,9 +56,13 @@ Items marked **✓** have shipped; everything else is open.
 - ✓ Dumbbell chart for team vs opp average TOTALE
 - ✓ Centralised colour theme in `src/dashboard/theme.py` (position, category, subject/opponent/what-if)
 - ✓ Click-to-navigate row selection on league table, players, top contributors, and the team's player table
-- ✓ **Modal summary dialogs** (`@st.dialog`) for Team and Player — clicking a row or a chart point opens a digest modal; the modal has a primary button to escalate to the full Detail page. The modal-open is gated via a transition guard in `src/dashboard/modals.py` so it doesn't re-open on every rerun while a row stays selected.
-- ✓ **Clickable points in Plotly charts** — works on the Players page capture-rate scatter (per-point `custom_data` → team/player on click), the League Table dumbbell chart (team name read from the y-axis), and the Team Detail stacked bar (player name from the x-axis). Same modal pattern as table row clicks.
+- ✓ **Modal summary dialogs** (`@st.dialog`) for Team and Player — clicking a row, bar, dot, or sunburst leaf opens a digest modal with a primary button to escalate to the full Detail page. The modal-open is gated via *per-widget* transition guards plus a *per-script-run* flag in `src/dashboard/modals.py` so it (a) doesn't re-open on every rerun while a selection persists, (b) still works when the same team/player is opened from a different widget, and (c) never fires two dialogs in one run.
+- ✓ **Clickable points in Plotly charts** — works on the Players page capture-rate scatter, the player-management quadrant graph (Players), the League Table Points bar and dumbbell, the Team Detail stacked-bar and sunburst (outer ring only — inner-ring keeps Plotly's native zoom). Per-point `custom_data` or sunburst `label`/`parent` drives the dispatch.
+- ✓ **Clickable league table on the homepage** — single source of truth: shares `maybe_open_team_modal` with the League Table page.
 - ✓ **Breadcrumb trail** at the top of Team Detail and Player Detail pages, via `st.page_link` in `src/dashboard/ui.py::breadcrumbs()`. Earlier crumbs are clickable; the current location is bold.
+- ✓ **Selection persistence across page navigation** — League / Competition / Team / Player selections survive both modal-driven (`st.switch_page`) and sidebar-driven page changes. Backed by canonical non-widget keys (`_canon_*`) in `st.session_state` with an `on_change` callback that mirrors live widget interactions. See `persist_sidebar_selectbox` in `src/dashboard/data.py`.
+- ✓ **Player-management quadrant on the Players page** — scatter of top-10 best-used and top-10 worst-used players, plotted by Δ (avg active FV − avg missed FV) vs active appearances, bubble-sized by total FV. Respects the same sidebar filters as the table and capture-rate scatter above it.
+- ✓ **Schedule "side" column shows home / away** instead of left / right (Team Detail). Parser, silver builder, and dashboard loader all consistent.
 
 ### Open
 
@@ -76,8 +80,7 @@ Items marked **✓** have shipped; everything else is open.
 
 - **TOTALE distribution density per team** — small multiples of TOTALE distributions, one panel per team. Quickly compares consistency vs volatility across the league.
 
-- **Extend chart click-to-modal coverage**. Currently wired on the Players scatter, League Table dumbbell, and Team Detail stacked bar. Open surfaces:
-  - **Sunburst leaf click** on Team Detail. Sunburst has a built-in "zoom into a slice" behaviour; adding a modal on the same click would create two simultaneous interactions. Solvable by listening only to *leaf* selections (a player slice rather than a position slice) and skipping the zoom — needs Plotly event tuning.
+- **Extend chart click-to-modal coverage**. Most chart surfaces are wired; one open target remains:
   - **Heatmap cells** in League Table. Each cell is one (team, giornata) — natural target for a "match modal" that doesn't exist yet. Build the match modal first (shows the two lineups, score, who-played-best), then wire the heatmap.
 
 - **League Trends page** (deferred / low priority). A single page bundling all cross-team comparisons: P/D/C/A contribution stacked bar (currently displaced when Position Rollup was removed), regret distribution density, capture-rate spread per position, etc. At single-season scale these aren't especially engaging; they get interesting if/when multi-season data exists. Rebuild then.
@@ -116,10 +119,11 @@ Items marked **✓** have shipped; everything else is open.
 
 ### Open
 
-- **Tests** — `tests/` folder is reserved. Priorities, in order:
+- **Tests** — `tests/` folder is reserved. A local Playwright-based regression suite already exists (gitignored; covers selection persistence, modal dispatch, and sunburst clickability) but isn't part of the public surface yet because it depends on a populated `data/gold/`. Priorities for a checked-in pytest suite, in order:
   1. `parse_formations` against a checked-in tiny xlsx fixture (catches xlsx-format regressions)
   2. `build_silver` and `build_gold` against a known small silver dataset (catches aggregation regressions)
   3. Dashboard pages via `AppTest` (catches page-loading regressions)
+  4. End-to-end via Playwright, gated by a fixture-builder script that creates a small synthetic `data/gold/` so the suite can run in CI.
 
 - **CI** — GitHub Actions workflow running `pytest` and the `AppTest` suite on every PR.
 

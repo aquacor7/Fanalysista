@@ -15,6 +15,7 @@ from data import (
     load_team_season,
     require_data,
 )
+from modals import maybe_open_player_modal, maybe_open_team_modal
 
 st.set_page_config(page_title="Fantacalcio Analytics", layout="wide")
 st.title("Fantacalcio Analytics")
@@ -33,12 +34,15 @@ c4.metric("Players tracked", int(ps.player.nunique()))
 
 st.divider()
 
-# ---- League table (compact) ----
-st.subheader("League table")
-st.dataframe(
+# ---- League table (clickable: opens team summary modal) ----
+st.subheader("League table — click any team row for a summary")
+event_home_lt = st.dataframe(
     ts,
     width="stretch",
     hide_index=True,
+    on_select="rerun",
+    selection_mode="single-row",
+    key="home_lt_select",
     column_config={
         "points": st.column_config.NumberColumn("Pts", format="%d"),
         "goals_for": st.column_config.NumberColumn("GF", format="%d"),
@@ -51,6 +55,8 @@ st.dataframe(
         "totale_diff_avg": st.column_config.NumberColumn("Diff avg", format="%+.2f"),
     },
 )
+if event_home_lt.selection.rows:
+    maybe_open_team_modal(league, comp, ts.iloc[event_home_lt.selection.rows[0]].team, key="home_lt_select")
 
 # ---- Top performers across competition ----
 st.subheader("Top 10 contributors (any team) — click a row to open Player Detail")
@@ -76,8 +82,7 @@ event_home = st.dataframe(
 )
 if event_home.selection.rows:
     row = top.iloc[event_home.selection.rows[0]]
-    from modals import maybe_open_player_modal
-    maybe_open_player_modal(league, comp, row.team, row.player)
+    maybe_open_player_modal(league, comp, row.team, row.player, key="home_top_select")
 
 st.caption(
     "**Pages:** League Table → Team Detail → Player Detail (drill-in hierarchy). "

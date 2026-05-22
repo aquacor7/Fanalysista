@@ -31,27 +31,64 @@ from theme import (
 
 
 # --------------- internal: transition guards ---------------
+#
+# We use TWO levels of guard to prevent modal-open misfires:
+#
+# 1. Per-widget "last selection" guard (keyed by caller's `key`). This
+#    stops the modal from re-opening on every rerun while a chart/table row
+#    stays selected, AND lets the SAME team/player be opened from DIFFERENT
+#    widgets (the previous global guards blocked this — see issue 1).
+#
+# 2. Per-run "already opened a dialog" flag. Streamlit forbids two
+#    `@st.dialog` calls in the same script run (duplicate element ID). When
+#    multiple widgets on the page each have a persisted selection, both
+#    handlers fire on a rerun — we let only the first one through (see
+#    issue 2). The flag is reset at the top of each script run by
+#    `require_data()` in `data.py`.
 
-_TEAM_LAST = "_team_modal_last"
-_PLAYER_LAST = "_player_modal_last"
+_DIALOG_OPENED_THIS_RUN = "_modal_opened_this_run"
 
 
-def maybe_open_team_modal(league: str, comp: str, team: str) -> None:
-    """Open the team modal only if `team` differs from the last opened one."""
+def _last_sel_key(prefix: str, key: str) -> str:
+    return f"_last_{prefix}_modal_sel_{key}"
+
+
+def reset_per_run_modal_state() -> None:
+    """Called by require_data() at the start of every page render."""
+    st.session_state[_DIALOG_OPENED_THIS_RUN] = False
+
+
+def maybe_open_team_modal(league: str, comp: str, team: str, *, key: str) -> None:
+    """Open the team modal if `team` is a fresh selection from this widget.
+
+    `key` must be the caller widget's unique identifier (the same string
+    passed to ``st.dataframe(..., key=...)`` or ``st.plotly_chart(..., key=...)``).
+    """
     if not team:
         return
-    if st.session_state.get(_TEAM_LAST) == team:
+    if st.session_state.get(_DIALOG_OPENED_THIS_RUN):
         return
-    st.session_state[_TEAM_LAST] = team
+    sel_key = _last_sel_key("team", key)
+    if st.session_state.get(sel_key) == team:
+        return
+    st.session_state[sel_key] = team
+    st.session_state[_DIALOG_OPENED_THIS_RUN] = True
     _team_modal(league, comp, team)
 
 
-def maybe_open_player_modal(league: str, comp: str, team: str, player: str) -> None:
+def maybe_open_player_modal(
+    league: str, comp: str, team: str, player: str, *, key: str,
+) -> None:
     if not team or not player:
         return
-    if st.session_state.get(_PLAYER_LAST) == (team, player):
+    if st.session_state.get(_DIALOG_OPENED_THIS_RUN):
         return
-    st.session_state[_PLAYER_LAST] = (team, player)
+    sel_key = _last_sel_key("player", key)
+    selection = (team, player)
+    if st.session_state.get(sel_key) == selection:
+        return
+    st.session_state[sel_key] = selection
+    st.session_state[_DIALOG_OPENED_THIS_RUN] = True
     _player_modal(league, comp, team, player)
 
 
@@ -116,7 +153,16 @@ def _team_modal(league: str, comp: str, team: str) -> None:
 
     if st.button(f"Open full Team Detail for {team} →",
                  width="stretch", type="primary"):
-        st.session_state.selected_team = team
+        # Persist the full context. We write BOTH the widget keys (some of
+        # which Streamlit may preserve directly across nav) and the canonical
+        # keys (which require_data / persist_sidebar_selectbox use to
+        # restore the widget when its state has been GC'd).
+        st.session_state["_canon_league"] = league
+        st.session_state["_canon_competition"] = comp
+        st.session_state["_canon_team"] = team
+        st.session_state["selected_league"] = league
+        st.session_state["selected_competition"] = comp
+        st.session_state["selected_team"] = team
         st.switch_page("pages/2_Team_Detail.py")
 
 
@@ -183,6 +229,13 @@ def _player_modal(league: str, comp: str, team: str, player: str) -> None:
 
     if st.button(f"Open full Player Detail for {player} →",
                  width="stretch", type="primary"):
-        st.session_state.selected_team = team
-        st.session_state.selected_player = player
+        # See _team_modal — both canonical and widget keys for resilience.
+        st.session_state["_canon_league"] = league
+        st.session_state["_canon_competition"] = comp
+        st.session_state["_canon_team"] = team
+        st.session_state["_canon_player"] = player
+        st.session_state["selected_league"] = league
+        st.session_state["selected_competition"] = comp
+        st.session_state["selected_team"] = team
+        st.session_state["selected_player"] = player
         st.switch_page("pages/3_Player_Detail.py")

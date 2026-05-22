@@ -11,6 +11,12 @@ __pycache__/
 data/
 reports/
 
+# Browser-driven Playwright tests — useful for local regression checks
+# but not part of the public portfolio surface yet (no fixtures, depend on
+# a populated data/gold/ tree). The pytest suite envisioned in ROADMAP
+# (parser + builders + AppTest) will live elsewhere when it lands.
+tests/
+
 # OS / IDE
 .DS_Store
 .vscode/

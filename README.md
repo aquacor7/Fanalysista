@@ -63,14 +63,14 @@ Both log in via the reverse-engineered fantacalcio.it API, look up the competiti
 
 - `src/report_team.py` — generates a wide-format xlsx "season report card" for a chosen team (rows: players, cols: per-giornata voto/fv/active + season totals)
 - `src/dashboard/` — interactive Streamlit app, organised as a Football Manager-style drill-in hierarchy (League → Team → Player):
-  - **Home (`app.py`)** — competition KPIs, top contributors. Click a player row to drill into their detail.
-  - **1. League Table** — table, points bar, dumbbell chart of team vs opp average TOTALE, single-giornata peaks, TOTALE heatmap, cumulative standings race. **Click any team row → Team Detail.**
-  - **2. Team Detail** — season KPIs, full schedule, TOTALE-vs-opponent line chart, stacked bar of player contributions (active vs missed), sunburst of position→player. **Click any player row → Player Detail.**
+  - **Home (`app.py`)** — competition KPIs, the league table, and the top contributors across the competition. Click any team row to open a team summary modal, or any player row to open a player summary modal.
+  - **1. League Table** — table, clickable Points bar chart, dumbbell chart of team vs opp average TOTALE, single-giornata peaks, TOTALE heatmap, cumulative standings race. **Click any team row, bar, or dumbbell dot → team summary modal → Team Detail.**
+  - **2. Team Detail** — season KPIs, full schedule (with home/away side), TOTALE-vs-opponent line chart, stacked bar of player contributions (active vs missed), sunburst of position→player with **clickable outer ring**. **Click any player row, bar, or sunburst player slice → player summary modal → Player Detail.**
   - **3. Player Detail** — appearance breakdown pie, voto KPIs with "manager usage" verdict, per-giornata performance bars, fv histogram + box plot, notable games, rank vs team/league peers.
-  - **4. Players** — cross-team filterable table + capture-rate scatter. **Click any player row → Player Detail.**
+  - **4. Players** — cross-team filterable table + capture-rate scatter + **player-management quadrant** (best- and worst-used players plotted by Δ avg active/missed FV vs active appearances). Click any row or dot → player summary modal → Player Detail.
   - **5. Regret** — per-team giornata-by-giornata actual vs optimal player_fv + league-wide regret comparison.
 
-  Clicking any team or player anywhere (table row, scatter dot, dumbbell point) opens a **summary modal** (`@st.dialog`) over the current page. Each modal shows key metrics, one small chart, and a primary button to escalate to the full Detail page. Closing the modal preserves the underlying page state.
+  Clicking any team or player anywhere (table row, bar, scatter dot, dumbbell point, sunburst leaf) opens a **summary modal** (`@st.dialog`) over the current page. Each modal shows key metrics, one small chart, and a primary button to escalate to the full Detail page. Closing the modal preserves the underlying page state, and the **selected league / competition / team / player persist as you navigate between pages** (via canonical `_canon_*` session-state keys — see [src/dashboard/data.py](src/dashboard/data.py)).
 
 The whole dashboard uses a consistent colour theme defined in `src/dashboard/theme.py`:
 
