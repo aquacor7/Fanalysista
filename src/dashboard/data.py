@@ -38,16 +38,12 @@ def require_data() -> tuple[str, str]:
     from modals import reset_per_run_modal_state
     reset_per_run_modal_state()
 
-    # Language picker — persists in st.session_state["_lang"] (the canonical
-    # key i18n.get_lang() reads) and survives page navigation just like the
-    # data selectors. Rendered first so every label below is already
-    # translated on the same run the user switches language.
-    from i18n import LANGUAGES, t
-    persist_sidebar_selectbox(
-        t("sidebar.language"), list(LANGUAGES.keys()),
-        widget_key="_lang_widget", canon_key="_lang",
-        format_func=lambda code: LANGUAGES[code],
-    )
+    # Language toggle — rendered as a compact control pinned to the bottom of
+    # the sidebar (see i18n.render_language_toggle). It writes the active
+    # language into st.session_state["_lang"] before the labels below are
+    # evaluated, so switching language re-renders everything on the same run.
+    from i18n import render_language_toggle, t
+    render_language_toggle()
 
     available = list_available()
     if not available:
