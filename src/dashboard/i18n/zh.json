@@ -1,0 +1,30 @@
+{
+  "app.title": "Fantacalcio 数据分析",
+
+  "sidebar.language": "语言",
+  "sidebar.league": "联赛",
+  "sidebar.competition": "赛事",
+
+  "common.teams": "球队数",
+  "common.giornate": "轮次",
+  "common.matches": "场次",
+  "common.players_tracked": "收录球员",
+
+  "common.col.pts": "积分",
+  "common.col.gf": "进球",
+  "common.col.ga": "失球",
+  "common.col.gd": "净胜球",
+  "common.col.avg_tot": "场均总分",
+  "common.col.max_tot": "最高总分",
+  "common.col.min_tot": "最低总分",
+  "common.col.opp_avg": "对手场均",
+  "common.col.diff_avg": "场均分差",
+  "common.col.total_active_fv": "有效FV合计",
+  "common.col.avg_per_game": "场均",
+  "common.col.pct_fv_captured": "FV捕获率",
+  "common.col.best_game": "最佳单场",
+
+  "home.league_table_header": "联赛积分榜 — 点击任意球队查看概要",
+  "home.top_contributors_header": "贡献榜前 10（全联赛）— 点击查看球员详情",
+  "home.pages_caption": "**页面导航：** 联赛积分榜 → 球队详情 → 球员详情（逐级下钻）。球员和遗憾分析为跨队对比视图。点击任意球队或球员打开概要弹窗，可从中进入完整页面。"
+}

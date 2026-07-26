@@ -1,0 +1,30 @@
+{
+  "app.title": "Fantacalcio Analytics",
+
+  "sidebar.language": "Language",
+  "sidebar.league": "League",
+  "sidebar.competition": "Competition",
+
+  "common.teams": "Teams",
+  "common.giornate": "Giornate",
+  "common.matches": "Matches",
+  "common.players_tracked": "Players tracked",
+
+  "common.col.pts": "Pts",
+  "common.col.gf": "GF",
+  "common.col.ga": "GA",
+  "common.col.gd": "GD",
+  "common.col.avg_tot": "Avg TOT",
+  "common.col.max_tot": "Max TOT",
+  "common.col.min_tot": "Min TOT",
+  "common.col.opp_avg": "Opp avg",
+  "common.col.diff_avg": "Diff avg",
+  "common.col.total_active_fv": "Total active fv",
+  "common.col.avg_per_game": "Avg / game",
+  "common.col.pct_fv_captured": "% FV captured",
+  "common.col.best_game": "Best game",
+
+  "home.league_table_header": "League table — click any team row for a summary",
+  "home.top_contributors_header": "Top 10 contributors (any team) — click a row to open Player Detail",
+  "home.pages_caption": "**Pages:** League Table → Team Detail → Player Detail (drill-in hierarchy). Players and Regret are cross-team comparison views. Click any team or player to open a summary modal — escalate to the full page from there."
+}

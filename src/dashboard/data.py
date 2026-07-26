@@ -38,6 +38,17 @@ def require_data() -> tuple[str, str]:
     from modals import reset_per_run_modal_state
     reset_per_run_modal_state()
 
+    # Language picker — persists in st.session_state["_lang"] (the canonical
+    # key i18n.get_lang() reads) and survives page navigation just like the
+    # data selectors. Rendered first so every label below is already
+    # translated on the same run the user switches language.
+    from i18n import LANGUAGES, t
+    persist_sidebar_selectbox(
+        t("sidebar.language"), list(LANGUAGES.keys()),
+        widget_key="_lang_widget", canon_key="_lang",
+        format_func=lambda code: LANGUAGES[code],
+    )
+
     available = list_available()
     if not available:
         st.error(
@@ -51,12 +62,13 @@ def require_data() -> tuple[str, str]:
 
     leagues = list(available.keys())
     league = persist_sidebar_selectbox(
-        "League", leagues, widget_key="selected_league", canon_key="_canon_league",
+        t("sidebar.league"), leagues,
+        widget_key="selected_league", canon_key="_canon_league",
     )
 
     comps = available[league]
     comp = persist_sidebar_selectbox(
-        "Competition", comps,
+        t("sidebar.competition"), comps,
         widget_key="selected_competition", canon_key="_canon_competition",
     )
 
@@ -70,6 +82,7 @@ def persist_sidebar_selectbox(
     *,
     widget_key: str,
     canon_key: str,
+    format_func=None,
 ) -> str:
     """Sidebar selectbox whose value survives page navigation.
 
@@ -105,8 +118,9 @@ def persist_sidebar_selectbox(
     # Keep canon valid too (e.g., a stale comp value after league switch).
     st.session_state[canon_key] = canon
 
+    kwargs = {} if format_func is None else {"format_func": format_func}
     value = st.sidebar.selectbox(
-        label, options, key=widget_key, on_change=_on_change,
+        label, options, key=widget_key, on_change=_on_change, **kwargs,
     )
     return value
 

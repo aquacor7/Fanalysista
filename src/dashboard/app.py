@@ -15,27 +15,28 @@ from data import (
     load_team_season,
     require_data,
 )
+from i18n import t
 from modals import maybe_open_player_modal, maybe_open_team_modal
 
 st.set_page_config(page_title="Fantacalcio Analytics", layout="wide")
-st.title("Fantacalcio Analytics")
 
 league, comp = require_data()
+st.title(t("app.title"))
 ts = load_team_season(league, comp)
 ps = load_player_season(league, comp)
 mt = load_matches(league, comp)
 
 # ---- KPIs ----
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Teams", len(ts))
-c2.metric("Giornate", int(mt.giornata.nunique()))
-c3.metric("Matches", len(mt) // 2)
-c4.metric("Players tracked", int(ps.player.nunique()))
+c1.metric(t("common.teams"), len(ts))
+c2.metric(t("common.giornate"), int(mt.giornata.nunique()))
+c3.metric(t("common.matches"), len(mt) // 2)
+c4.metric(t("common.players_tracked"), int(ps.player.nunique()))
 
 st.divider()
 
 # ---- League table (clickable: opens team summary modal) ----
-st.subheader("League table — click any team row for a summary")
+st.subheader(t("home.league_table_header"))
 event_home_lt = st.dataframe(
     ts,
     width="stretch",
@@ -44,22 +45,22 @@ event_home_lt = st.dataframe(
     selection_mode="single-row",
     key="home_lt_select",
     column_config={
-        "points": st.column_config.NumberColumn("Pts", format="%d"),
-        "goals_for": st.column_config.NumberColumn("GF", format="%d"),
-        "goals_against": st.column_config.NumberColumn("GA", format="%d"),
-        "goal_diff": st.column_config.NumberColumn("GD", format="%d"),
-        "totale_avg": st.column_config.NumberColumn("Avg TOT", format="%.2f"),
-        "totale_max": st.column_config.NumberColumn("Max TOT", format="%.1f"),
-        "totale_min": st.column_config.NumberColumn("Min TOT", format="%.1f"),
-        "opp_totale_avg": st.column_config.NumberColumn("Opp avg", format="%.2f"),
-        "totale_diff_avg": st.column_config.NumberColumn("Diff avg", format="%+.2f"),
+        "points": st.column_config.NumberColumn(t("common.col.pts"), format="%d"),
+        "goals_for": st.column_config.NumberColumn(t("common.col.gf"), format="%d"),
+        "goals_against": st.column_config.NumberColumn(t("common.col.ga"), format="%d"),
+        "goal_diff": st.column_config.NumberColumn(t("common.col.gd"), format="%d"),
+        "totale_avg": st.column_config.NumberColumn(t("common.col.avg_tot"), format="%.2f"),
+        "totale_max": st.column_config.NumberColumn(t("common.col.max_tot"), format="%.1f"),
+        "totale_min": st.column_config.NumberColumn(t("common.col.min_tot"), format="%.1f"),
+        "opp_totale_avg": st.column_config.NumberColumn(t("common.col.opp_avg"), format="%.2f"),
+        "totale_diff_avg": st.column_config.NumberColumn(t("common.col.diff_avg"), format="%+.2f"),
     },
 )
 if event_home_lt.selection.rows:
     maybe_open_team_modal(league, comp, ts.iloc[event_home_lt.selection.rows[0]].team, key="home_lt_select")
 
 # ---- Top performers across competition ----
-st.subheader("Top 10 contributors (any team) — click a row to open Player Detail")
+st.subheader(t("home.top_contributors_header"))
 top = ps.sort_values("total_active_fv", ascending=False).head(10).reset_index(drop=True)
 event_home = st.dataframe(
     top[[
@@ -73,19 +74,15 @@ event_home = st.dataframe(
     key="home_top_select",
     column_config={
         "pct_fv_captured": st.column_config.ProgressColumn(
-            "% FV captured", min_value=0.0, max_value=1.0, format="percent",
+            t("common.col.pct_fv_captured"), min_value=0.0, max_value=1.0, format="percent",
         ),
-        "total_active_fv": st.column_config.NumberColumn("Total active fv", format="%.1f"),
-        "avg_active_fv": st.column_config.NumberColumn("Avg / game", format="%.2f"),
-        "best_active_fv": st.column_config.NumberColumn("Best game", format="%.1f"),
+        "total_active_fv": st.column_config.NumberColumn(t("common.col.total_active_fv"), format="%.1f"),
+        "avg_active_fv": st.column_config.NumberColumn(t("common.col.avg_per_game"), format="%.2f"),
+        "best_active_fv": st.column_config.NumberColumn(t("common.col.best_game"), format="%.1f"),
     },
 )
 if event_home.selection.rows:
     row = top.iloc[event_home.selection.rows[0]]
     maybe_open_player_modal(league, comp, row.team, row.player, key="home_top_select")
 
-st.caption(
-    "**Pages:** League Table → Team Detail → Player Detail (drill-in hierarchy). "
-    "Players and Regret are cross-team comparison views. "
-    "Click any team or player to open a summary modal — escalate to the full page from there."
-)
+st.caption(t("home.pages_caption"))
