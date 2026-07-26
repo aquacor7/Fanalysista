@@ -208,7 +208,7 @@
   "player_detail.peers_col_value": "数值",
   "player_detail.raw_expander": "逐轮原始出场记录",
 
-  "players.title": "球员",
+  "players.title": "球员分析",
   "players.match_count": "**{n} 名球员**符合筛选 —— 点击某行（或下方图中的圆点）打开概要弹窗",
   "players.scatter_header": "捕获率 vs 有效 FV 合计",
   "players.scatter_x": "FV 捕获率",
