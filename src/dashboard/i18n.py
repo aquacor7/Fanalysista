@@ -147,79 +147,29 @@ def t(key: str, **fmt: object) -> str:
 
 
 def render_language_toggle() -> None:
-    """Render a compact language toggle pinned to the bottom of the sidebar.
+    """Render a compact language toggle at the bottom of the sidebar.
 
-    Uses a horizontal radio (always exactly one selection — no accidental
-    deselection) inside a keyed container. The value persists in
-    ``st.session_state["_lang"]`` — the canonical key ``get_lang()`` reads —
-    and survives page navigation via the same force-from-canon pattern the
-    data selectors use. A small CSS block turns the sidebar into a flex column
-    and pushes this toggle (``order: 999; margin-top: auto``) to the bottom,
-    regardless of what a page renders above it.
+    Meant to be called *last* in the entry script (after the active page has
+    run), so it naturally sits below the page's own sidebar selectors with no
+    positioning CSS. A horizontal radio guarantees exactly one selection (no
+    accidental deselection); the value persists in ``st.session_state["_lang"]``
+    — the canonical key ``get_lang()`` reads — and is force-seeded each run so
+    it survives navigation.
     """
     codes = list(LANGUAGES.keys())
     if st.session_state.get("_lang") not in codes:
         st.session_state["_lang"] = DEFAULT_LANG
 
-    # Pin the toggle to the bottom of the sidebar. The flex container is the
-    # sidebar's main stVerticalBlock (its children are per-element
-    # stLayoutWrappers, and it's already display:flex column). We (1) give
-    # that vertical block near-viewport min-height so there's free space to
-    # distribute, and (2) push the wrapper that contains our toggle to the
-    # bottom with margin-top:auto. Both are selected via :has() so we don't
-    # depend on Streamlit's volatile emotion-cache class names.
-    st.markdown(
-        """
-        <style>
-        /* Let the user-content area fill the space below the page-nav, then
-           let the main vertical block fill that — so margin-top:auto below
-           has real free space to distribute without any viewport math. */
-        section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-        }
-        section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] > div {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-        }
-        section[data-testid="stSidebar"]
-          [data-testid="stVerticalBlock"]:has(> [data-testid="stLayoutWrapper"] > .st-key-lang_toggle) {
-            flex: 1 1 auto;
-        }
-        /* order:999 makes the toggle the visually-last flex item (it is
-           rendered early in the DOM); margin-top:auto sinks it to the bottom
-           while league/competition stay at the top. */
-        section[data-testid="stSidebar"]
-          [data-testid="stLayoutWrapper"]:has(> .st-key-lang_toggle) {
-            order: 999;
-            margin-top: auto;
-        }
-        .st-key-lang_toggle {
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(49, 51, 63, 0.15);
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
     def _on_change() -> None:
         st.session_state["_lang"] = st.session_state["_lang_widget"]
 
     st.session_state["_lang_widget"] = st.session_state["_lang"]
-    with st.sidebar.container(key="lang_toggle"):
-        st.radio(
-            t("sidebar.language"),
-            options=codes,
-            format_func=lambda c: LANGUAGE_SHORT[c],
-            key="_lang_widget",
-            on_change=_on_change,
-            horizontal=True,
-        )
+    st.sidebar.divider()
+    st.sidebar.radio(
+        t("sidebar.language"),
+        options=codes,
+        format_func=lambda c: LANGUAGE_SHORT[c],
+        key="_lang_widget",
+        on_change=_on_change,
+        horizontal=True,
+    )

@@ -22,7 +22,6 @@ from i18n import t
 from modals import maybe_open_team_modal
 from theme import OPPONENT_COLOR, SUBJECT_COLOR
 
-st.set_page_config(page_title="League Table", layout="wide")
 
 league, comp = require_data()
 st.title(t("league_table.title"))

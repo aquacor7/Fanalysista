@@ -11,10 +11,11 @@
   "sidebar.min_apps": "最少在阵容次数",
   "sidebar.sort_by": "排序方式",
 
+  "nav.home": "首页",
   "nav.league_table": "联赛积分榜",
   "nav.team_detail": "玩家详情",
   "nav.player_detail": "球员详情",
-  "nav.players": "球员",
+  "nav.players": "球员分析",
   "nav.regret": "遗憾分析",
 
   "pos.P": "门将（P）",

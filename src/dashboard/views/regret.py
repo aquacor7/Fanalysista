@@ -19,7 +19,6 @@ from data import load_regret, load_team_season, persist_sidebar_selectbox, requi
 from i18n import t
 from theme import SUBJECT_COLOR, WHATIF_COLOR
 
-st.set_page_config(page_title="Regret", layout="wide")
 
 league, comp = require_data()
 st.title(t("regret.title"))

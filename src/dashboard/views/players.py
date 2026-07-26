@@ -16,7 +16,6 @@ from i18n import t
 from modals import maybe_open_player_modal
 from theme import ACTIVE_COLOR, MISSED_COLOR, POSITION_COLOR, POSITION_ORDER
 
-st.set_page_config(page_title="Players", layout="wide")
 
 league, comp = require_data()
 st.title(t("players.title"))

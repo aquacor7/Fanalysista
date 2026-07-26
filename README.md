@@ -119,17 +119,20 @@ fanalysista/
 │   ├── report_team.py         │  Presentation (xlsx)
 │   │
 │   └── dashboard/             │  Presentation (Streamlit)
-│       ├── app.py
+│       ├── app.py             st.navigation router (defines localised pages)
 │       ├── data.py            cached loaders + sidebar selector
 │       ├── theme.py           shared colour palette
 │       ├── modals.py          @st.dialog team/player summary modals
 │       ├── ui.py              shared UI helpers (breadcrumbs)
-│       └── pages/
-│           ├── 1_League_Table.py
-│           ├── 2_Team_Detail.py
-│           ├── 3_Player_Detail.py
-│           ├── 4_Players.py
-│           └── 5_Regret.py
+│       ├── i18n.py            t()/col()/cat() translation helpers + lang toggle
+│       ├── i18n/              en.json (source of truth) + zh.json locale files
+│       └── views/             page scripts, run via the router
+│           ├── home.py
+│           ├── league_table.py
+│           ├── team_detail.py
+│           ├── player_detail.py
+│           ├── players.py
+│           └── regret.py
 │
 ├── data/                      ← data layers (gitignored, generated)
 │   ├── bronze/{league}/{comp}/Formazioni_*_giornata.xlsx
@@ -163,7 +166,7 @@ A handful of high-impact items kept here; the full backlog with categorisation a
 - Login response is base64-encoded JSON; the client mirrors the JS decoding logic exactly.
 - The "grey-out" signal for inactive players is the cell font color `#D3D3D3` on the player-name cell — used to determine which 11 (or fewer) of the 25 submitted players actually counted toward TOTALE.
 - Player names with a trailing `*` (e.g. `Carboni V. *`) indicate the player has left the player pool; the parser normalises these so both forms refer to the same person.
-- The medallion layout is the contract: silver CSVs are the source of truth for analysis, gold tables are business-ready aggregates, and the dashboard reads only from gold (with silver as a supporting source for match-level views). Adding a new analysis is usually a function in `src/build_gold.py` plus a page in `src/dashboard/pages/`.
+- The medallion layout is the contract: silver CSVs are the source of truth for analysis, gold tables are business-ready aggregates, and the dashboard reads only from gold (with silver as a supporting source for match-level views). Adding a new analysis is usually a function in `src/build_gold.py` plus a page in `src/dashboard/views/` (registered in `app.py`'s `st.navigation` list).
 
 ## Why "Fanalysista"?
 

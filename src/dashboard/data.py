@@ -38,12 +38,10 @@ def require_data() -> tuple[str, str]:
     from modals import reset_per_run_modal_state
     reset_per_run_modal_state()
 
-    # Language toggle — rendered as a compact control pinned to the bottom of
-    # the sidebar (see i18n.render_language_toggle). It writes the active
-    # language into st.session_state["_lang"] before the labels below are
-    # evaluated, so switching language re-renders everything on the same run.
-    from i18n import render_language_toggle, t
-    render_language_toggle()
+    # The language toggle is rendered by the app.py router (after the active
+    # page runs, so it sits at the bottom of the sidebar). Here we only need
+    # the translator for the selector labels below.
+    from i18n import t
 
     available = list_available()
     if not available:

@@ -168,7 +168,7 @@ def _team_modal(league: str, comp: str, team: str) -> None:
             st.session_state["selected_league"] = league
             st.session_state["selected_competition"] = comp
             st.session_state["selected_team"] = team
-            st.switch_page("pages/2_Team_Detail.py")
+            st.switch_page("views/team_detail.py")
 
     _dialog()
 
@@ -250,6 +250,6 @@ def _player_modal(league: str, comp: str, team: str, player: str) -> None:
             st.session_state["selected_competition"] = comp
             st.session_state["selected_team"] = team
             st.session_state["selected_player"] = player
-            st.switch_page("pages/3_Player_Detail.py")
+            st.switch_page("views/player_detail.py")
 
     _dialog()

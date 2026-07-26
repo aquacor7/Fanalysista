@@ -1,7 +1,13 @@
-"""Fantacalcio Analytics — home page.
+"""Fantacalcio Analytics — multipage entry point / router.
 
 Run from the project root:
-    streamlit run dashboard/app.py
+    streamlit run src/dashboard/app.py
+
+Uses st.navigation so the sidebar page labels can be localised — filename-based
+multipage nav would otherwise hard-code them to the file names. The pages
+themselves live in views/. Shared sidebar chrome (the language toggle) is
+rendered *after* the active page runs, so it naturally sits at the bottom of
+the sidebar without any fragile positioning CSS.
 """
 import sys
 from pathlib import Path
@@ -9,79 +15,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import streamlit as st
 
-from data import (
-    load_matches,
-    load_player_season,
-    load_team_season,
-    require_data,
-)
-import i18n
-from i18n import t
-from modals import maybe_open_player_modal, maybe_open_team_modal
+from i18n import render_language_toggle, t
 
 st.set_page_config(page_title="Fantacalcio Analytics", layout="wide")
 
-league, comp = require_data()
-st.title(t("app.title"))
-ts = load_team_season(league, comp)
-ps = load_player_season(league, comp)
-mt = load_matches(league, comp)
+# Page titles are localised via t(); the active language is read from
+# st.session_state["_lang"] (set by the toggle below). On a language switch
+# the whole entry script re-runs, so these titles re-render translated.
+pages = [
+    st.Page("views/home.py", title=t("nav.home"), default=True),
+    st.Page("views/league_table.py", title=t("nav.league_table")),
+    st.Page("views/team_detail.py", title=t("nav.team_detail")),
+    st.Page("views/player_detail.py", title=t("nav.player_detail")),
+    st.Page("views/players.py", title=t("nav.players")),
+    st.Page("views/regret.py", title=t("nav.regret")),
+]
+pg = st.navigation(pages)
+pg.run()
 
-# ---- KPIs ----
-c1, c2, c3, c4 = st.columns(4)
-c1.metric(t("common.teams"), len(ts))
-c2.metric(t("common.giornate"), int(mt.giornata.nunique()))
-c3.metric(t("common.matches"), len(mt) // 2)
-c4.metric(t("common.players_tracked"), int(ps.player.nunique()))
-
-st.divider()
-
-# ---- League table (clickable: opens team summary modal) ----
-st.subheader(t("home.league_table_header"))
-event_home_lt = st.dataframe(
-    ts,
-    width="stretch",
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-    key="home_lt_select",
-    column_config=i18n.columns_config(
-        ts,
-        formats={
-            "points": "%d", "goals_for": "%d", "goals_against": "%d",
-            "goal_diff": "%d", "totale_sum": "%.1f", "totale_avg": "%.2f",
-            "totale_max": "%.1f", "totale_min": "%.1f", "opp_totale_avg": "%.2f",
-            "totale_diff_avg": "%+.2f", "regret_total": "%.1f", "regret_avg": "%.2f",
-            "regret_max": "%.1f", "modificatore_difesa_sum": "%.1f",
-        },
-    ),
-)
-if event_home_lt.selection.rows:
-    maybe_open_team_modal(league, comp, ts.iloc[event_home_lt.selection.rows[0]].team, key="home_lt_select")
-
-# ---- Top performers across competition ----
-st.subheader(t("home.top_contributors_header"))
-top = ps.sort_values("total_active_fv", ascending=False).head(10).reset_index(drop=True)
-event_home = st.dataframe(
-    top[[
-        "team", "position", "player", "apps_active", "total_active_fv",
-        "avg_active_fv", "pct_fv_captured", "best_active_fv",
-    ]],
-    width="stretch",
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-    key="home_top_select",
-    column_config=i18n.columns_config(
-        top[["team", "position", "player", "apps_active", "total_active_fv",
-             "avg_active_fv", "pct_fv_captured", "best_active_fv"]],
-        formats={"total_active_fv": "%.1f", "avg_active_fv": "%.2f",
-                 "best_active_fv": "%.1f"},
-        progress={"pct_fv_captured"},
-    ),
-)
-if event_home.selection.rows:
-    row = top.iloc[event_home.selection.rows[0]]
-    maybe_open_player_modal(league, comp, row.team, row.player, key="home_top_select")
-
-st.caption(t("home.pages_caption"))
+# Rendered last → sits at the bottom of the sidebar, below the page's own
+# selectors, always visible.
+render_language_toggle()

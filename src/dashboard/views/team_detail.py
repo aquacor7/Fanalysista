@@ -37,7 +37,6 @@ from theme import (
     SUBJECT_COLOR,
 )
 
-st.set_page_config(page_title="Team Detail", layout="wide")
 
 league, comp = require_data()
 mt = load_matches(league, comp)
@@ -51,7 +50,7 @@ sel_team = persist_sidebar_selectbox(
 )
 
 breadcrumbs(
-    (t("nav.league_table"), "pages/1_League_Table.py"),
+    (t("nav.league_table"), "views/league_table.py"),
     (sel_team, None),
 )
 st.title(sel_team)

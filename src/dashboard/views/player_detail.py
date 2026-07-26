@@ -34,7 +34,6 @@ def _categorize(row: pd.Series) -> str:
 
 
 # ---- page ----
-st.set_page_config(page_title="Player Detail", layout="wide")
 
 league, comp = require_data()
 ap = load_appearances(league, comp)
@@ -75,8 +74,8 @@ season = ps[(ps.team == sel_team) & (ps.player == sel_player)].iloc[0]
 
 # ---- breadcrumbs + header ----
 breadcrumbs(
-    (t("nav.league_table"), "pages/1_League_Table.py"),
-    (sel_team, "pages/2_Team_Detail.py"),
+    (t("nav.league_table"), "views/league_table.py"),
+    (sel_team, "views/team_detail.py"),
     (sel_player, None),
 )
 position = me.position.iloc[0]
