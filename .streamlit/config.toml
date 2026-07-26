@@ -1,0 +1,15 @@
+# Streamlit configuration for the deployed dashboard.
+# On Streamlit Community Cloud, server-level settings are managed by the
+# platform; the values that matter here are the theme (brand consistency with
+# the in-app colour palette in src/dashboard/theme.py) and disabling usage
+# stats collection for a public deployment.
+
+[theme]
+primaryColor = "#1565C0"            # SUBJECT_COLOR — the dashboard's accent blue
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
