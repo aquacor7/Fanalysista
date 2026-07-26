@@ -61,6 +61,72 @@ def get_lang() -> str:
     return lang if lang in LANGUAGES else DEFAULT_LANG
 
 
+def col(name: str) -> str:
+    """Translated header for a data column, falling back to the raw column name.
+
+    Unlike ``t()``, a missing ``col.<name>`` key returns the untranslated column
+    name (e.g. ``"totale_max_vs"``) rather than the dotted key — so obscure
+    columns without a translation still read sensibly.
+    """
+    key = f"col.{name}"
+    value = _load(get_lang()).get(key)
+    if value is None:
+        value = _load(FALLBACK_LANG).get(key)
+    return value if value is not None else name
+
+
+def cat(name: str) -> str:
+    """Translated label for an appearance category, falling back to the raw name.
+
+    Categories (``Starter`` / ``Substitute`` / ``Benched`` / ``No voto``) are
+    used internally as keys (colour maps, groupby); use this only at display
+    points, and rekey any Plotly colour/order maps to the translated labels.
+    """
+    key = f"cat.{name}"
+    value = _load(get_lang()).get(key)
+    if value is None:
+        value = _load(FALLBACK_LANG).get(key)
+    return value if value is not None else name
+
+
+def columns_config(
+    df,
+    *,
+    formats: dict[str, str] | None = None,
+    progress: "set[str] | list[str] | None" = None,
+    checkbox: "set[str] | list[str] | None" = None,
+) -> dict:
+    """Build a Streamlit ``column_config`` translating every column header.
+
+    Every column's label comes from ``col()``. Types are inferred:
+    ``formats`` maps a column to a NumberColumn format string; ``progress``
+    columns render as 0..1 percent ProgressColumns; ``checkbox`` columns as
+    CheckboxColumns; remaining numeric columns get a default NumberColumn and
+    everything else a TextColumn — so formatting/alignment is preserved while
+    headers get localised.
+    """
+    import pandas as pd
+
+    formats = formats or {}
+    progress = set(progress or [])
+    checkbox = set(checkbox or [])
+    cfg: dict = {}
+    for c in df.columns:
+        label = col(c)
+        if c in progress:
+            cfg[c] = st.column_config.ProgressColumn(
+                label, min_value=0.0, max_value=1.0, format="percent")
+        elif c in checkbox:
+            cfg[c] = st.column_config.CheckboxColumn(label)
+        elif c in formats:
+            cfg[c] = st.column_config.NumberColumn(label, format=formats[c])
+        elif pd.api.types.is_numeric_dtype(df[c]):
+            cfg[c] = st.column_config.NumberColumn(label)
+        else:
+            cfg[c] = st.column_config.TextColumn(label)
+    return cfg
+
+
 def t(key: str, **fmt: object) -> str:
     """Translate ``key`` into the active language.
 

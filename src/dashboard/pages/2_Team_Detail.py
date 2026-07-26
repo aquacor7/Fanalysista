@@ -17,6 +17,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+import i18n
 from data import (
     load_matches,
     load_player_season,
@@ -24,6 +25,7 @@ from data import (
     persist_sidebar_selectbox,
     require_data,
 )
+from i18n import t
 from modals import maybe_open_player_modal
 from ui import breadcrumbs
 from theme import (
@@ -45,11 +47,11 @@ ts = load_team_season(league, comp)
 # ---- sidebar team picker (persists across nav via canonical key) ----
 teams = sorted(mt.team.unique())
 sel_team = persist_sidebar_selectbox(
-    "Team", teams, widget_key="selected_team", canon_key="_canon_team",
+    t("sidebar.team"), teams, widget_key="selected_team", canon_key="_canon_team",
 )
 
 breadcrumbs(
-    ("League Table", "pages/1_League_Table.py"),
+    (t("nav.league_table"), "pages/1_League_Table.py"),
     (sel_team, None),
 )
 st.title(sel_team)
@@ -57,15 +59,15 @@ st.title(sel_team)
 # ---- season KPI row ----
 team_row = ts[ts.team == sel_team].iloc[0]
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("W / D / L", f"{int(team_row.wins)} / {int(team_row.draws)} / {int(team_row.losses)}")
-c2.metric("Points", int(team_row.points))
-c3.metric("Avg TOTALE", f"{team_row.totale_avg:.2f}")
-c4.metric("Goal diff", f"{int(team_row.goal_diff):+d}")
+c1.metric(t("common.wdl"), f"{int(team_row.wins)} / {int(team_row.draws)} / {int(team_row.losses)}")
+c2.metric(t("common.points"), int(team_row.points))
+c3.metric(t("common.avg_totale"), f"{team_row.totale_avg:.2f}")
+c4.metric(t("common.goal_diff"), f"{int(team_row.goal_diff):+d}")
 if "regret_total" in ts.columns and pd.notna(team_row.get("regret_total")):
     c5.metric(
-        "Regret total",
+        t("team_detail.regret_total"),
         f"{team_row.regret_total:.1f}",
-        delta=f"{int(team_row.get('perfect_giornate', 0))} perfect g",
+        delta=t("team_detail.perfect_g_delta", n=int(team_row.get('perfect_giornate', 0))),
         delta_color="off",
     )
 
@@ -74,7 +76,7 @@ st.divider()
 # ============================================================
 # 1. Schedule
 # ============================================================
-st.subheader("Schedule")
+st.subheader(t("team_detail.schedule_header"))
 
 opp = mt[["giornata", "team", "totale"]].rename(
     columns={"team": "opponent", "totale": "opp_totale"})
@@ -84,31 +86,32 @@ schedule = (mt[mt.team == sel_team]
 view = schedule[[
     "giornata", "opponent", "side", "result",
     "score_for", "score_against", "totale", "opp_totale", "module",
-]]
+]].copy()
+# Localise the home/away side values (they're derived labels, not raw data).
+view["side"] = view["side"].map({"home": t("side.home"), "away": t("side.away")}).fillna(view["side"])
 st.dataframe(
     view,
     width="stretch",
     hide_index=True,
-    column_config={
-        "side": st.column_config.TextColumn("Side"),
-        "totale": st.column_config.NumberColumn(format="%.1f"),
-        "opp_totale": st.column_config.NumberColumn(format="%.1f"),
-        "score_for": st.column_config.NumberColumn("GF", format="%d"),
-        "score_against": st.column_config.NumberColumn("GA", format="%d"),
-    },
+    column_config=i18n.columns_config(
+        view,
+        formats={"totale": "%.1f", "opp_totale": "%.1f",
+                 "score_for": "%d", "score_against": "%d"},
+    ),
 )
 
-st.markdown("**TOTALE over time — team vs opponent**")
+st.markdown(t("team_detail.trend_header"))
 trend_df = (
     schedule[["giornata", "totale", "opp_totale"]]
       .melt(id_vars="giornata", var_name="who", value_name="value")
 )
-trend_df["who"] = trend_df["who"].map({"totale": sel_team, "opp_totale": "Opponent"})
+opponent_label = t("team_detail.opponent")
+trend_df["who"] = trend_df["who"].map({"totale": sel_team, "opp_totale": opponent_label})
 
 fig_trend = px.line(
     trend_df, x="giornata", y="value", color="who", markers=True,
-    color_discrete_map={sel_team: SUBJECT_COLOR, "Opponent": OPPONENT_COLOR},
-    labels={"value": "TOTALE", "giornata": "Giornata", "who": ""},
+    color_discrete_map={sel_team: SUBJECT_COLOR, opponent_label: OPPONENT_COLOR},
+    labels={"value": i18n.col("totale"), "giornata": i18n.col("giornata"), "who": ""},
 )
 fig_trend.update_layout(
     height=380, hovermode="x unified",
@@ -116,37 +119,36 @@ fig_trend.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
 )
 st.plotly_chart(fig_trend, width="stretch")
-st.caption(
-    f"Dark blue = {sel_team}'s TOTALE. Red = opponent's TOTALE that giornata."
-)
+st.caption(t("team_detail.trend_caption", team=sel_team))
 
 st.divider()
 
 # ============================================================
 # 2. Squad composition
 # ============================================================
-st.subheader("Squad composition")
+st.subheader(t("team_detail.squad_header"))
 
 team_ps = ps[ps.team == sel_team].copy()
 
+_sort_opts = ["total_fv", "active_fv", "missed_fv", "pos_name"]
 sort_mode = st.radio(
-    "Sort players by",
-    ["Total FV (active + missed)", "Active FV", "Missed FV", "Position then name"],
+    t("team_detail.sort_prompt"),
+    _sort_opts,
+    format_func=lambda o: t(f"team_detail.sort_{o}"),
     horizontal=True, index=0,
 )
-if sort_mode == "Active FV":
+if sort_mode == "active_fv":
     team_ps = team_ps.sort_values("total_active_fv", ascending=False)
-elif sort_mode == "Missed FV":
+elif sort_mode == "missed_fv":
     team_ps = team_ps.sort_values("total_fv_missed", ascending=False)
-elif sort_mode == "Position then name":
+elif sort_mode == "pos_name":
     team_ps["_o"] = team_ps.position.map({p: i for i, p in enumerate(POSITION_ORDER)})
     team_ps = team_ps.sort_values(["_o", "player"]).drop(columns="_o")
 else:
     team_ps = team_ps.sort_values("total_fv", ascending=False)
 
 # ---- stacked bar: per-player active + missed (clickable) ----
-st.markdown("**Total FV per player — captured (green) vs missed (orange).** "
-            "Click any bar to open that player's summary.")
+st.markdown(t("team_detail.bar_prompt"))
 # Long-format dataframe so px.bar attaches per-row customdata identically across
 # both stacked traces — makes click→player extraction robust regardless of which
 # segment the user clicked.
@@ -155,30 +157,32 @@ bar_long = team_ps.melt(
     value_vars=["total_active_fv", "total_fv_missed"],
     var_name="bucket", value_name="fv",
 )
+_bar_captured = t("team_detail.bar_captured")
+_bar_missed = t("team_detail.bar_missed")
 bar_long["bucket"] = bar_long["bucket"].map({
-    "total_active_fv": "Captured (active)",
-    "total_fv_missed": "Missed (on bench)",
+    "total_active_fv": _bar_captured,
+    "total_fv_missed": _bar_missed,
 })
 fig_bar = px.bar(
     bar_long, x="player", y="fv", color="bucket",
     color_discrete_map={
-        "Captured (active)": ACTIVE_COLOR,
-        "Missed (on bench)": MISSED_COLOR,
+        _bar_captured: ACTIVE_COLOR,
+        _bar_missed: MISSED_COLOR,
     },
     category_orders={
         "player": team_ps.player.tolist(),
-        "bucket": ["Captured (active)", "Missed (on bench)"],
+        "bucket": [_bar_captured, _bar_missed],
     },
     custom_data=["player", "position", "apps_active", "apps_missed"],
 )
 fig_bar.update_traces(
     hovertemplate=(
-        "<b>%{customdata[0]}</b><br>Position: %{customdata[1]}<br>"
+        "<b>%{customdata[0]}</b><br>" + i18n.col("position") + ": %{customdata[1]}<br>"
         "%{fullData.name}: %{y:.1f}<extra></extra>"
     ),
 )
 fig_bar.update_layout(
-    barmode="stack", xaxis_tickangle=-45, yaxis_title="Fantavoto", xaxis_title="",
+    barmode="stack", xaxis_tickangle=-45, yaxis_title=t("team_detail.bar_axis"), xaxis_title="",
     legend_title_text="", legend=dict(orientation="h", yanchor="bottom",
                                        y=1.02, xanchor="right", x=1),
     height=520, margin=dict(l=10, r=10, t=30, b=10),
@@ -197,7 +201,7 @@ if event_bar.selection and event_bar.selection.points:
         maybe_open_player_modal(league, comp, sel_team, clicked_player, key="td_squad_bar_select")
 
 # ---- sunburst position -> player (clickable outer ring) ----
-st.markdown("**Pie of pie — position, then player share of active FV**")
+st.markdown(t("team_detail.sunburst_prompt"))
 sun_df = team_ps[team_ps.total_active_fv > 0]
 fig_sun = px.sunburst(
     sun_df, path=["position", "player"], values="total_active_fv",
@@ -205,8 +209,8 @@ fig_sun = px.sunburst(
 )
 fig_sun.update_traces(
     textinfo="label+percent parent",
-    hovertemplate="<b>%{label}</b><br>Active FV: %{value:.1f}<br>"
-                  "%{percentParent:.1%} of segment<extra></extra>",
+    hovertemplate="<b>%{label}</b><br>" + i18n.col("total_active_fv") + ": %{value:.1f}<br>"
+                  "%{percentParent:.1%}<extra></extra>",
 )
 fig_sun.update_layout(height=560, margin=dict(l=10, r=10, t=10, b=10))
 event_sun = st.plotly_chart(
@@ -223,13 +227,10 @@ if event_sun.selection and event_sun.selection.points:
     parent = p.get("parent")
     if label and parent in POSITION_ORDER:
         maybe_open_player_modal(league, comp, sel_team, label, key="td_sunburst_select")
-st.caption(
-    "Click a position slice to zoom in. Click a player slice (outer ring) "
-    "to open that player's summary."
-)
+st.caption(t("team_detail.sunburst_caption"))
 
 # ---- clickable player table ----
-st.markdown("**Click a player row for a summary modal**")
+st.markdown(t("team_detail.player_table_prompt"))
 player_table = team_ps[[
     "position", "player", "apps_active", "apps_missed",
     "total_active_fv", "total_fv_missed", "total_fv",
@@ -242,15 +243,12 @@ event = st.dataframe(
     on_select="rerun",
     selection_mode="single-row",
     key="td_player_select",
-    column_config={
-        "pct_fv_captured": st.column_config.ProgressColumn(
-            "% captured", min_value=0.0, max_value=1.0, format="percent",
-        ),
-        "total_active_fv": st.column_config.NumberColumn(format="%.1f"),
-        "total_fv_missed": st.column_config.NumberColumn(format="%.1f"),
-        "total_fv": st.column_config.NumberColumn(format="%.1f"),
-        "avg_active_fv": st.column_config.NumberColumn(format="%.2f"),
-    },
+    column_config=i18n.columns_config(
+        player_table,
+        formats={"total_active_fv": "%.1f", "total_fv_missed": "%.1f",
+                 "total_fv": "%.1f", "avg_active_fv": "%.2f"},
+        progress={"pct_fv_captured"},
+    ),
 )
 if event.selection.rows:
     selected = player_table.iloc[event.selection.rows[0]]

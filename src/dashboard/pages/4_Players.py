@@ -10,30 +10,34 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+import i18n
 from data import load_player_season, require_data
+from i18n import t
 from modals import maybe_open_player_modal
 from theme import ACTIVE_COLOR, MISSED_COLOR, POSITION_COLOR, POSITION_ORDER
 
 st.set_page_config(page_title="Players", layout="wide")
-st.title("Players")
 
 league, comp = require_data()
+st.title(t("players.title"))
 ps = load_player_season(league, comp)
 
 # ---- filters ----
 teams = sorted(ps.team.unique())
-sel_teams = st.sidebar.multiselect("Team", teams, default=teams)
-sel_pos = st.sidebar.multiselect("Position", POSITION_ORDER, default=POSITION_ORDER)
+sel_teams = st.sidebar.multiselect(t("sidebar.team"), teams, default=teams)
+sel_pos = st.sidebar.multiselect(t("sidebar.position"), POSITION_ORDER, default=POSITION_ORDER)
 
 max_squad = int(ps.apps_in_squad.max())
-min_apps = st.sidebar.slider("Min apps in squad", 0, max_squad, 0)
+min_apps = st.sidebar.slider(t("sidebar.min_apps"), 0, max_squad, 0)
 
 sort_options = [
     "total_active_fv", "avg_active_fv", "pct_fv_captured", "pct_active_rate",
     "apps_active", "apps_missed", "total_fv_missed", "avg_fv_missed",
     "best_active_fv", "total_voto", "total_fv",
 ]
-sort_col = st.sidebar.selectbox("Sort by", sort_options, index=0)
+sort_col = st.sidebar.selectbox(
+    t("sidebar.sort_by"), sort_options, index=0, format_func=i18n.col,
+)
 
 filtered = ps[
     ps.team.isin(sel_teams)
@@ -41,7 +45,7 @@ filtered = ps[
     & (ps.apps_in_squad >= min_apps)
 ].sort_values(sort_col, ascending=False).reset_index(drop=True)
 
-st.markdown(f"**{len(filtered)} players** match filters — click a row (or a dot in the chart below) for a summary modal")
+st.markdown(t("players.match_count", n=len(filtered)))
 
 # ---- table (clickable) ----
 event = st.dataframe(
@@ -51,29 +55,21 @@ event = st.dataframe(
     on_select="rerun",
     selection_mode="single-row",
     key="pl_select",
-    column_config={
-        "pct_fv_captured": st.column_config.ProgressColumn(
-            "% FV captured", min_value=0.0, max_value=1.0, format="percent",
-        ),
-        "pct_active_rate": st.column_config.ProgressColumn(
-            "% Active rate", min_value=0.0, max_value=1.0, format="percent",
-        ),
-        "total_active_fv": st.column_config.NumberColumn(format="%.1f"),
-        "avg_active_fv": st.column_config.NumberColumn(format="%.2f"),
-        "total_fv_missed": st.column_config.NumberColumn(format="%.1f"),
-        "avg_fv_missed": st.column_config.NumberColumn(format="%.2f"),
-        "best_active_fv": st.column_config.NumberColumn(format="%.1f"),
-        "worst_active_fv": st.column_config.NumberColumn(format="%.1f"),
-        "total_voto": st.column_config.NumberColumn(format="%.1f"),
-        "total_fv": st.column_config.NumberColumn(format="%.1f"),
-    },
+    column_config=i18n.columns_config(
+        filtered,
+        formats={"total_active_fv": "%.1f", "avg_active_fv": "%.2f",
+                 "total_fv_missed": "%.1f", "avg_fv_missed": "%.2f",
+                 "best_active_fv": "%.1f", "worst_active_fv": "%.1f",
+                 "total_voto": "%.1f", "total_fv": "%.1f"},
+        progress={"pct_fv_captured", "pct_active_rate"},
+    ),
 )
 if event.selection.rows:
     row = filtered.iloc[event.selection.rows[0]]
     maybe_open_player_modal(league, comp, row.team, row.player, key="pl_select")
 
 # ---- scatter: capture rate vs total active fv (positions in standard colour) ----
-st.subheader("Capture rate vs total active FV")
+st.subheader(t("players.scatter_header"))
 chart_df = filtered.dropna(subset=["pct_fv_captured", "total_active_fv"]).copy()
 chart_df["capture_pct"] = (chart_df["pct_fv_captured"] * 100).round(1)
 fig = px.scatter(
@@ -84,7 +80,7 @@ fig = px.scatter(
     category_orders={"position": POSITION_ORDER},
     custom_data=["team", "player"],  # picked up by the click-selection event
     hover_data={"team": True, "player": True, "apps_active": True, "apps_missed": True},
-    labels={"capture_pct": "% FV captured", "total_active_fv": "Total active FV"},
+    labels={"capture_pct": t("players.scatter_x"), "total_active_fv": t("players.scatter_y")},
 )
 fig.update_layout(height=450, margin=dict(l=10, r=10, t=10, b=10))
 event_pt = st.plotly_chart(
@@ -100,35 +96,29 @@ if event_pt.selection and event_pt.selection.points:
     if len(cd) >= 2:
         maybe_open_player_modal(league, comp, cd[0], cd[1], key="pl_scatter_select")
 
-st.caption(
-    "Top-right = high contribution AND high efficiency. "
-    "Top-left = scored a lot but you missed a lot too (high-regret player). "
-    "Click any dot to open that player's summary."
-)
+st.caption(t("players.scatter_caption"))
 
 # ---- player management quadrant: best- and worst-used players ----
 # Uses the sidebar filters (sel_teams / sel_pos / min_apps) just like the
 # table and the capture-rate scatter above.
-st.subheader("Player management — best & worst used")
+st.subheader(t("players.quadrant_header"))
 
 usage = filtered.dropna(subset=["avg_active_fv", "avg_fv_missed"]).copy()
 usage["delta"] = usage["avg_active_fv"] - usage["avg_fv_missed"]
 
+_cat_well = t("players.quadrant_well")
+_cat_poor = t("players.quadrant_poor")
 best = (usage[(usage.apps_active > 2) & (usage.delta > 0)]
             .sort_values("delta", ascending=False)
             .head(10)
-            .assign(category="Well used (top 10)"))
+            .assign(category=_cat_well))
 worst = (usage[(usage.apps_missed > 2) & (usage.delta < 0)]
              .sort_values("delta", ascending=True)
              .head(10)
-             .assign(category="Poorly used (top 10)"))
+             .assign(category=_cat_poor))
 
 if best.empty and worst.empty:
-    st.info(
-        "No players match the current filters with enough active/missed apps "
-        "to rank usage extremes. Try loosening the Team / Position / Min apps "
-        "filters in the sidebar."
-    )
+    st.info(t("players.quadrant_empty"))
 else:
     quad = pd.concat([best, worst], ignore_index=True)
 
@@ -136,8 +126,8 @@ else:
         quad,
         x="delta", y="apps_active", color="category",
         color_discrete_map={
-            "Well used (top 10)": ACTIVE_COLOR,
-            "Poorly used (top 10)": MISSED_COLOR,
+            _cat_well: ACTIVE_COLOR,
+            _cat_poor: MISSED_COLOR,
         },
         size="total_fv", size_max=32,
         text="player",
@@ -145,8 +135,8 @@ else:
                      "avg_active_fv", "avg_fv_missed",
                      "apps_active", "apps_missed", "total_fv"],
         labels={
-            "delta": "Avg active FV − Avg missed FV",
-            "apps_active": "Active appearances",
+            "delta": t("players.quadrant_x"),
+            "apps_active": t("players.quadrant_y"),
             "category": "",
         },
     )
@@ -155,11 +145,12 @@ else:
         textfont=dict(size=10),
         hovertemplate=(
             "<b>%{customdata[1]}</b>  ·  %{customdata[2]}  ·  %{customdata[0]}<br>"
-            "Avg active FV: %{customdata[3]:.2f}  ·  "
-            "Avg missed FV: %{customdata[4]:.2f}<br>"
-            "Δ (active − missed): %{x:+.2f}<br>"
-            "Apps active / missed: %{customdata[5]} / %{customdata[6]}<br>"
-            "Total FV (bubble size): %{customdata[7]:.1f}"
+            + i18n.col("avg_active_fv") + ": %{customdata[3]:.2f}  ·  "
+            + i18n.col("avg_fv_missed") + ": %{customdata[4]:.2f}<br>"
+            "Δ: %{x:+.2f}<br>"
+            + i18n.col("apps_active") + " / " + i18n.col("apps_missed")
+            + ": %{customdata[5]} / %{customdata[6]}<br>"
+            + i18n.col("total_fv") + ": %{customdata[7]:.1f}"
             "<extra></extra>"
         ),
     )
@@ -182,22 +173,4 @@ else:
         if len(cd) >= 2:
             maybe_open_player_modal(league, comp, cd[0], cd[1], key="pl_quad_select")
 
-    st.markdown(
-        "**How to read this chart**\n\n"
-        "- **X-axis** — Avg active FV minus Avg missed FV. Right of the dashed "
-        "line = you used the player in his better games; left = you missed his "
-        "better games.\n"
-        "- **Y-axis** — active appearances. Top half = key fixture in the lineup; "
-        "bottom half = bench/sub.\n"
-        "- **Bubble size** — Total FV across all appearances (active + missed). "
-        "Bigger bubble = bigger management impact on the season.\n"
-        "- **Filters** — well-used requires `apps_active > 2`; poorly-used "
-        "requires `apps_missed > 2`. The sidebar Team / Position / Min apps "
-        "filters apply too.\n\n"
-        "**Quadrant guide**\n\n"
-        "- **Top-right** — key well-used player.\n"
-        "- **Top-left** — poorly-used starter (would have scored more from the bench).\n"
-        "- **Bottom-right** — effective substitute (used sparingly, but well).\n"
-        "- **Bottom-left** — missed bench (rarely fielded; did better off the field).\n\n"
-        "_Click any point to open that player's summary._"
-    )
+    st.markdown(t("players.quadrant_guide"))

@@ -15,6 +15,7 @@ from data import (
     load_team_season,
     require_data,
 )
+import i18n
 from i18n import t
 from modals import maybe_open_player_modal, maybe_open_team_modal
 
@@ -44,17 +45,16 @@ event_home_lt = st.dataframe(
     on_select="rerun",
     selection_mode="single-row",
     key="home_lt_select",
-    column_config={
-        "points": st.column_config.NumberColumn(t("common.col.pts"), format="%d"),
-        "goals_for": st.column_config.NumberColumn(t("common.col.gf"), format="%d"),
-        "goals_against": st.column_config.NumberColumn(t("common.col.ga"), format="%d"),
-        "goal_diff": st.column_config.NumberColumn(t("common.col.gd"), format="%d"),
-        "totale_avg": st.column_config.NumberColumn(t("common.col.avg_tot"), format="%.2f"),
-        "totale_max": st.column_config.NumberColumn(t("common.col.max_tot"), format="%.1f"),
-        "totale_min": st.column_config.NumberColumn(t("common.col.min_tot"), format="%.1f"),
-        "opp_totale_avg": st.column_config.NumberColumn(t("common.col.opp_avg"), format="%.2f"),
-        "totale_diff_avg": st.column_config.NumberColumn(t("common.col.diff_avg"), format="%+.2f"),
-    },
+    column_config=i18n.columns_config(
+        ts,
+        formats={
+            "points": "%d", "goals_for": "%d", "goals_against": "%d",
+            "goal_diff": "%d", "totale_sum": "%.1f", "totale_avg": "%.2f",
+            "totale_max": "%.1f", "totale_min": "%.1f", "opp_totale_avg": "%.2f",
+            "totale_diff_avg": "%+.2f", "regret_total": "%.1f", "regret_avg": "%.2f",
+            "regret_max": "%.1f", "modificatore_difesa_sum": "%.1f",
+        },
+    ),
 )
 if event_home_lt.selection.rows:
     maybe_open_team_modal(league, comp, ts.iloc[event_home_lt.selection.rows[0]].team, key="home_lt_select")
@@ -72,14 +72,13 @@ event_home = st.dataframe(
     on_select="rerun",
     selection_mode="single-row",
     key="home_top_select",
-    column_config={
-        "pct_fv_captured": st.column_config.ProgressColumn(
-            t("common.col.pct_fv_captured"), min_value=0.0, max_value=1.0, format="percent",
-        ),
-        "total_active_fv": st.column_config.NumberColumn(t("common.col.total_active_fv"), format="%.1f"),
-        "avg_active_fv": st.column_config.NumberColumn(t("common.col.avg_per_game"), format="%.2f"),
-        "best_active_fv": st.column_config.NumberColumn(t("common.col.best_game"), format="%.1f"),
-    },
+    column_config=i18n.columns_config(
+        top[["team", "position", "player", "apps_active", "total_active_fv",
+             "avg_active_fv", "pct_fv_captured", "best_active_fv"]],
+        formats={"total_active_fv": "%.1f", "avg_active_fv": "%.2f",
+                 "best_active_fv": "%.1f"},
+        progress={"pct_fv_captured"},
+    ),
 )
 if event_home.selection.rows:
     row = top.iloc[event_home.selection.rows[0]]
