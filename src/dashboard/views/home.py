@@ -17,6 +17,13 @@ from modals import maybe_open_player_modal, maybe_open_team_modal
 
 league, comp = require_data()
 st.title(t("app.title"))
+
+# ---- onboarding: what is this + final-season-snapshot notice ----
+st.info(t("home.snapshot"))
+st.markdown(t("home.intro"))
+with st.expander(t("home.how_to_title"), expanded=False):
+    st.markdown(t("home.how_to_body"))
+
 ts = load_team_season(league, comp)
 ps = load_player_season(league, comp)
 mt = load_matches(league, comp)
