@@ -7,8 +7,14 @@ __pycache__/
 *.pyo
 .venv/
 
-# Data layers and presentation outputs (generated; user-specific)
-data/
+# Data layers and presentation outputs.
+# Bronze (raw xlsx) and silver (tidy CSV) are large and fully regenerable —
+# keep them local only. Gold is tiny (~600 KB for all competitions) and IS the
+# data artifact the deployed dashboard reads, so it is committed to the repo
+# for Streamlit Community Cloud to serve. (default-deny: ignore everything under
+# data/, then re-include gold.)
+data/*
+!data/gold/
 reports/
 
 # Browser-driven Playwright tests — useful for local regression checks
