@@ -1,0 +1,533 @@
+player,role,club,qt_a,qt_i,val_diff,fvm
+Carnesecchi,P,Atalanta,18.0,14.0,4.0,80.0
+Milinkovic-Savic V.,P,Napoli,17.0,4.0,13.0,37.0
+Svilar,P,Roma,17.0,15.0,2.0,105.0
+Butez,P,Como,16.0,10.0,6.0,95.0
+Maignan,P,Milan,16.0,16.0,0.0,88.0
+Di Gregorio,P,Juventus,15.0,16.0,-1.0,30.0
+Falcone,P,Lecce,15.0,6.0,9.0,35.0
+Okoye,P,Udinese,14.0,6.0,8.0,14.0
+Sommer,P,Inter,13.0,16.0,-3.0,60.0
+Caprile,P,Cagliari,12.0,7.0,5.0,20.0
+Audero,P,Cremonese,12.0,5.0,7.0,11.0
+De Gea,P,Fiorentina,12.0,14.0,-2.0,28.0
+Montipò,P,Verona,12.0,5.0,7.0,5.0
+Skorupski,P,Bologna,11.0,10.0,1.0,14.0
+Provedel,P,Lazio,11.0,12.0,-1.0,15.0
+Suzuki,P,Parma,11.0,7.0,4.0,8.0
+Muric,P,Sassuolo,10.0,3.0,7.0,6.0
+Bijlow,P,Genoa,10.0,10.0,0.0,10.0
+Leali,P,Genoa,9.0,8.0,1.0,1.0
+Corvi,P,Parma,9.0,1.0,8.0,5.0
+Paleari,P,Torino,9.0,1.0,8.0,9.0
+Perin,P,Juventus,8.0,1.0,7.0,10.0
+Meret,P,Napoli,8.0,16.0,-8.0,20.0
+Turati,P,Sassuolo,8.0,7.0,1.0,5.0
+Semper,P,Pisa,7.0,3.0,4.0,3.0
+Pessina Mas.,P,Bologna,6.0,1.0,5.0,2.0
+Martinez Jo.,P,Inter,5.0,2.0,3.0,1.0
+Motta,P,Lazio,5.0,1.0,4.0,15.0
+Ravaglia F.,P,Bologna,4.0,3.0,1.0,3.0
+Furlanetto,P,Lazio,3.0,1.0,2.0,1.0
+Christensen O.,P,Fiorentina,2.0,1.0,1.0,1.0
+Rossi F.,P,Atalanta,1.0,1.0,0.0,1.0
+Sportiello,P,Atalanta,1.0,1.0,0.0,1.0
+Ciocci,P,Cagliari,1.0,1.0,0.0,1.0
+Vigorito,P,Como,1.0,1.0,0.0,1.0
+Nava,P,Cremonese,1.0,1.0,0.0,1.0
+Siegrist,P,Genoa,1.0,1.0,0.0,1.0
+Sommariva,P,Genoa,1.0,1.0,0.0,1.0
+Di Gennaro,P,Inter,1.0,1.0,0.0,1.0
+Pinsoglio,P,Juventus,1.0,1.0,0.0,1.0
+Fruchtl,P,Lecce,1.0,1.0,0.0,1.0
+Samooja,P,Lecce,1.0,1.0,0.0,1.0
+Terracciano,P,Milan,1.0,1.0,0.0,1.0
+Torriani,P,Milan,1.0,1.0,0.0,1.0
+Contini,P,Napoli,1.0,1.0,0.0,1.0
+Rinaldi,P,Parma,1.0,1.0,0.0,1.0
+Nicolas,P,Pisa,1.0,1.0,0.0,1.0
+Scuffet,P,Pisa,1.0,3.0,-2.0,1.0
+Zelezny,P,Roma,1.0,1.0,0.0,1.0
+Gollini,P,Roma,1.0,1.0,0.0,1.0
+Satalino,P,Sassuolo,1.0,1.0,0.0,1.0
+Israel,P,Torino,1.0,9.0,-8.0,1.0
+Padelli,P,Udinese,1.0,1.0,0.0,1.0
+Sava,P,Udinese,1.0,4.0,-3.0,1.0
+Perilli,P,Verona,1.0,1.0,0.0,1.0
+Nunziante,P,Udinese,1.0,1.0,0.0,1.0
+Lezzerini,P,Fiorentina,1.0,1.0,0.0,1.0
+Silvestri,P,Cremonese,1.0,1.0,0.0,1.0
+Toniolo,P,Verona,1.0,1.0,0.0,1.0
+Cavlina,P,Como,1.0,1.0,0.0,1.0
+Ferrante,P,Napoli,1.0,1.0,0.0,1.0
+Calligaris,P,Inter,1.0,1.0,0.0,1.0
+Tornqvist,P,Como,1.0,1.0,0.0,1.0
+Sherri,P,Cagliari,1.0,1.0,0.0,1.0
+Siviero,P,Torino,1.0,1.0,0.0,1.0
+Pannozzo,P,Lazio,1.0,1.0,0.0,1.0
+Giacomone,P,Lazio,1.0,1.0,0.0,1.0
+Dimarco,D,Inter,30.0,19.0,11.0,320.0
+Bremer,D,Juventus,20.0,13.0,7.0,74.0
+Pavlovic,D,Milan,17.0,7.0,10.0,60.0
+Palestra,D,Cagliari,16.0,3.0,13.0,75.0
+Kempf,D,Como,16.0,5.0,11.0,18.0
+Spinazzola,D,Napoli,16.0,7.0,9.0,33.0
+Scalvini,D,Atalanta,15.0,8.0,7.0,22.0
+Bisseck,D,Inter,15.0,9.0,6.0,41.0
+Mancini,D,Roma,15.0,11.0,4.0,54.0
+Ostigard,D,Genoa,15.0,5.0,10.0,50.0
+Kalulu,D,Juventus,14.0,9.0,5.0,68.0
+Celik,D,Roma,14.0,7.0,7.0,14.0
+Wesley,D,Roma,14.0,14.0,0.0,46.0
+Solet,D,Udinese,14.0,11.0,3.0,55.0
+Bastoni,D,Inter,13.0,16.0,-3.0,40.0
+Hermoso,D,Roma,13.0,3.0,10.0,25.0
+Rensch,D,Roma,13.0,5.0,8.0,17.0
+Akanji,D,Inter,13.0,9.0,4.0,64.0
+Zappacosta,D,Atalanta,12.0,13.0,-1.0,18.0
+Dumfries,D,Inter,12.0,20.0,-8.0,56.0
+N'Dicka,D,Roma,12.0,10.0,2.0,51.0
+Gosens,D,Fiorentina,11.0,18.0,-7.0,19.0
+Vasquez,D,Genoa,11.0,9.0,2.0,26.0
+Kelly L.,D,Juventus,11.0,7.0,4.0,27.0
+Rrahmani,D,Napoli,11.0,11.0,0.0,45.0
+Valeri,D,Parma,11.0,10.0,1.0,22.0
+Kristensen T.,D,Udinese,11.0,5.0,6.0,14.0
+Athekame,D,Milan,11.0,6.0,5.0,9.0
+Holm,D,Juventus,10.0,8.0,2.0,8.0
+Miranda J.,D,Bologna,10.0,9.0,1.0,25.0
+Vojvoda,D,Como,10.0,6.0,4.0,12.0
+Valle,D,Como,10.0,6.0,4.0,17.0
+Dodò,D,Fiorentina,10.0,11.0,-1.0,30.0
+Martin,D,Genoa,10.0,10.0,0.0,11.0
+Carlos Augusto,D,Inter,10.0,10.0,0.0,15.0
+Tiago Gabriel,D,Lecce,10.0,1.0,9.0,25.0
+Gallo,D,Lecce,10.0,5.0,5.0,15.0
+Bartesaghi,D,Milan,10.0,3.0,7.0,15.0
+Beukema,D,Napoli,10.0,10.0,0.0,10.0
+Di Lorenzo,D,Napoli,10.0,14.0,-4.0,28.0
+Delprato,D,Parma,10.0,8.0,2.0,22.0
+Kabasele,D,Udinese,10.0,3.0,7.0,9.0
+Ramon,D,Como,10.0,4.0,6.0,23.0
+Belghali,D,Verona,10.0,4.0,6.0,12.0
+Gutierrez,D,Napoli,10.0,8.0,2.0,12.0
+Obrador,D,Torino,10.0,6.0,4.0,16.0
+Mina,D,Cagliari,9.0,7.0,2.0,12.0
+Moreno Alb.,D,Como,9.0,3.0,6.0,10.0
+Cambiaso,D,Juventus,9.0,15.0,-6.0,17.0
+Baschirotto,D,Cremonese,9.0,8.0,1.0,13.0
+Angori,D,Pisa,9.0,5.0,4.0,13.0
+Coco,D,Torino,9.0,8.0,1.0,12.0
+Bernasconi,D,Atalanta,9.0,1.0,8.0,12.0
+Luperto,D,Cremonese,8.0,7.0,1.0,12.0
+Zortea,D,Bologna,8.0,16.0,-8.0,12.0
+Gila,D,Lazio,8.0,9.0,-1.0,16.0
+Romagnoli,D,Lazio,8.0,8.0,0.0,16.0
+Marusic,D,Lazio,8.0,8.0,0.0,12.0
+Tomori,D,Milan,8.0,8.0,0.0,21.0
+Buongiorno,D,Napoli,8.0,13.0,-5.0,13.0
+Circati,D,Parma,8.0,5.0,3.0,13.0
+Muharemovic,D,Sassuolo,8.0,5.0,3.0,18.0
+Maripan,D,Torino,8.0,7.0,1.0,8.0
+Ghilardi,D,Roma,8.0,4.0,4.0,11.0
+Idzes,D,Sassuolo,8.0,7.0,1.0,12.0
+Diego Carlos,D,Como,8.0,5.0,3.0,12.0
+Garcia U.,D,Sassuolo,8.0,3.0,5.0,17.0
+Djimsiti,D,Atalanta,7.0,8.0,-1.0,13.0
+Kolasinac,D,Atalanta,7.0,7.0,0.0,12.0
+Lucumì,D,Bologna,7.0,8.0,-1.0,12.0
+Obert,D,Cagliari,7.0,4.0,3.0,13.0
+Marcandalli,D,Genoa,7.0,3.0,4.0,12.0
+Norton-Cuffy,D,Genoa,7.0,3.0,4.0,14.0
+Provstgaard,D,Lazio,7.0,3.0,4.0,12.0
+Terracciano F.,D,Cremonese,7.0,2.0,5.0,11.0
+Angelino,D,Roma,7.0,15.0,-8.0,7.0
+Pedersen,D,Torino,7.0,4.0,3.0,12.0
+Ehizibue,D,Udinese,7.0,5.0,2.0,10.0
+Frese,D,Verona,7.0,3.0,4.0,12.0
+Hien,D,Atalanta,6.0,11.0,-5.0,10.0
+Kossounou,D,Atalanta,6.0,9.0,-3.0,8.0
+Bellanova,D,Atalanta,6.0,13.0,-7.0,11.0
+Zappa,D,Cagliari,6.0,6.0,0.0,8.0
+Smolcic I.,D,Como,6.0,2.0,4.0,12.0
+Barbieri,D,Cremonese,6.0,3.0,3.0,10.0
+Ranieri L.,D,Fiorentina,6.0,7.0,-1.0,10.0
+Parisi,D,Fiorentina,6.0,5.0,1.0,12.0
+De Winter,D,Milan,6.0,8.0,-2.0,10.0
+Cabal,D,Juventus,6.0,5.0,1.0,9.0
+Joao Mario,D,Bologna,6.0,8.0,-2.0,12.0
+Tavares N.,D,Lazio,6.0,12.0,-6.0,18.0
+Zanoli,D,Udinese,6.0,3.0,3.0,12.0
+Caracciolo A.,D,Pisa,6.0,4.0,2.0,10.0
+Ismajli,D,Torino,6.0,8.0,-2.0,14.0
+Kamara H.,D,Udinese,6.0,7.0,-1.0,15.0
+Bradaric,D,Verona,6.0,4.0,2.0,11.0
+Siebert,D,Lecce,6.0,5.0,1.0,14.0
+Edmundsson,D,Verona,6.0,2.0,4.0,12.0
+Idrissi R.,D,Cagliari,5.0,3.0,2.0,9.0
+Dossena,D,Cagliari,5.0,4.0,1.0,8.0
+Van Der Brempt,D,Como,5.0,4.0,1.0,8.0
+Floriani Mussolini,D,Cremonese,5.0,5.0,0.0,12.0
+Pongracic,D,Fiorentina,5.0,5.0,0.0,12.0
+Acerbi,D,Inter,5.0,9.0,-4.0,10.0
+Gatti,D,Juventus,5.0,8.0,-3.0,8.0
+Pellegrini Lu.,D,Lazio,5.0,3.0,2.0,9.0
+Veiga D.,D,Lecce,5.0,1.0,4.0,13.0
+Gabbia,D,Milan,5.0,6.0,-1.0,14.0
+Olivera,D,Napoli,5.0,10.0,-5.0,14.0
+Valenti,D,Parma,5.0,4.0,1.0,10.0
+Canestrelli,D,Pisa,5.0,3.0,2.0,11.0
+Walukiewicz,D,Sassuolo,5.0,5.0,0.0,12.0
+Bertola,D,Udinese,5.0,6.0,-1.0,9.0
+Ebosse,D,Torino,5.0,4.0,1.0,7.0
+Cuadrado,D,Pisa,5.0,7.0,-2.0,8.0
+Nelsson,D,Verona,5.0,5.0,0.0,11.0
+Troilo,D,Parma,5.0,6.0,-1.0,12.0
+Zè Pedro,D,Cagliari,5.0,4.0,1.0,11.0
+Ahanor,D,Atalanta,4.0,6.0,-2.0,10.0
+Vitik,D,Bologna,4.0,8.0,-4.0,7.0
+Bianchetti,D,Cremonese,4.0,3.0,1.0,9.0
+Folino,D,Cremonese,4.0,4.0,0.0,8.0
+Pezzella Giu.,D,Cremonese,4.0,5.0,-1.0,10.0
+Comuzzo,D,Fiorentina,4.0,7.0,-3.0,11.0
+Juan Jesus,D,Napoli,4.0,3.0,1.0,10.0
+Mazzocchi,D,Napoli,4.0,3.0,1.0,7.0
+Doig,D,Sassuolo,4.0,6.0,-2.0,10.0
+Lazaro,D,Torino,4.0,7.0,-3.0,11.0
+Oyegoke,D,Verona,4.0,2.0,2.0,4.0
+Heggem,D,Bologna,4.0,4.0,0.0,12.0
+Britschgi,D,Parma,4.0,1.0,3.0,8.0
+Rodriguez Ju.,D,Cagliari,4.0,1.0,3.0,10.0
+Coulibaly W.,D,Sassuolo,4.0,3.0,1.0,4.0
+De Silvestri,D,Bologna,3.0,4.0,-1.0,8.0
+Sabelli,D,Genoa,3.0,5.0,-2.0,10.0
+De Vrij,D,Inter,3.0,9.0,-6.0,9.0
+Darmian,D,Inter,3.0,4.0,-1.0,8.0
+Patric,D,Lazio,3.0,4.0,-1.0,10.0
+Lazzari,D,Lazio,3.0,4.0,-1.0,9.0
+Marianucci,D,Torino,3.0,3.0,0.0,8.0
+Calabresi,D,Pisa,3.0,3.0,0.0,6.0
+Zemura,D,Udinese,3.0,3.0,0.0,8.0
+Valentini N.,D,Verona,3.0,4.0,-1.0,8.0
+Bella-Kotchap,D,Verona,3.0,6.0,-3.0,10.0
+Tsimikas,D,Roma,3.0,4.0,-1.0,8.0
+Zatterstrom,D,Genoa,3.0,4.0,-1.0,8.0
+Carboni F.,D,Parma,3.0,2.0,1.0,4.0
+Pedro Felipe,D,Sassuolo,3.0,1.0,2.0,3.0
+Lykogiannis,D,Bologna,2.0,5.0,-3.0,10.0
+Fortini,D,Fiorentina,2.0,3.0,-1.0,9.0
+Otoa,D,Genoa,2.0,2.0,0.0,9.0
+Rugani,D,Fiorentina,2.0,3.0,-1.0,10.0
+Gaspar K.,D,Lecce,2.0,8.0,-6.0,10.0
+Jean,D,Lecce,2.0,3.0,-1.0,3.0
+Estupinan,D,Milan,2.0,11.0,-9.0,8.0
+Biraghi,D,Torino,2.0,8.0,-6.0,5.0
+Slotsager,D,Verona,2.0,2.0,0.0,7.0
+Ndiaye,D,Parma,2.0,4.0,-2.0,5.0
+Cham,D,Verona,2.0,1.0,1.0,6.0
+Ziolkowski,D,Roma,2.0,3.0,-1.0,9.0
+Nkounkou,D,Torino,2.0,3.0,-1.0,8.0
+Arizala,D,Udinese,2.0,1.0,1.0,1.0
+Helland,D,Bologna,2.0,4.0,-2.0,7.0
+Lirola,D,Verona,2.0,4.0,-2.0,7.0
+Mlacic,D,Udinese,2.0,3.0,-1.0,9.0
+Balbo,D,Fiorentina,2.0,1.0,1.0,4.0
+Casale,D,Bologna,1.0,4.0,-3.0,9.0
+Goldaniga,D,Como,1.0,4.0,-3.0,6.0
+Ceccherini,D,Cremonese,1.0,4.0,-3.0,7.0
+Gigot,D,Lazio,1.0,4.0,-3.0,3.0
+Hysaj,D,Lazio,1.0,3.0,-2.0,4.0
+Perez M.,D,Lecce,1.0,1.0,0.0,2.0
+Ndaba,D,Lecce,1.0,1.0,0.0,7.0
+Coppola F.,D,Pisa,1.0,1.0,0.0,4.0
+Romagna,D,Sassuolo,1.0,4.0,-3.0,8.0
+Pieragnolo,D,Sassuolo,1.0,2.0,-1.0,3.0
+Denoon,D,Pisa,1.0,2.0,-1.0,4.0
+Candè,D,Sassuolo,1.0,6.0,-5.0,5.0
+Kouadio,D,Fiorentina,1.0,1.0,0.0,1.0
+Faye,D,Cremonese,1.0,4.0,-3.0,5.0
+Odogu,D,Milan,1.0,2.0,-1.0,5.0
+Albiol,D,Pisa,1.0,5.0,-4.0,8.0
+Bozhinov,D,Pisa,1.0,2.0,-1.0,8.0
+Raterink,D,Cagliari,1.0,1.0,0.0,1.0
+Paz N.,C,Como,26.0,20.0,6.0,245.0
+McTominay,C,Napoli,25.0,26.0,-1.0,215.0
+Baturina,C,Como,24.0,9.0,15.0,95.0
+Calhanoglu,C,Inter,24.0,23.0,1.0,190.0
+Pulisic,C,Milan,24.0,28.0,-4.0,100.0
+Rabiot,C,Milan,23.0,23.0,0.0,195.0
+De Bruyne,C,Napoli,21.0,23.0,-2.0,92.0
+Da Cunha,C,Como,20.0,12.0,8.0,80.0
+Zielinski,C,Inter,20.0,4.0,16.0,60.0
+Atta,C,Udinese,20.0,6.0,14.0,85.0
+Orsolini,C,Bologna,19.0,30.0,-11.0,150.0
+Zaniolo,C,Udinese,19.0,11.0,8.0,100.0
+Barella,C,Inter,18.0,14.0,4.0,58.0
+McKennie,C,Juventus,18.0,10.0,8.0,107.0
+Conceicao,C,Juventus,18.0,18.0,0.0,65.0
+Modric,C,Milan,18.0,12.0,6.0,90.0
+Mandragora,C,Fiorentina,17.0,14.0,3.0,60.0
+Konè I.,C,Sassuolo,17.0,6.0,11.0,67.0
+Vlasic,C,Torino,17.0,15.0,2.0,100.0
+Perrone,C,Como,16.0,8.0,8.0,50.0
+Messias,C,Genoa,16.0,8.0,8.0,12.0
+Isaksen,C,Lazio,16.0,14.0,2.0,35.0
+Malinovskyi,C,Genoa,15.0,8.0,7.0,34.0
+Saelemaekers,C,Milan,15.0,12.0,3.0,36.0
+Zambo Anguissa,C,Napoli,15.0,15.0,0.0,20.0
+Bernabè,C,Parma,15.0,11.0,4.0,23.0
+Thorstvedt,C,Sassuolo,15.0,8.0,7.0,40.0
+Rowe,C,Bologna,15.0,14.0,1.0,49.0
+Zalewski,C,Atalanta,14.0,6.0,8.0,19.0
+Mkhitaryan,C,Inter,14.0,9.0,5.0,14.0
+Thuram K.,C,Juventus,14.0,16.0,-2.0,41.0
+Pisilli,C,Roma,14.0,7.0,7.0,17.0
+Ekkelenkamp,C,Udinese,14.0,10.0,4.0,51.0
+Taylor K.,C,Lazio,14.0,14.0,0.0,52.0
+Ederson D.S.,C,Atalanta,13.0,15.0,-2.0,30.0
+Bernardeschi,C,Bologna,13.0,9.0,4.0,33.0
+Odgaard,C,Bologna,13.0,16.0,-3.0,14.0
+Gaetano,C,Cagliari,13.0,8.0,5.0,15.0
+Caqueret,C,Como,13.0,12.0,1.0,18.0
+Strefezza,C,Parma,13.0,10.0,3.0,50.0
+Gudmundsson A.,C,Fiorentina,13.0,24.0,-11.0,35.0
+Zaccagni,C,Lazio,13.0,26.0,-13.0,25.0
+Coulibaly L.,C,Lecce,13.0,7.0,6.0,21.0
+Politano,C,Napoli,13.0,15.0,-2.0,31.0
+Cristante,C,Roma,13.0,9.0,4.0,26.0
+Konè M.,C,Roma,13.0,14.0,-1.0,39.0
+Pellegrini Lo.,C,Roma,13.0,11.0,2.0,24.0
+Volpato,C,Sassuolo,13.0,5.0,8.0,17.0
+Casadei,C,Torino,13.0,12.0,1.0,20.0
+Pasalic,C,Atalanta,12.0,9.0,3.0,14.0
+Thorsby,C,Cremonese,12.0,5.0,7.0,12.0
+Locatelli,C,Juventus,12.0,12.0,0.0,47.0
+Santos A.,C,Napoli,12.0,7.0,5.0,54.0
+Vandeputte,C,Cremonese,11.0,12.0,-1.0,15.0
+Fagioli,C,Fiorentina,11.0,8.0,3.0,35.0
+Sucic P.,C,Inter,11.0,9.0,2.0,21.0
+Cataldi,C,Lazio,11.0,5.0,6.0,17.0
+Basic,C,Lazio,11.0,1.0,10.0,25.0
+Ricci S.,C,Milan,11.0,10.0,1.0,13.0
+Keita M.,C,Parma,11.0,6.0,5.0,18.0
+Harrison,C,Fiorentina,11.0,10.0,1.0,23.0
+Brescianini,C,Fiorentina,10.0,8.0,2.0,15.0
+Maldini,C,Lazio,10.0,9.0,1.0,20.0
+Folorunsho,C,Cagliari,10.0,9.0,1.0,14.0
+Fofana Y.,C,Milan,10.0,11.0,-1.0,18.0
+Loftus-Cheek,C,Milan,10.0,8.0,2.0,12.0
+Lobotka,C,Napoli,10.0,9.0,1.0,20.0
+Neres,C,Napoli,10.0,13.0,-3.0,15.0
+Leris,C,Pisa,10.0,2.0,8.0,12.0
+Mazzitelli,C,Cagliari,10.0,5.0,5.0,12.0
+De Roon,C,Atalanta,9.0,12.0,-3.0,22.0
+Samardzic,C,Atalanta,9.0,12.0,-3.0,11.0
+Moro N.,C,Bologna,9.0,3.0,6.0,11.0
+Ndour,C,Fiorentina,9.0,2.0,7.0,22.0
+Frendrup,C,Genoa,9.0,9.0,0.0,15.0
+Kostic,C,Juventus,9.0,4.0,5.0,8.0
+El Shaarawy,C,Roma,9.0,8.0,1.0,11.0
+Baldanzi,C,Genoa,9.0,8.0,1.0,15.0
+Karlstrom,C,Udinese,9.0,6.0,3.0,15.0
+Zhegrova,C,Juventus,9.0,19.0,-10.0,12.0
+Gandelman,C,Lecce,9.0,6.0,3.0,13.0
+Freuler,C,Bologna,8.0,11.0,-3.0,14.0
+Pobega,C,Bologna,8.0,8.0,0.0,13.0
+Adopo,C,Cagliari,8.0,5.0,3.0,13.0
+Ellertsson,C,Genoa,8.0,5.0,3.0,10.0
+Luis Henrique,C,Inter,8.0,7.0,1.0,12.0
+Ramadani,C,Lecce,8.0,6.0,2.0,13.0
+El Aynaoui,C,Roma,8.0,9.0,-1.0,11.0
+Fadera,C,Sassuolo,8.0,6.0,2.0,10.0
+Sottil,C,Lecce,8.0,11.0,-3.0,9.0
+Vergara,C,Napoli,8.0,1.0,7.0,12.0
+Matic,C,Sassuolo,8.0,4.0,4.0,13.0
+Nicolussi Caviglia,C,Parma,8.0,9.0,-1.0,15.0
+Prati,C,Torino,7.0,3.0,4.0,11.0
+Felici,C,Cagliari,7.0,6.0,1.0,7.0
+Miretti,C,Juventus,7.0,5.0,2.0,12.0
+Berisha M.,C,Lecce,7.0,3.0,4.0,9.0
+Pierotti,C,Lecce,7.0,10.0,-3.0,13.0
+Gilmour,C,Napoli,7.0,7.0,0.0,12.0
+Gineitis,C,Torino,7.0,5.0,2.0,9.0
+Bernede,C,Verona,7.0,4.0,3.0,11.0
+Piotrowski,C,Udinese,7.0,6.0,1.0,11.0
+Miller L.,C,Udinese,7.0,3.0,4.0,11.0
+Sorensen O.,C,Parma,7.0,6.0,1.0,12.0
+Ilkhan,C,Torino,7.0,1.0,6.0,8.0
+Diouf,C,Inter,7.0,7.0,0.0,13.0
+Elmas,C,Napoli,7.0,11.0,-4.0,13.0
+Gagliardini,C,Verona,7.0,2.0,5.0,12.0
+Sulemana I.,C,Cagliari,6.0,4.0,2.0,10.0
+Aebischer,C,Pisa,6.0,4.0,2.0,12.0
+Fabbian,C,Fiorentina,6.0,10.0,-4.0,9.0
+Deiola,C,Cagliari,6.0,5.0,1.0,11.0
+Dele-Bashiru,C,Lazio,6.0,11.0,-5.0,14.0
+Zerbin,C,Cremonese,6.0,3.0,3.0,9.0
+Ordonez C.,C,Parma,6.0,5.0,1.0,12.0
+Tramoni M.,C,Pisa,6.0,12.0,-6.0,10.0
+Lipani,C,Sassuolo,6.0,4.0,2.0,8.0
+Serdar,C,Verona,6.0,5.0,1.0,10.0
+Ferguson,C,Bologna,5.0,11.0,-6.0,12.0
+Grassi,C,Cremonese,5.0,4.0,1.0,8.0
+Masini,C,Genoa,5.0,5.0,0.0,7.0
+Maleh,C,Cremonese,5.0,6.0,-1.0,5.0
+Bondo,C,Cremonese,5.0,3.0,2.0,12.0
+Musah,C,Atalanta,5.0,6.0,-1.0,11.0
+Estevez,C,Parma,5.0,2.0,3.0,8.0
+Tourè I.,C,Pisa,5.0,6.0,-1.0,12.0
+Akinsanmiro,C,Pisa,5.0,3.0,2.0,11.0
+Payero,C,Cremonese,5.0,4.0,1.0,8.0
+Akpa Akpro,C,Verona,5.0,1.0,4.0,10.0
+Ngom,C,Lecce,5.0,1.0,4.0,1.0
+Loyola,C,Pisa,5.0,7.0,-2.0,11.0
+Amorim,C,Genoa,5.0,5.0,0.0,11.0
+Frattesi,C,Inter,4.0,14.0,-10.0,10.0
+Koopmeiners,C,Juventus,4.0,14.0,-10.0,11.0
+Sohm,C,Bologna,4.0,12.0,-8.0,12.0
+Piccinini G.,C,Pisa,4.0,6.0,-2.0,10.0
+Harroui,C,Verona,4.0,7.0,-3.0,10.0
+Suslov,C,Verona,4.0,9.0,-5.0,13.0
+Jashari,C,Milan,4.0,13.0,-9.0,10.0
+Oristanio,C,Parma,4.0,12.0,-8.0,10.0
+Zaragoza,C,Roma,4.0,7.0,-3.0,10.0
+Sergi Roberto,C,Como,3.0,4.0,-1.0,12.0
+Fazzini,C,Fiorentina,3.0,11.0,-8.0,10.0
+Belahyane,C,Lazio,3.0,4.0,-1.0,7.0
+Ondrejka,C,Parma,3.0,13.0,-10.0,9.0
+Hojholt,C,Pisa,3.0,1.0,2.0,7.0
+Vural,C,Pisa,3.0,3.0,0.0,6.0
+Iannoni,C,Sassuolo,3.0,1.0,2.0,8.0
+Zarraga,C,Udinese,3.0,2.0,1.0,6.0
+Lovric,C,Verona,3.0,9.0,-6.0,9.0
+Lorran,C,Pisa,3.0,7.0,-4.0,8.0
+Iling Junior,C,Pisa,3.0,5.0,-2.0,11.0
+Collocolo,C,Cremonese,2.0,8.0,-6.0,8.0
+Sabiri,C,Fiorentina,2.0,2.0,0.0,4.0
+Venturino,C,Roma,2.0,3.0,-1.0,12.0
+Rovella,C,Lazio,2.0,8.0,-6.0,8.0
+Helgason,C,Lecce,2.0,8.0,-6.0,7.0
+Marin M.,C,Pisa,2.0,6.0,-4.0,8.0
+Boloca,C,Sassuolo,2.0,6.0,-4.0,4.0
+Anjorin,C,Torino,2.0,10.0,-8.0,9.0
+Niasse,C,Verona,2.0,3.0,-1.0,9.0
+Gorter,C,Lecce,2.0,1.0,1.0,1.0
+Al-Musrati,C,Verona,2.0,4.0,-2.0,7.0
+Cornet,C,Genoa,2.0,7.0,-5.0,5.0
+Bakola,C,Sassuolo,2.0,3.0,-1.0,7.0
+Liteta,C,Cagliari,1.0,1.0,0.0,6.0
+Marchwinski,C,Lecce,1.0,1.0,0.0,2.0
+Tameze,C,Torino,1.0,5.0,-4.0,9.0
+Ilic,C,Torino,1.0,7.0,-6.0,8.0
+Adzic,C,Juventus,1.0,1.0,0.0,1.0
+Vranckx,C,Sassuolo,1.0,4.0,-3.0,9.0
+Sala A.,C,Lecce,1.0,3.0,-2.0,9.0
+Stengs,C,Pisa,1.0,11.0,-10.0,8.0
+Onana J.,C,Genoa,1.0,2.0,-1.0,4.0
+Cremaschi,C,Parma,1.0,5.0,-4.0,8.0
+Fofana Sa.,C,Lecce,1.0,1.0,0.0,6.0
+Przyborek,C,Lazio,1.0,2.0,-1.0,6.0
+Lahdo,C,Como,1.0,2.0,-1.0,5.0
+Martinez L.,A,Inter,33.0,34.0,-1.0,315.0
+Thuram,A,Inter,32.0,29.0,3.0,270.0
+Hojlund,A,Napoli,27.0,24.0,3.0,213.0
+Douvikas,A,Como,26.0,8.0,18.0,200.0
+Yildiz,A,Juventus,26.0,24.0,2.0,182.0
+Berardi,A,Sassuolo,25.0,21.0,4.0,90.0
+Malen,A,Roma,25.0,14.0,11.0,350.0
+Krstovic,A,Atalanta,24.0,20.0,4.0,95.0
+Davis K.,A,Udinese,24.0,12.0,12.0,110.0
+Scamacca,A,Atalanta,23.0,19.0,4.0,95.0
+Bonazzoli,A,Cremonese,22.0,1.0,21.0,40.0
+Esposito F.P.,A,Inter,22.0,7.0,15.0,41.0
+Simeone,A,Torino,22.0,8.0,14.0,99.0
+Esposito Se.,A,Cagliari,21.0,7.0,14.0,70.0
+Laurientè,A,Sassuolo,21.0,15.0,6.0,82.0
+Bonny,A,Inter,20.0,5.0,15.0,15.0
+Leao,A,Milan,20.0,24.0,-4.0,80.0
+Soulè,A,Roma,20.0,20.0,0.0,85.0
+Pellegrino M.,A,Parma,18.0,13.0,5.0,67.0
+Nkunku,A,Milan,18.0,20.0,-2.0,43.0
+Castro S.,A,Bologna,17.0,19.0,-2.0,30.0
+De Ketelaere,A,Atalanta,16.0,22.0,-6.0,59.0
+Kean,A,Fiorentina,16.0,33.0,-17.0,40.0
+Vlahovic,A,Juventus,16.0,24.0,-8.0,100.0
+Pedro,A,Lazio,16.0,13.0,3.0,20.0
+Moreo,A,Pisa,16.0,5.0,11.0,25.0
+Pinamonti,A,Sassuolo,16.0,16.0,0.0,55.0
+Adams C.,A,Torino,16.0,14.0,2.0,23.0
+Vardy,A,Cremonese,16.0,15.0,1.0,32.0
+Rodriguez Je.,A,Como,15.0,5.0,10.0,27.0
+Banda,A,Lecce,15.0,5.0,10.0,22.0
+Raspadori,A,Atalanta,15.0,13.0,2.0,37.0
+Lukaku,A,Napoli,15.0,31.0,-16.0,10.0
+Colombo,A,Genoa,14.0,12.0,2.0,37.0
+Noslin,A,Lazio,14.0,7.0,7.0,24.0
+Orban G.,A,Verona,14.0,15.0,-1.0,15.0
+Vitinha O.,A,Genoa,13.0,12.0,1.0,20.0
+David,A,Juventus,13.0,27.0,-14.0,28.0
+Dybala,A,Roma,13.0,26.0,-13.0,50.0
+Giovane,A,Napoli,13.0,1.0,12.0,8.0
+Kilicsoy,A,Cagliari,13.0,6.0,7.0,7.0
+Cambiaghi,A,Bologna,12.0,11.0,1.0,10.0
+Diao,A,Como,12.0,17.0,-5.0,30.0
+Ekuban,A,Genoa,12.0,2.0,10.0,12.0
+Gimenez,A,Milan,12.0,25.0,-13.0,12.0
+Borrelli,A,Cagliari,11.0,5.0,6.0,15.0
+Cancellieri,A,Lazio,11.0,3.0,8.0,12.0
+Cheddira,A,Lecce,11.0,4.0,7.0,23.0
+Boga,A,Juventus,11.0,6.0,5.0,37.0
+Okereke,A,Cremonese,10.0,5.0,5.0,5.0
+Ekhator,A,Genoa,10.0,1.0,9.0,8.0
+Dovbyk,A,Roma,10.0,21.0,-11.0,8.0
+Ferguson E.,A,Roma,10.0,19.0,-9.0,12.0
+Nzola,A,Sassuolo,10.0,12.0,-2.0,15.0
+Fullkrug,A,Milan,10.0,13.0,-3.0,12.0
+Durosinmi,A,Pisa,10.0,15.0,-5.0,9.0
+Bowie,A,Verona,10.0,6.0,4.0,33.0
+Sulemana K.,A,Atalanta,9.0,9.0,0.0,7.0
+Piccoli,A,Fiorentina,9.0,17.0,-8.0,15.0
+Ratkov,A,Lazio,9.0,15.0,-6.0,9.0
+Zapata D.,A,Torino,8.0,20.0,-12.0,15.0
+Stulic,A,Lecce,8.0,13.0,-5.0,12.0
+Solomon,A,Fiorentina,8.0,7.0,1.0,18.0
+Vaz,A,Roma,8.0,10.0,-2.0,11.0
+N'Dri,A,Lecce,7.0,5.0,2.0,10.0
+Buksa,A,Udinese,7.0,9.0,-2.0,8.0
+Dallinga,A,Bologna,6.0,10.0,-4.0,9.0
+Addai,A,Como,6.0,7.0,-1.0,9.0
+Dia,A,Lazio,6.0,20.0,-14.0,9.0
+Njie,A,Torino,6.0,1.0,5.0,4.0
+Elphege,A,Parma,6.0,1.0,5.0,18.0
+Kuhn,A,Como,5.0,14.0,-9.0,9.0
+Djuric,A,Cremonese,5.0,9.0,-4.0,8.0
+Meister,A,Pisa,5.0,2.0,3.0,9.0
+Belotti,A,Cagliari,5.0,12.0,-7.0,10.0
+Gueye,A,Udinese,5.0,1.0,4.0,1.0
+Mendy P.,A,Cagliari,5.0,1.0,4.0,15.0
+Sanabria,A,Cremonese,4.0,7.0,-3.0,10.0
+Sarr A.,A,Verona,4.0,8.0,-4.0,8.0
+Mosquera,A,Verona,4.0,6.0,-2.0,8.0
+Openda,A,Juventus,4.0,22.0,-18.0,8.0
+Stojilkovic,A,Pisa,4.0,4.0,0.0,7.0
+Kulenovic,A,Torino,4.0,5.0,-1.0,9.0
+Dominguez B.,A,Bologna,3.0,9.0,-6.0,8.0
+Pavoletti,A,Cagliari,3.0,1.0,2.0,7.0
+Almqvist,A,Parma,3.0,4.0,-1.0,7.0
+Camarda,A,Lecce,2.0,12.0,-10.0,8.0
+Bayo V.,A,Udinese,2.0,4.0,-2.0,8.0
+Morata,A,Como,2.0,18.0,-16.0,10.0
+Braschi,A,Fiorentina,2.0,1.0,1.0,1.0
+Moumbagna,A,Cremonese,2.0,6.0,-4.0,5.0
+Albarracin,A,Cagliari,2.0,1.0,1.0,1.0
+Mikolajewski,A,Parma,2.0,1.0,1.0,1.0
+Milik,A,Juventus,1.0,1.0,0.0,5.0
+Moro L.,A,Sassuolo,1.0,1.0,0.0,1.0
+Aboukhlal,A,Torino,1.0,9.0,-8.0,8.0
+Frigan,A,Parma,1.0,7.0,-6.0,5.0
+Balentien,A,Milan,1.0,1.0,0.0,1.0
+Arena A.,A,Roma,1.0,1.0,0.0,1.0
+Isaac,A,Verona,1.0,1.0,0.0,1.0
+Trepy,A,Cagliari,1.0,1.0,0.0,1.0
+Vermesan,A,Verona,1.0,1.0,0.0,1.0
+Mosconi,A,Inter,1.0,1.0,0.0,1.0

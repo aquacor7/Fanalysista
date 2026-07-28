@@ -29,6 +29,7 @@ pages = [
     st.Page("views/player_detail.py", title=t("nav.player_detail")),
     st.Page("views/players.py", title=t("nav.players")),
     st.Page("views/regret.py", title=t("nav.regret")),
+    st.Page("views/market.py", title=t("nav.market")),
 ]
 pg = st.navigation(pages)
 pg.run()

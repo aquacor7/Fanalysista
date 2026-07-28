@@ -149,3 +149,25 @@ def load_appearances(league: str, comp: str) -> pd.DataFrame:
 @st.cache_data
 def load_regret(league: str, comp: str) -> pd.DataFrame:
     return pd.read_csv(GOLD_ROOT / league / comp / "regret.csv")
+
+
+@st.cache_data
+def load_player_market(league: str, comp: str) -> pd.DataFrame:
+    """Per owned player: cost, quotations, FVM, season perf + ROI/edge.
+
+    Returns an empty DataFrame if the market layer hasn't been built for this
+    competition (build_market.py), so pages can degrade gracefully.
+    """
+    path = GOLD_ROOT / league / comp / "player_market.csv"
+    return pd.read_csv(path) if path.exists() else pd.DataFrame()
+
+
+@st.cache_data
+def load_team_market(league: str, comp: str) -> pd.DataFrame:
+    """Per participant: spend, return, ROI, squad value change, spend-by-role."""
+    path = GOLD_ROOT / league / comp / "team_market.csv"
+    return pd.read_csv(path) if path.exists() else pd.DataFrame()
+
+
+def has_market(league: str, comp: str) -> bool:
+    return (GOLD_ROOT / league / comp / "player_market.csv").exists()

@@ -58,6 +58,7 @@ Both log in via the reverse-engineered fantacalcio.it API, look up the competiti
   - `team_season.csv` — the league table (W/D/L, points, goal diff, totale stats, regret summary)
   - `position_rollup.csv` — per-team P/D/C/A breakdowns
   - `regret.csv` — per-(team, giornata) actual vs theoretically-optimal player_fv with module info
+- `src/build_market.py` — joins auction purchase price (`Rose_{league}.xlsx`) + market quotations (`Quotazioni_*.xlsx`) + `player_season` into the **auction/market layer**: `data/silver/quotazioni.csv`, `data/silver/{league}/rosters.csv`, and per-competition `data/gold/{league}/{comp}/{player_market,team_market}.csv` (cost, Qt.A/Qt.I/FVM, ROI on active & total FV, bargain edge, squad spend-vs-return). Parsers live in `src/parse_market.py`.
 
 ### Present
 
@@ -69,6 +70,7 @@ Both log in via the reverse-engineered fantacalcio.it API, look up the competiti
   - **3. Player Detail** — appearance breakdown pie, voto KPIs with "manager usage" verdict, per-giornata performance bars, fv histogram + box plot, notable games, rank vs team/league peers.
   - **4. Players** — cross-team filterable table + capture-rate scatter + **player-management quadrant** (best- and worst-used players plotted by Δ avg active/missed FV vs active appearances). Click any row or dot → player summary modal → Player Detail.
   - **5. Regret** — per-team giornata-by-giornata actual vs optimal player_fv + league-wide regret comparison.
+  - **6. Market** — auction economics: squad spend-vs-return scatter (did spending buy wins?), player cost-vs-return value quadrant, best-value/flop leaderboards (ROI on active & total FV), season market-value movers (Qt.A − Qt.I), and auction bargains vs overpays (price paid vs FVM). Requires the market layer (`build_market.py`); the page shows a build hint if it's absent.
 
   Clicking any team or player anywhere (table row, bar, scatter dot, dumbbell point, sunburst leaf) opens a **summary modal** (`@st.dialog`) over the current page. Each modal shows key metrics, one small chart, and a primary button to escalate to the full Detail page. Closing the modal preserves the underlying page state, and the **selected league / competition / team / player persist as you navigate between pages** (via canonical `_canon_*` session-state keys — see [src/dashboard/data.py](src/dashboard/data.py)).
 
@@ -92,6 +94,7 @@ All scripts take `-l/--league` (league name, case-insensitive) and `-c/--competi
 | `src/download_all.py` | `-l`, `-c`, `--min-bytes` | every giornata into `data/bronze/.../` | yes |
 | `src/build_silver.py` | `-l`, `-c`, `--bronze`, `--silver` | `data/silver/.../{appearances,matches}.csv` | no |
 | `src/build_gold.py` | `-l`, `-c`, `--silver`, `--gold` | `data/gold/.../{player_season,team_season,position_rollup,regret}.csv` | no |
+| `src/build_market.py` | `-l` (optional; all leagues if omitted), `--silver`, `--gold` | `data/silver/quotazioni.csv`, `data/silver/{league}/rosters.csv`, `data/gold/.../{player_market,team_market}.csv` | no |
 | `src/report_team.py` | `-l`, `-c`, `-t` (required), `--silver`, `--reports` | `reports/.../{team}.xlsx` | no |
 
 ## Project structure

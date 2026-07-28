@@ -1,0 +1,751 @@
+participant,role,player,club,costo,credits_residui
+No one,P,Falcone,Lec,11.0,19.0
+No one,P,Fruchtl,Lec,1.0,19.0
+No one,P,Samooja,Lec,1.0,19.0
+No one,D,Zappacosta,Ata,8.0,19.0
+No one,D,Akanji,Int,11.0,19.0
+No one,D,N'Dicka,Rom,26.0,19.0
+No one,D,Angelino,Rom,25.0,19.0
+No one,D,Ismajli,Tor,5.0,19.0
+No one,D,Scalvini,Ata,7.0,19.0
+No one,D,Bisseck,Int,10.0,19.0
+No one,D,Kempf,Com,10.0,19.0
+No one,C,Barella,Int,37.0,19.0
+No one,C,Gaetano,Cag,9.0,19.0
+No one,C,Malinovskyi,Gen,17.0,19.0
+No one,C,Samardzic,Ata,5.0,19.0
+No one,C,Ricci S.,Mil,5.0,19.0
+No one,C,Baldanzi,Gen,2.0,19.0
+No one,C,Berisha M.,Lec,6.0,19.0
+No one,C,Baturina,Com,4.0,19.0
+No one,A,Dybala,Rom,62.0,19.0
+No one,A,Kean,Fio,80.0,19.0
+No one,A,Lukaku,Nap,26.0,19.0
+No one,A,Piccoli,Fio,31.0,19.0
+No one,A,Leao,Mil,82.0,19.0
+No one,A,Solomon,Fio,11.0,19.0
+Goodbye,P,Meret,Nap,37.0,2.0
+Goodbye,P,Milinkovic-Savic V.,Nap,10.0,2.0
+Goodbye,P,Vasquez D.,Rom,2.0,2.0
+Goodbye,D,Bastoni,Int,60.0,2.0
+Goodbye,D,Mancini,Rom,35.0,2.0
+Goodbye,D,Bremer,Juv,43.0,2.0
+Goodbye,D,Ghilardi,Rom,2.0,2.0
+Goodbye,D,Norton-Cuffy,Gen,3.0,2.0
+Goodbye,D,Valle,Com,3.0,2.0
+Goodbye,D,Idrissi R.,Cag,1.0,2.0
+Goodbye,D,Ziolkowski,Rom,1.0,2.0
+Goodbye,C,Zielinski,Int,2.0,2.0
+Goodbye,C,Pellegrini Lo.,Rom,5.0,2.0
+Goodbye,C,Cristante,Rom,18.0,2.0
+Goodbye,C,El Shaarawy,Rom,6.0,2.0
+Goodbye,C,Matic,Sas,13.0,2.0
+Goodbye,C,Konè M.,Rom,40.0,2.0
+Goodbye,C,Pisilli,Rom,1.0,2.0
+Goodbye,C,El Aynaoui,Rom,9.0,2.0
+Goodbye,A,Scamacca,Ata,60.0,2.0
+Goodbye,A,Boga,Juv,3.0,2.0
+Goodbye,A,Raspadori,Ata,55.0,2.0
+Goodbye,A,Sulemana K.,Ata,6.0,2.0
+Goodbye,A,Yildiz,Juv,80.0,2.0
+Goodbye,A,Vaz,Rom,6.0,2.0
+TEAM PC,P,Skorupski,Bol,18.0,4.0
+Boss Romazda,P,Sportiello,Ata,1.0,167.0
+TEAM PC,P,Ravaglia F.,Bol,1.0,4.0
+Boss Romazda,P,Rossi F.,Ata,1.0,167.0
+TEAM PC,P,Pessina Mas.,Bol,1.0,4.0
+Boss Romazda,P,Carnesecchi,Ata,7.0,167.0
+TEAM PC,D,Dimarco,Int,35.0,4.0
+Boss Romazda,D,Juan Jesus,Nap,2.0,167.0
+TEAM PC,D,Bremer,Juv,32.0,4.0
+Boss Romazda,D,Kolasinac,Ata,2.0,167.0
+TEAM PC,D,Kabasele,Udi,1.0,4.0
+Boss Romazda,D,Baschirotto,Cre,4.0,167.0
+TEAM PC,D,Lazaro,Tor,3.0,4.0
+Boss Romazda,D,Carlos Augusto,Int,5.0,167.0
+TEAM PC,D,Pavlovic,Mil,16.0,4.0
+Boss Romazda,D,Hien,Ata,3.0,167.0
+TEAM PC,D,Kamara H.,Udi,3.0,4.0
+Boss Romazda,D,Bisseck,Int,4.0,167.0
+TEAM PC,D,Baschirotto,Cre,11.0,4.0
+Boss Romazda,D,Delprato,Par,4.0,167.0
+TEAM PC,D,Norton-Cuffy,Gen,6.0,4.0
+Boss Romazda,D,Heggem,Bol,5.0,167.0
+TEAM PC,C,Barella,Int,46.0,4.0
+Boss Romazda,C,Pulisic,Mil,62.0,167.0
+TEAM PC,C,Calhanoglu,Int,34.0,4.0
+Boss Romazda,C,Fagioli,Fio,4.0,167.0
+TEAM PC,C,Matic,Sas,5.0,4.0
+Boss Romazda,C,Brescianini,Fio,5.0,167.0
+TEAM PC,C,Zambo Anguissa,Nap,50.0,4.0
+Boss Romazda,C,Tramoni M.,Pis,6.0,167.0
+TEAM PC,C,Ellertsson,Gen,5.0,4.0
+Boss Romazda,C,Thorstvedt,Sas,3.0,167.0
+TEAM PC,C,Oristanio,Par,9.0,4.0
+Boss Romazda,C,Casadei,Tor,6.0,167.0
+TEAM PC,C,Atta,Udi,11.0,4.0
+Boss Romazda,C,Rowe,Bol,5.0,167.0
+TEAM PC,C,Sucic P.,Int,21.0,4.0
+Boss Romazda,C,Ondrejka,Par,2.0,167.0
+TEAM PC,A,Zapata D.,Tor,3.0,4.0
+Boss Romazda,A,Pinamonti,Sas,14.0,167.0
+TEAM PC,A,Pinamonti,Sas,28.0,4.0
+Boss Romazda,A,Simeone,Tor,4.0,167.0
+TEAM PC,A,Davis K.,Udi,36.0,4.0
+Boss Romazda,A,Martinez L.,Int,61.0,167.0
+TEAM PC,A,Dia,Laz,16.0,4.0
+Boss Romazda,A,David,Juv,69.0,167.0
+TEAM PC,A,Banda,Lec,6.0,4.0
+Boss Romazda,A,Hojlund,Nap,63.0,167.0
+TEAM PC,A,Castro S.,Bol,33.0,4.0
+Boss Romazda,A,Kulenovic,Tor,2.0,167.0
+DTE,P,Sportiello,Ata,1.0,5.0
+DTE,P,Rossi F.,Ata,1.0,5.0
+DTE,P,Carnesecchi,Ata,30.0,5.0
+DTE,D,Mina,Cag,3.0,5.0
+DTE,D,Gabbia,Mil,4.0,5.0
+DTE,D,Miranda J.,Bol,9.0,5.0
+DTE,D,Parisi,Fio,2.0,5.0
+DTE,D,Bartesaghi,Mil,21.0,5.0
+DTE,D,Palestra,Cag,27.0,5.0
+DTE,D,Solet,Udi,16.0,5.0
+DTE,D,Heggem,Bol,2.0,5.0
+DTE,C,Locatelli,Juv,22.0,5.0
+DTE,C,Mazzitelli,Cag,8.0,5.0
+DTE,C,De Bruyne,Nap,76.0,5.0
+DTE,C,Odgaard,Bol,31.0,5.0
+DTE,C,McTominay,Nap,93.0,5.0
+DTE,C,Frendrup,Gen,4.0,5.0
+DTE,C,Ekkelenkamp,Udi,4.0,5.0
+DTE,C,Vergara,Nap,11.0,5.0
+DTE,A,Kean,Fio,82.0,5.0
+DTE,A,Vardy,Cre,16.0,5.0
+DTE,A,Cambiaghi,Bol,5.0,5.0
+DTE,A,Malen,Rom,82.0,5.0
+DTE,A,De Ketelaere,Ata,51.0,5.0
+DTE,A,Adams C.,Tor,10.0,5.0
+SEPTWOLVES,P,Sportiello,Ata,1.0,24.0
+Owen,P,Meret,Nap,44.0,0.0
+SEPTWOLVES,P,Carnesecchi,Ata,32.0,24.0
+Owen,P,Milinkovic-Savic V.,Nap,12.0,0.0
+SEPTWOLVES,P,Martinez Jo.,Int,5.0,24.0
+Owen,P,Contini,Nap,1.0,0.0
+SEPTWOLVES,D,Juan Jesus,Nap,2.0,24.0
+Owen,D,Zappacosta,Ata,6.0,0.0
+SEPTWOLVES,D,Rrahmani,Nap,34.0,24.0
+Owen,D,Marusic,Laz,5.0,0.0
+SEPTWOLVES,D,Maripan,Tor,5.0,24.0
+Owen,D,Zappa,Cag,4.0,0.0
+SEPTWOLVES,D,Kossounou,Ata,19.0,24.0
+Owen,D,Vojvoda,Com,14.0,0.0
+SEPTWOLVES,D,Gatti,Juv,3.0,24.0
+Owen,D,Vasquez,Gen,17.0,0.0
+SEPTWOLVES,D,Cabal,Juv,2.0,24.0
+Owen,D,Valeri,Par,17.0,0.0
+SEPTWOLVES,D,Coco,Tor,6.0,24.0
+Owen,D,Valle,Com,14.0,0.0
+SEPTWOLVES,D,Wesley,Rom,38.0,24.0
+Owen,D,Ramon,Com,13.0,0.0
+SEPTWOLVES,C,Cataldi,Laz,7.0,24.0
+Owen,C,Pulisic,Mil,79.0,0.0
+SEPTWOLVES,C,Orsolini,Bol,85.0,24.0
+Owen,C,Gaetano,Cag,8.0,0.0
+SEPTWOLVES,C,Zambo Anguissa,Nap,50.0,24.0
+Owen,C,Strefezza,Par,7.0,0.0
+SEPTWOLVES,C,Strefezza,Par,12.0,24.0
+Owen,C,Ederson D.S.,Ata,22.0,0.0
+SEPTWOLVES,C,Kostic,Juv,15.0,24.0
+Owen,C,Folorunsho,Cag,7.0,0.0
+SEPTWOLVES,C,McKennie,Juv,9.0,24.0
+Owen,C,Isaksen,Laz,12.0,0.0
+SEPTWOLVES,C,Coulibaly L.,Lec,6.0,24.0
+Owen,C,Vandeputte,Cre,7.0,0.0
+SEPTWOLVES,C,Bernabè,Par,6.0,24.0
+Owen,C,Taylor K.,Laz,14.0,0.0
+SEPTWOLVES,A,Vardy,Cre,9.0,24.0
+Owen,A,Simeone,Tor,4.0,0.0
+SEPTWOLVES,A,Moreo,Pis,7.0,24.0
+Owen,A,Leao,Mil,83.0,0.0
+SEPTWOLVES,A,Cancellieri,Laz,2.0,24.0
+Owen,A,Colombo,Gen,4.0,0.0
+SEPTWOLVES,A,De Ketelaere,Ata,45.0,24.0
+Owen,A,Laurientè,Sas,20.0,0.0
+SEPTWOLVES,A,Ferguson E.,Rom,65.0,24.0
+Owen,A,Douvikas,Com,36.0,0.0
+SEPTWOLVES,A,Dovbyk,Rom,18.0,24.0
+Owen,A,Giovane,Nap,3.0,0.0
+Roman Empire,P,Maignan,Mil,27.0,57.0
+Winning Moment,P,Gollini,Rom,1.0,2.0
+Roman Empire,P,Caprile,Cag,4.0,57.0
+Winning Moment,P,Svilar,Rom,46.0,2.0
+Roman Empire,P,Suzuki,Par,16.0,57.0
+Winning Moment,P,Zelezny,Rom,1.0,2.0
+Roman Empire,D,Akanji,Int,13.0,57.0
+Winning Moment,D,Celik,Rom,13.0,2.0
+Roman Empire,D,Celik,Rom,6.0,57.0
+Winning Moment,D,Tomori,Mil,27.0,2.0
+Roman Empire,D,Tsimikas,Rom,2.0,57.0
+Winning Moment,D,Kalulu,Juv,27.0,2.0
+Roman Empire,D,Holm,Juv,7.0,57.0
+Winning Moment,D,Estupinan,Mil,28.0,2.0
+Roman Empire,D,Rensch,Rom,12.0,57.0
+Winning Moment,D,Moreno Alb.,Com,1.0,2.0
+Roman Empire,D,Wesley,Rom,29.0,57.0
+Winning Moment,D,Carlos Augusto,Int,17.0,2.0
+Roman Empire,D,Belghali,Ver,9.0,57.0
+Winning Moment,D,Bartesaghi,Mil,29.0,2.0
+Roman Empire,D,Arizala,Udi,1.0,57.0
+Winning Moment,D,Kelly L.,Juv,18.0,2.0
+Roman Empire,C,Pellegrini Lo.,Rom,9.0,57.0
+Winning Moment,C,Pasalic,Ata,31.0,2.0
+Roman Empire,C,Politano,Nap,63.0,57.0
+Winning Moment,C,Modric,Mil,30.0,2.0
+Roman Empire,C,Rabiot,Mil,34.0,57.0
+Winning Moment,C,Elmas,Nap,5.0,2.0
+Roman Empire,C,Zaniolo,Udi,9.0,57.0
+Winning Moment,C,Koopmeiners,Juv,7.0,2.0
+Roman Empire,C,Zalewski,Ata,23.0,57.0
+Winning Moment,C,Perrone,Com,4.0,2.0
+Roman Empire,C,Konè M.,Rom,41.0,57.0
+Winning Moment,C,Isaksen,Laz,6.0,2.0
+Roman Empire,C,Volpato,Sas,4.0,57.0
+Winning Moment,C,Adzic,Juv,1.0,2.0
+Roman Empire,C,Zaragoza,Rom,26.0,57.0
+Winning Moment,C,Ekkelenkamp,Udi,4.0,2.0
+Roman Empire,A,Dybala,Rom,61.0,57.0
+Winning Moment,A,David,Juv,80.0,2.0
+Roman Empire,A,Lukaku,Nap,24.0,57.0
+Winning Moment,A,Soulè,Rom,79.0,2.0
+Roman Empire,A,Solomon,Fio,31.0,57.0
+Winning Moment,A,Hojlund,Nap,58.0,2.0
+Roman Empire,A,Dovbyk,Rom,41.0,57.0
+Winning Moment,A,Borrelli,Cag,6.0,2.0
+Roman Empire,A,Vaz,Rom,20.0,57.0
+Winning Moment,A,Krstovic,Ata,8.0,2.0
+Roman Empire,A,Addai,Com,5.0,57.0
+Winning Moment,A,Adams C.,Tor,6.0,2.0
+Team Wolfling,P,Perin,Juv,1.0,0.0
+Eternity,P,Sommer,Int,36.0,4.0
+Team Wolfling,P,Pinsoglio,Juv,1.0,0.0
+Eternity,P,Provedel,Laz,16.0,4.0
+Team Wolfling,P,Di Gregorio,Juv,47.0,0.0
+Eternity,P,Paleari,Tor,4.0,4.0
+Team Wolfling,D,Dimarco,Int,37.0,0.0
+Eternity,D,Pezzella Giu.,Cre,8.0,4.0
+Team Wolfling,D,Di Lorenzo,Nap,6.0,0.0
+Eternity,D,Gosens,Fio,35.0,4.0
+Team Wolfling,D,Pavlovic,Mil,18.0,0.0
+Eternity,D,Buongiorno,Nap,41.0,4.0
+Team Wolfling,D,Gutierrez,Nap,5.0,0.0
+Eternity,D,Ranieri L.,Fio,5.0,4.0
+Team Wolfling,D,Ostigard,Gen,6.0,0.0
+Eternity,D,Lazaro,Tor,7.0,4.0
+Team Wolfling,D,Baschirotto,Cre,21.0,0.0
+Eternity,D,Bellanova,Ata,30.0,4.0
+Team Wolfling,D,Circati,Par,4.0,0.0
+Eternity,D,Lucumì,Bol,10.0,4.0
+Team Wolfling,D,Belghali,Ver,14.0,0.0
+Eternity,D,Hien,Ata,3.0,4.0
+Team Wolfling,C,De Roon,Ata,4.0,0.0
+Eternity,C,Rabiot,Mil,27.0,4.0
+Team Wolfling,C,Mandragora,Fio,20.0,0.0
+Eternity,C,De Bruyne,Nap,55.0,4.0
+Team Wolfling,C,Mazzitelli,Cag,6.0,0.0
+Eternity,C,Saelemaekers,Mil,14.0,4.0
+Team Wolfling,C,McTominay,Nap,79.0,0.0
+Eternity,C,Maldini,Laz,5.0,4.0
+Team Wolfling,C,Zalewski,Ata,15.0,0.0
+Eternity,C,Ederson D.S.,Ata,35.0,4.0
+Team Wolfling,C,Volpato,Sas,6.0,0.0
+Eternity,C,Gudmundsson A.,Fio,30.0,4.0
+Team Wolfling,C,Konè I.,Sas,16.0,0.0
+Eternity,C,Thorstvedt,Sas,19.0,4.0
+Team Wolfling,C,Atta,Udi,22.0,0.0
+Eternity,C,Jashari,Mil,15.0,4.0
+Team Wolfling,A,Berardi,Sas,47.0,0.0
+Eternity,A,Pinamonti,Sas,28.0,4.0
+Team Wolfling,A,Pedro,Laz,9.0,0.0
+Eternity,A,Simeone,Tor,5.0,4.0
+Team Wolfling,A,Banda,Lec,6.0,0.0
+Eternity,A,Martinez L.,Int,82.0,4.0
+Team Wolfling,A,Sarr A.,Ver,2.0,0.0
+Eternity,A,Esposito Se.,Cag,26.0,4.0
+Team Wolfling,A,Cheddira,Lec,8.0,0.0
+Eternity,A,Malen,Rom,53.0,4.0
+Team Wolfling,A,Douvikas,Com,29.0,0.0
+Eternity,A,Ratkov,Laz,7.0,4.0
+Roma Shenhua Sempre,P,Leali,Gen,10.0,26.0
+Roma Shenhua Sempre,P,Montipò,Ver,3.0,26.0
+Roma Shenhua Sempre,P,Butez,Com,12.0,26.0
+Roma Shenhua Sempre,D,Luperto,Cre,4.0,26.0
+Roma Shenhua Sempre,D,Pezzella Giu.,Cre,4.0,26.0
+Roma Shenhua Sempre,D,Gosens,Fio,40.0,26.0
+Roma Shenhua Sempre,D,Zortea,Bol,34.0,26.0
+Roma Shenhua Sempre,D,Gallo,Lec,4.0,26.0
+Roma Shenhua Sempre,D,Obert,Cag,3.0,26.0
+Roma Shenhua Sempre,D,Kristensen T.,Udi,8.0,26.0
+Roma Shenhua Sempre,D,Bernasconi,Ata,9.0,26.0
+Roma Shenhua Sempre,C,Bernardeschi,Bol,6.0,26.0
+Roma Shenhua Sempre,C,Mandragora,Fio,20.0,26.0
+Roma Shenhua Sempre,C,Lobotka,Nap,15.0,26.0
+Roma Shenhua Sempre,C,Fagioli,Fio,5.0,26.0
+Roma Shenhua Sempre,C,Saelemaekers,Mil,29.0,26.0
+Roma Shenhua Sempre,C,Brescianini,Fio,7.0,26.0
+Roma Shenhua Sempre,C,Lovric,Ver,4.0,26.0
+Roma Shenhua Sempre,C,Paz N.,Com,90.0,26.0
+Roma Shenhua Sempre,A,Bonazzoli,Cre,2.0,26.0
+Roma Shenhua Sempre,A,Vlahovic,Juv,38.0,26.0
+Roma Shenhua Sempre,A,Esposito Se.,Cag,11.0,26.0
+Roma Shenhua Sempre,A,Vitinha O.,Gen,8.0,26.0
+Roma Shenhua Sempre,A,Ferguson E.,Rom,48.0,26.0
+Roma Shenhua Sempre,A,Krstovic,Ata,12.0,26.0
+XiaWa No.92,P,Terracciano,Mil,1.0,2.0
+BatiGoal,P,De Gea,Fio,33.0,4.0
+XiaWa No.92,P,Maignan,Mil,48.0,2.0
+BatiGoal,P,Muric,Sas,6.0,4.0
+XiaWa No.92,P,Torriani,Mil,1.0,2.0
+BatiGoal,P,Turati,Sas,1.0,4.0
+XiaWa No.92,D,Luperto,Cre,4.0,2.0
+BatiGoal,D,Tomori,Mil,5.0,4.0
+XiaWa No.92,D,Spinazzola,Nap,3.0,2.0
+BatiGoal,D,Angelino,Rom,29.0,4.0
+XiaWa No.92,D,Mina,Cag,6.0,2.0
+BatiGoal,D,Ostigard,Gen,5.0,4.0
+XiaWa No.92,D,Vasquez,Gen,18.0,2.0
+BatiGoal,D,Terracciano F.,Cre,4.0,4.0
+XiaWa No.92,D,De Winter,Mil,4.0,2.0
+BatiGoal,D,Dodò,Fio,29.0,4.0
+XiaWa No.92,D,Terracciano F.,Cre,7.0,2.0
+BatiGoal,D,Bisseck,Int,8.0,4.0
+XiaWa No.92,D,Valeri,Par,12.0,2.0
+BatiGoal,D,Ghilardi,Rom,2.0,4.0
+XiaWa No.92,D,Delprato,Par,19.0,2.0
+BatiGoal,D,Idrissi R.,Cag,5.0,4.0
+XiaWa No.92,C,Lobotka,Nap,6.0,2.0
+BatiGoal,C,Zielinski,Int,7.0,4.0
+XiaWa No.92,C,Caqueret,Com,7.0,2.0
+BatiGoal,C,Vlasic,Tor,18.0,4.0
+XiaWa No.92,C,Thuram K.,Juv,38.0,2.0
+BatiGoal,C,Gudmundsson A.,Fio,73.0,4.0
+XiaWa No.92,C,Basic,Laz,7.0,2.0
+BatiGoal,C,Miretti,Juv,5.0,4.0
+XiaWa No.92,C,Miretti,Juv,7.0,2.0
+BatiGoal,C,Perrone,Com,4.0,4.0
+XiaWa No.92,C,Oristanio,Par,26.0,2.0
+BatiGoal,C,El Aynaoui,Rom,23.0,4.0
+XiaWa No.92,C,Paz N.,Com,63.0,2.0
+BatiGoal,C,Konè I.,Sas,13.0,4.0
+XiaWa No.92,C,Vandeputte,Cre,21.0,2.0
+BatiGoal,C,Santos A.,Nap,11.0,4.0
+XiaWa No.92,A,Cambiaghi,Bol,8.0,2.0
+BatiGoal,A,Martinez L.,Int,90.0,4.0
+XiaWa No.92,A,Laurientè,Sas,26.0,2.0
+BatiGoal,A,Boga,Juv,9.0,4.0
+XiaWa No.92,A,Diao,Com,40.0,2.0
+BatiGoal,A,Nkunku,Mil,70.0,4.0
+XiaWa No.92,A,Esposito F.P.,Int,3.0,2.0
+BatiGoal,A,Djuric,Cre,1.0,4.0
+XiaWa No.92,A,Rodriguez Je.,Com,18.0,2.0
+BatiGoal,A,Diao,Com,1.0,4.0
+XiaWa No.92,A,Giovane,Nap,6.0,2.0
+BatiGoal,A,Kilicsoy,Cag,23.0,4.0
+sovereign83,P,Gollini,Rom,1.0,11.0
+sovereign83,P,Svilar,Rom,43.0,11.0
+sovereign83,P,Zelezny,Rom,1.0,11.0
+sovereign83,D,Bastoni,Int,31.0,11.0
+sovereign83,D,Hermoso,Rom,20.0,11.0
+sovereign83,D,Cambiaso,Juv,28.0,11.0
+sovereign83,D,Kossounou,Ata,4.0,11.0
+sovereign83,D,Tavares N.,Laz,26.0,11.0
+sovereign83,D,Hien,Ata,3.0,11.0
+sovereign83,D,Circati,Par,2.0,11.0
+sovereign83,D,Tiago Gabriel,Lec,5.0,11.0
+sovereign83,C,Cataldi,Laz,6.0,11.0
+sovereign83,C,Pasalic,Ata,21.0,11.0
+sovereign83,C,Coulibaly L.,Lec,6.0,11.0
+sovereign83,C,Da Cunha,Com,24.0,11.0
+sovereign83,C,Basic,Laz,7.0,11.0
+sovereign83,C,Casadei,Tor,13.0,11.0
+sovereign83,C,Fabbian,Fio,4.0,11.0
+sovereign83,C,Baturina,Com,25.0,11.0
+sovereign83,A,Raspadori,Ata,36.0,11.0
+sovereign83,A,Soulè,Rom,88.0,11.0
+sovereign83,A,Hojlund,Nap,60.0,11.0
+sovereign83,A,Openda,Juv,51.0,11.0
+sovereign83,A,Orban G.,Ver,8.0,11.0
+sovereign83,A,Durosinmi,Pis,8.0,11.0
+ethananita,P,Caprile,Cag,4.0,6.0
+Aviod Relegation Football Club,P,Perin,Juv,1.0,11.0
+ethananita,P,Butez,Com,19.0,6.0
+Aviod Relegation Football Club,P,Falcone,Lec,8.0,11.0
+ethananita,P,Tornqvist,Com,1.0,6.0
+Aviod Relegation Football Club,P,Di Gregorio,Juv,41.0,11.0
+ethananita,D,Djimsiti,Ata,2.0,6.0
+Aviod Relegation Football Club,D,Martin,Gen,19.0,11.0
+ethananita,D,Marusic,Laz,7.0,6.0
+Aviod Relegation Football Club,D,Gila,Laz,4.0,11.0
+ethananita,D,Vojvoda,Com,10.0,6.0
+Aviod Relegation Football Club,D,Carlos Augusto,Int,14.0,11.0
+ethananita,D,Cambiaso,Juv,37.0,6.0
+Aviod Relegation Football Club,D,Coco,Tor,6.0,11.0
+ethananita,D,Holm,Juv,7.0,6.0
+Aviod Relegation Football Club,D,Delprato,Par,4.0,11.0
+ethananita,D,Gila,Laz,4.0,6.0
+Aviod Relegation Football Club,D,Kelly L.,Juv,5.0,11.0
+ethananita,D,Palestra,Cag,2.0,6.0
+Aviod Relegation Football Club,D,Kempf,Com,3.0,11.0
+ethananita,D,Joao Mario,Bol,1.0,6.0
+Aviod Relegation Football Club,D,Ziolkowski,Rom,2.0,11.0
+ethananita,C,Politano,Nap,32.0,6.0
+Aviod Relegation Football Club,C,Fofana Y.,Mil,5.0,11.0
+ethananita,C,Odgaard,Bol,28.0,6.0
+Aviod Relegation Football Club,C,Maldini,Laz,1.0,11.0
+ethananita,C,Loftus-Cheek,Mil,14.0,6.0
+Aviod Relegation Football Club,C,Thuram K.,Juv,38.0,11.0
+ethananita,C,Da Cunha,Com,33.0,6.0
+Aviod Relegation Football Club,C,Harrison,Fio,15.0,11.0
+ethananita,C,Vlasic,Tor,34.0,6.0
+Aviod Relegation Football Club,C,Baldanzi,Gen,3.0,11.0
+ethananita,C,Zaragoza,Rom,26.0,6.0
+Aviod Relegation Football Club,C,Berisha M.,Lec,17.0,11.0
+ethananita,C,Conceicao,Juv,27.0,6.0
+Aviod Relegation Football Club,C,Bernabè,Par,5.0,11.0
+ethananita,C,Vergara,Nap,16.0,6.0
+Aviod Relegation Football Club,C,Tourè I.,Pis,12.0,11.0
+ethananita,A,Morata,Com,7.0,6.0
+Aviod Relegation Football Club,A,Scamacca,Ata,56.0,11.0
+ethananita,A,Fullkrug,Mil,23.0,6.0
+Aviod Relegation Football Club,A,David,Juv,66.0,11.0
+ethananita,A,Vlahovic,Juv,46.0,6.0
+Aviod Relegation Football Club,A,Yildiz,Juv,98.0,11.0
+ethananita,A,Davis K.,Udi,32.0,6.0
+Aviod Relegation Football Club,A,Bonny,Int,11.0,11.0
+ethananita,A,Dia,Laz,2.0,6.0
+Aviod Relegation Football Club,A,Pellegrino M.,Par,19.0,11.0
+ethananita,A,Pellegrino M.,Par,26.0,6.0
+Aviod Relegation Football Club,A,Ratkov,Laz,8.0,11.0
+deli-xujun,P,Audero,Cre,0.0,29.0
+ZLZ and his friends,P,Skorupski,Bol,15.0,0.0
+deli-xujun,P,Silvestri,Cre,2.0,29.0
+ZLZ and his friends,P,Ravaglia F.,Bol,1.0,0.0
+deli-xujun,P,Semper,Pis,2.0,29.0
+ZLZ and his friends,P,Muric,Sas,6.0,0.0
+deli-xujun,D,Spinazzola,Nap,19.0,29.0
+ZLZ and his friends,D,Martin,Gen,22.0,0.0
+deli-xujun,D,Mancini,Rom,40.0,29.0
+ZLZ and his friends,D,Gabbia,Mil,5.0,0.0
+deli-xujun,D,Di Lorenzo,Nap,32.0,29.0
+ZLZ and his friends,D,Zappa,Cag,4.0,0.0
+deli-xujun,D,N'Dicka,Rom,24.0,29.0
+ZLZ and his friends,D,Miranda J.,Bol,17.0,0.0
+deli-xujun,D,Rrahmani,Nap,20.0,29.0
+ZLZ and his friends,D,Dumfries,Int,64.0,0.0
+deli-xujun,D,Kalulu,Juv,16.0,29.0
+ZLZ and his friends,D,Kristensen T.,Udi,5.0,0.0
+deli-xujun,D,Scalvini,Ata,16.0,29.0
+ZLZ and his friends,D,Idzes,Sas,3.0,0.0
+deli-xujun,D,Joao Mario,Bol,17.0,29.0
+ZLZ and his friends,D,Ramon,Com,14.0,0.0
+deli-xujun,C,Cristante,Rom,18.0,29.0
+ZLZ and his friends,C,Zaccagni,Laz,70.0,0.0
+deli-xujun,C,El Shaarawy,Rom,11.0,29.0
+ZLZ and his friends,C,Pulisic,Mil,66.0,0.0
+deli-xujun,C,Orsolini,Bol,75.0,29.0
+ZLZ and his friends,C,Mkhitaryan,Int,13.0,0.0
+deli-xujun,C,Modric,Mil,21.0,29.0
+ZLZ and his friends,C,Zaniolo,Udi,5.0,0.0
+deli-xujun,C,Nicolussi Caviglia,Par,4.0,29.0
+ZLZ and his friends,C,Fofana Y.,Mil,9.0,0.0
+deli-xujun,C,Elmas,Nap,16.0,29.0
+ZLZ and his friends,C,Frendrup,Gen,5.0,0.0
+deli-xujun,C,McKennie,Juv,7.0,29.0
+ZLZ and his friends,C,Neres,Nap,8.0,0.0
+deli-xujun,C,Pisilli,Rom,2.0,29.0
+ZLZ and his friends,C,Sucic P.,Int,33.0,0.0
+deli-xujun,A,Fullkrug,Mil,21.0,29.0
+ZLZ and his friends,A,Bonazzoli,Cre,5.0,0.0
+deli-xujun,A,Sulemana K.,Ata,5.0,29.0
+ZLZ and his friends,A,Nkunku,Mil,7.0,0.0
+deli-xujun,A,Borrelli,Cag,6.0,29.0
+ZLZ and his friends,A,Thuram,Int,90.0,0.0
+deli-xujun,A,Dallinga,Bol,5.0,29.0
+ZLZ and his friends,A,Colombo,Gen,6.0,0.0
+deli-xujun,A,Rodriguez Je.,Com,26.0,29.0
+ZLZ and his friends,A,Orban G.,Ver,8.0,0.0
+deli-xujun,A,Stulic,Lec,6.0,29.0
+ZLZ and his friends,A,Bonny,Int,10.0,0.0
+Team yangtuo,P,Lezzerini,Fio,1.0,5.0
+The Great Bingo,P,Sommer,Int,39.0,26.0
+Team yangtuo,P,De Gea,Fio,27.0,5.0
+The Great Bingo,P,Martinez Jo.,Int,1.0,26.0
+Team yangtuo,P,Christensen O.,Fio,1.0,5.0
+The Great Bingo,P,Corvi,Par,4.0,26.0
+Team yangtuo,D,Zortea,Bol,27.0,5.0
+The Great Bingo,D,Romagnoli,Laz,4.0,26.0
+Team yangtuo,D,Hermoso,Rom,18.0,5.0
+The Great Bingo,D,Buongiorno,Nap,19.0,26.0
+Team yangtuo,D,Dodò,Fio,31.0,5.0
+The Great Bingo,D,Maripan,Tor,5.0,26.0
+Team yangtuo,D,Barbieri,Cre,1.0,5.0
+The Great Bingo,D,Bellanova,Ata,30.0,26.0
+Team yangtuo,D,Solet,Udi,19.0,5.0
+The Great Bingo,D,Dumfries,Int,44.0,26.0
+Team yangtuo,D,Muharemovic,Sas,11.0,5.0
+The Great Bingo,D,Doig,Sas,3.0,26.0
+Team yangtuo,D,Bernasconi,Ata,5.0,5.0
+The Great Bingo,D,Cabal,Juv,4.0,26.0
+Team yangtuo,D,Britschgi,Par,4.0,5.0
+The Great Bingo,D,Muharemovic,Sas,8.0,26.0
+Team yangtuo,C,Locatelli,Juv,20.0,5.0
+The Great Bingo,C,Zaccagni,Laz,61.0,26.0
+Team yangtuo,C,Calhanoglu,Int,43.0,5.0
+The Great Bingo,C,Mkhitaryan,Int,3.0,26.0
+Team yangtuo,C,Sottil,Lec,6.0,5.0
+The Great Bingo,C,Malinovskyi,Gen,5.0,26.0
+Team yangtuo,C,Brescianini,Fio,5.0,5.0
+The Great Bingo,C,Kostic,Juv,5.0,26.0
+Team yangtuo,C,Luis Henrique,Int,4.0,5.0
+The Great Bingo,C,Thorstvedt,Sas,6.0,26.0
+Team yangtuo,C,Tramoni M.,Pis,13.0,5.0
+The Great Bingo,C,Fadera,Sas,5.0,26.0
+Team yangtuo,C,Bernede,Ver,4.0,5.0
+The Great Bingo,C,Rowe,Bol,4.0,26.0
+Team yangtuo,C,Taylor K.,Laz,9.0,5.0
+The Great Bingo,C,Conceicao,Juv,27.0,26.0
+Team yangtuo,A,Vitinha O.,Gen,5.0,5.0
+The Great Bingo,A,Berardi,Sas,41.0,26.0
+Team yangtuo,A,Castro S.,Bol,38.0,5.0
+The Great Bingo,A,Pedro,Laz,4.0,26.0
+Team yangtuo,A,Kilicsoy,Cag,12.0,5.0
+The Great Bingo,A,Piccoli,Fio,9.0,26.0
+Team yangtuo,A,Stulic,Lec,6.0,5.0
+The Great Bingo,A,Thuram,Int,93.0,26.0
+Team yangtuo,A,Durosinmi,Pis,8.0,5.0
+The Great Bingo,A,Cancellieri,Laz,2.0,26.0
+Team yangtuo,A,Bowie,Ver,3.0,5.0
+The Great Bingo,A,Esposito F.P.,Int,3.0,26.0
+X-17,P,Provedel,Laz,16.0,1.0
+mizi-maigo,P,Perin,Juv,18.0,5.0
+X-17,P,Furlanetto,Laz,1.0,1.0
+mizi-maigo,P,Falcone,Lec,50.0,5.0
+X-17,P,Motta,Laz,1.0,1.0
+mizi-maigo,P,Di Gregorio,Juv,55.0,5.0
+X-17,D,Lazaro,Tor,3.0,1.0
+mizi-maigo,D,Dimarco,Int,53.0,5.0
+X-17,D,Gabbia,Mil,3.0,1.0
+mizi-maigo,D,Acerbi,Int,17.0,5.0
+X-17,D,Zappa,Cag,4.0,1.0
+mizi-maigo,D,Bastoni,Int,31.0,5.0
+X-17,D,Tomori,Mil,24.0,1.0
+mizi-maigo,D,Darmian,Int,1.0,5.0
+X-17,D,Cambiaso,Juv,28.0,1.0
+mizi-maigo,D,Pellegrini Lu.,Laz,12.0,5.0
+X-17,D,Scalvini,Ata,15.0,1.0
+mizi-maigo,D,Di Lorenzo,Nap,20.0,5.0
+X-17,D,Angori,Pis,4.0,1.0
+mizi-maigo,D,Celik,Rom,3.0,5.0
+X-17,D,Ziolkowski,Rom,1.0,1.0
+mizi-maigo,D,Valeri,Par,33.0,5.0
+X-17,C,Calhanoglu,Int,18.0,1.0
+mizi-maigo,C,Pellegrini Lo.,Rom,40.0,5.0
+X-17,C,De Bruyne,Nap,54.0,1.0
+mizi-maigo,C,Politano,Nap,30.0,5.0
+X-17,C,Modric,Mil,45.0,1.0
+mizi-maigo,C,Cristante,Rom,31.0,5.0
+X-17,C,Strefezza,Par,5.0,1.0
+mizi-maigo,C,El Shaarawy,Rom,21.0,5.0
+X-17,C,Saelemaekers,Mil,18.0,1.0
+mizi-maigo,C,Zaniolo,Udi,5.0,5.0
+X-17,C,Baldanzi,Gen,11.0,1.0
+mizi-maigo,C,Frattesi,Int,19.0,5.0
+X-17,C,Karlstrom,Udi,5.0,1.0
+mizi-maigo,C,Zalewski,Ata,24.0,5.0
+X-17,C,Conceicao,Juv,21.0,1.0
+mizi-maigo,C,Pisilli,Rom,18.0,5.0
+X-17,A,Dybala,Rom,70.0,1.0
+mizi-maigo,A,Belotti,Cag,4.0,5.0
+X-17,A,Vlahovic,Juv,74.0,1.0
+mizi-maigo,A,Scamacca,Ata,60.0,5.0
+X-17,A,Vitinha O.,Gen,6.0,1.0
+mizi-maigo,A,Esposito Se.,Cag,3.0,5.0
+X-17,A,Yildiz,Juv,57.0,1.0
+mizi-maigo,A,Moreo,Pis,9.0,5.0
+X-17,A,Castro S.,Bol,36.0,1.0
+mizi-maigo,A,Borrelli,Cag,6.0,5.0
+X-17,A,Rodriguez Je.,Com,3.0,1.0
+mizi-maigo,A,Kilicsoy,Cag,19.0,5.0
+Team Sith,P,Gollini,Rom,2.0,11.0
+Mario GO,P,Terracciano,Mil,1.0,0.0
+Team Sith,P,Svilar,Rom,51.0,11.0
+Mario GO,P,Maignan,Mil,35.0,0.0
+Team Sith,P,Zelezny,Rom,1.0,11.0
+Mario GO,P,Torriani,Mil,1.0,0.0
+Team Sith,D,Romagnoli,Laz,14.0,11.0
+Mario GO,D,Zappacosta,Ata,12.0,0.0
+Team Sith,D,Gosens,Fio,5.0,11.0
+Mario GO,D,Spinazzola,Nap,13.0,0.0
+Team Sith,D,Martin,Gen,10.0,11.0
+Mario GO,D,Maripan,Tor,5.0,0.0
+Team Sith,D,Buongiorno,Nap,17.0,11.0
+Mario GO,D,Miranda J.,Bol,5.0,0.0
+Team Sith,D,Kabasele,Udi,6.0,11.0
+Mario GO,D,Dumfries,Int,39.0,0.0
+Team Sith,D,Bellanova,Ata,34.0,11.0
+Mario GO,D,Vasquez,Gen,7.0,0.0
+Team Sith,D,Coco,Tor,4.0,11.0
+Mario GO,D,Lucumì,Bol,4.0,0.0
+Team Sith,D,Belghali,Ver,5.0,11.0
+Mario GO,D,Rensch,Rom,5.0,0.0
+Team Sith,C,Rabiot,Mil,41.0,11.0
+Mario GO,C,Locatelli,Juv,27.0,0.0
+Team Sith,C,Loftus-Cheek,Mil,4.0,11.0
+Mario GO,C,Barella,Int,50.0,0.0
+Team Sith,C,McTominay,Nap,75.0,11.0
+Mario GO,C,Mandragora,Fio,9.0,0.0
+Team Sith,C,Thuram K.,Juv,21.0,11.0
+Mario GO,C,Orsolini,Bol,85.0,0.0
+Team Sith,C,Frendrup,Gen,4.0,11.0
+Mario GO,C,Gaetano,Cag,7.0,0.0
+Team Sith,C,Isaksen,Laz,7.0,11.0
+Mario GO,C,Da Cunha,Com,14.0,0.0
+Team Sith,C,Ekkelenkamp,Udi,8.0,11.0
+Mario GO,C,Vlasic,Tor,8.0,0.0
+Team Sith,C,Baturina,Com,55.0,11.0
+Mario GO,C,Vandeputte,Cre,6.0,0.0
+Team Sith,A,Colombo,Gen,3.0,11.0
+Mario GO,A,Boga,Juv,3.0,0.0
+Team Sith,A,Soulè,Rom,67.0,11.0
+Mario GO,A,Cambiaghi,Bol,9.0,0.0
+Team Sith,A,Banda,Lec,6.0,11.0
+Mario GO,A,Laurientè,Sas,7.0,0.0
+Team Sith,A,Orban G.,Ver,7.0,11.0
+Mario GO,A,Dovbyk,Rom,14.0,0.0
+Team Sith,A,Ekhator,Gen,4.0,11.0
+Mario GO,A,Pellegrino M.,Par,6.0,0.0
+Team Sith,A,Durosinmi,Pis,8.0,11.0
+Mario GO,A,Giovane,Nap,1.0,0.0
+Team CHENFENGZI,P,Skorupski,Bol,48.0,22.0
+Xiao Shi,P,Sommer,Int,36.0,2.0
+Team CHENFENGZI,P,Ravaglia F.,Bol,4.0,22.0
+Xiao Shi,P,Muric,Sas,6.0,2.0
+Team CHENFENGZI,P,Caprile,Cag,4.0,22.0
+Xiao Shi,P,Martinez Jo.,Int,1.0,2.0
+Team CHENFENGZI,D,Mancini,Rom,43.0,22.0
+Xiao Shi,D,Marusic,Laz,4.0,2.0
+Team CHENFENGZI,D,N'Dicka,Rom,35.0,22.0
+Xiao Shi,D,Mina,Cag,12.0,2.0
+Team CHENFENGZI,D,Angelino,Rom,37.0,22.0
+Xiao Shi,D,Kalulu,Juv,20.0,2.0
+Team CHENFENGZI,D,Hermoso,Rom,26.0,22.0
+Xiao Shi,D,Vojvoda,Com,7.0,2.0
+Team CHENFENGZI,D,Gutierrez,Nap,3.0,22.0
+Xiao Shi,D,Terracciano F.,Cre,2.0,2.0
+Team CHENFENGZI,D,Ostigard,Gen,2.0,22.0
+Xiao Shi,D,Solet,Udi,5.0,2.0
+Team CHENFENGZI,D,Ghilardi,Rom,2.0,22.0
+Xiao Shi,D,Muharemovic,Sas,2.0,2.0
+Team CHENFENGZI,D,Kelly L.,Juv,3.0,22.0
+Xiao Shi,D,Wesley,Rom,21.0,2.0
+Team CHENFENGZI,C,Bernardeschi,Bol,7.0,22.0
+Xiao Shi,C,Mazzitelli,Cag,6.0,2.0
+Team CHENFENGZI,C,Mkhitaryan,Int,19.0,22.0
+Xiao Shi,C,Matic,Sas,3.0,2.0
+Team CHENFENGZI,C,Lobotka,Nap,7.0,22.0
+Xiao Shi,C,Zambo Anguissa,Nap,43.0,2.0
+Team CHENFENGZI,C,Malinovskyi,Gen,4.0,22.0
+Xiao Shi,C,Fofana Y.,Mil,5.0,2.0
+Team CHENFENGZI,C,Luis Henrique,Int,3.0,22.0
+Xiao Shi,C,Konè M.,Rom,62.0,2.0
+Team CHENFENGZI,C,Ricci S.,Mil,10.0,22.0
+Xiao Shi,C,El Aynaoui,Rom,11.0,2.0
+Team CHENFENGZI,C,Ederson D.S.,Ata,11.0,22.0
+Xiao Shi,C,Vergara,Nap,3.0,2.0
+Team CHENFENGZI,C,Paz N.,Com,102.0,22.0
+Xiao Shi,C,Taylor K.,Laz,7.0,2.0
+Team CHENFENGZI,A,Berardi,Sas,37.0,22.0
+Xiao Shi,A,Bonazzoli,Cre,8.0,2.0
+Team CHENFENGZI,A,Vardy,Cre,14.0,22.0
+Xiao Shi,A,Nkunku,Mil,42.0,2.0
+Team CHENFENGZI,A,Piccoli,Fio,4.0,22.0
+Xiao Shi,A,Openda,Juv,40.0,2.0
+Team CHENFENGZI,A,Nzola,Sas,6.0,22.0
+Xiao Shi,A,Ferguson E.,Rom,61.0,2.0
+Team CHENFENGZI,A,Meister,Pis,23.0,22.0
+Xiao Shi,A,Solomon,Fio,35.0,2.0
+Team CHENFENGZI,A,Esposito F.P.,Int,5.0,22.0
+Xiao Shi,A,Adams C.,Tor,10.0,2.0
+Balzaretti42,P,Lezzerini,Fio,1.0,4.0
+SanShiMi,P,Okoye,Udi,6.0,0.0
+Balzaretti42,P,De Gea,Fio,65.0,4.0
+SanShiMi,P,Sava,Udi,2.0,0.0
+Balzaretti42,P,Paleari,Tor,4.0,4.0
+SanShiMi,P,Butez,Com,13.0,0.0
+Balzaretti42,D,Djimsiti,Ata,5.0,4.0
+SanShiMi,D,Bremer,Juv,30.0,0.0
+Balzaretti42,D,Tsimikas,Rom,2.0,4.0
+SanShiMi,D,Rrahmani,Nap,5.0,0.0
+Balzaretti42,D,De Winter,Mil,4.0,4.0
+SanShiMi,D,Zortea,Bol,4.0,0.0
+Balzaretti42,D,Dodò,Fio,27.0,4.0
+SanShiMi,D,Pavlovic,Mil,7.0,0.0
+Balzaretti42,D,Cabal,Juv,5.0,4.0
+SanShiMi,D,Parisi,Fio,3.0,0.0
+Balzaretti42,D,Idzes,Sas,4.0,4.0
+SanShiMi,D,Doig,Sas,3.0,0.0
+Balzaretti42,D,Valle,Com,3.0,4.0
+SanShiMi,D,Comuzzo,Fio,3.0,0.0
+Balzaretti42,D,Ramon,Com,2.0,4.0
+SanShiMi,D,Idrissi R.,Cag,1.0,0.0
+Balzaretti42,C,De Roon,Ata,6.0,4.0
+SanShiMi,C,Zaccagni,Laz,60.0,0.0
+Balzaretti42,C,Cataldi,Laz,6.0,4.0
+SanShiMi,C,Pasalic,Ata,25.0,0.0
+Balzaretti42,C,Thorsby,Cre,7.0,4.0
+SanShiMi,C,Odgaard,Bol,31.0,0.0
+Balzaretti42,C,Caqueret,Com,5.0,4.0
+SanShiMi,C,Berisha M.,Lec,6.0,0.0
+Balzaretti42,C,Pobega,Bol,6.0,4.0
+SanShiMi,C,Bernabè,Par,5.0,0.0
+Balzaretti42,C,Basic,Laz,6.0,4.0
+SanShiMi,C,Atta,Udi,21.0,0.0
+Balzaretti42,C,Gudmundsson A.,Fio,54.0,4.0
+SanShiMi,C,Venturino,Rom,1.0,0.0
+Balzaretti42,C,Perrone,Com,6.0,4.0
+SanShiMi,C,Sucic P.,Int,7.0,0.0
+Balzaretti42,A,Morata,Com,1.0,4.0
+SanShiMi,A,Thuram,Int,110.0,0.0
+Balzaretti42,A,Kean,Fio,82.0,4.0
+SanShiMi,A,Krstovic,Ata,11.0,0.0
+Balzaretti42,A,Lukaku,Nap,15.0,4.0
+SanShiMi,A,Bonny,Int,3.0,0.0
+Balzaretti42,A,Cancellieri,Laz,2.0,4.0
+SanShiMi,A,Vaz,Rom,32.0,0.0
+Balzaretti42,A,De Ketelaere,Ata,85.0,4.0
+SanShiMi,A,Douvikas,Com,60.0,0.0
+Balzaretti42,A,Diao,Com,11.0,4.0
+SanShiMi,A,Ratkov,Laz,7.0,0.0
+Team Brauna,P,Meret,Nap,42.0,17.0
+Team Brauna,P,Milinkovic-Savic V.,Nap,2.0,17.0
+Team Brauna,P,Contini,Nap,1.0,17.0
+Team Brauna,D,Akanji,Int,30.0,17.0
+Team Brauna,D,Holm,Juv,7.0,17.0
+Team Brauna,D,Gila,Laz,5.0,17.0
+Team Brauna,D,Bartesaghi,Mil,18.0,17.0
+Team Brauna,D,Norton-Cuffy,Gen,3.0,17.0
+Team Brauna,D,Palestra,Cag,6.0,17.0
+Team Brauna,D,Kempf,Com,9.0,17.0
+Team Brauna,D,Bernasconi,Ata,5.0,17.0
+Team Brauna,C,Zielinski,Int,7.0,17.0
+Team Brauna,C,Elmas,Nap,32.0,17.0
+Team Brauna,C,Maldini,Laz,32.0,17.0
+Team Brauna,C,McKennie,Juv,3.0,17.0
+Team Brauna,C,Miretti,Juv,5.0,17.0
+Team Brauna,C,Zaragoza,Rom,41.0,17.0
+Team Brauna,C,Konè I.,Sas,6.0,17.0
+Team Brauna,C,Santos A.,Nap,3.0,17.0
+Team Brauna,A,Fullkrug,Mil,14.0,17.0
+Team Brauna,A,Raspadori,Ata,73.0,17.0
+Team Brauna,A,Leao,Mil,51.0,17.0
+Team Brauna,A,Malen,Rom,75.0,17.0
+Team Brauna,A,Davis K.,Udi,6.0,17.0
+Team Brauna,A,Addai,Com,7.0,17.0

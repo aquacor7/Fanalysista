@@ -13,6 +13,7 @@ Items marked **✓** have shipped; everything else is open.
 - ✓ Position rollup (P/D/C/A breakdown per team)
 - ✓ Regret / optimal-lineup analysis (best-11 from the 25-player squad with any valid module)
 - ✓ "Manager usage" verdict on Player Detail page (avg active fv vs avg missed fv)
+- ✓ **Auction / market layer** (`build_market.py`) — joins purchase price (Rose files), season-end market quotations (Quotazioni: Qt.A/Qt.I/FVM), and `player_season` into `player_market`/`team_market`. Powers the Market page: squad spend-vs-return, player cost-vs-return value quadrant, best-value/flop ROI leaderboards (active & total FV), market-value movers, and auction bargains-vs-overpays. FVM is scaled to the inferred league budget so market value is comparable to price paid.
 
 ### Open
 
@@ -26,7 +27,7 @@ Items marked **✓** have shipped; everything else is open.
 
 - **Consistency / boom-or-bust leaderboard** — stddev of active fv per player. Histogram + box plot are already on the Player Detail page; this surfaces the same insight at scale: which players are reliable (low stddev) vs. volatile (high stddev)? Useful for choosing captains and trade targets.
 
-- **Auction-draft helper** — once we ingest auction prices, compute fv-per-credit ratios and surface "best value" and "biggest flop" rankings. Requires either a CSV of auction prices (manual import) or a new fantacalcio.it endpoint (TBD).
+- ~~**Auction-draft helper**~~ ✓ shipped as the Market page (see Done above): fv-per-credit ROI, best-value & biggest-flop rankings, and bargains-vs-overpays now live. *Open extension:* turn it prescriptive — suggest auction values for the **next** season from historical FVM + realised ROI, rather than only scoring the season just played.
 
 - **Schedule strength rating** — for any team, the avg `opp_totale` of upcoming opponents. Helps with "should I trade for next week's matchup or hold for two weeks out".
 
