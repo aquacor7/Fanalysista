@@ -277,7 +277,7 @@
 
   "market.title": "球市 · 拍卖分析",
   "market.no_data": "本赛事暂无球市数据。请将 Quotazioni 与 Rose 文件放入 data/bronze/ 后运行 `python src/build_market.py`。",
-  "market.intro": "把购买价（拍卖）、赛季末市场估值、以及实际梦幻产出按球员合并分析。联赛额度约 {budget} 点。FVM 已按该额度缩放，使“市场估值”与实际购价可比。",
+  "market.intro": "把购买价（拍卖）、赛季末市场估值、以及实际 fanta 产出按球员合并分析。联赛额度约 {budget} 点。FVM 已按该额度缩放，使“市场估值”与实际购价可比。",
   "market.econ_header": "阵容经济 —— 花得多就赢得多吗？",
   "market.econ_x": "花费额度",
   "market.econ_y": "有效 FV 合计",
@@ -291,7 +291,7 @@
   "market.movers_header": "身价异动 —— 赛季身价变化（现价 − 初始价）",
   "market.risers": "**📈 涨幅最大**",
   "market.fallers": "**📉 跌幅最大**",
-  "market.movers_caption": "已购球员整个赛季的行情变化。上涨 = 你持有期间市场身价上升；下跌 = 身价缩水。（身价变化与你的梦幻积分无关 —— 它是球员在意甲的市场价。）",
+  "market.movers_caption": "已购球员整个赛季的行情变化。上涨 = 你持有期间市场身价上升；下跌 = 身价缩水。（身价变化与你的 fanta 积分无关 —— 它是球员在意甲的市场价。）",
   "market.bargains_header": "拍卖捡漏 vs 冤大头 —— 市场估值 vs 实际购价",
   "market.bargains_sub": "**🤑 最超值捡漏**（远低于市场估值买入）",
   "market.overpays_sub": "**💸 最亏冤大头**（远高于市场估值买入）",
