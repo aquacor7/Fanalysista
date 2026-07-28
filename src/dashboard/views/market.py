@@ -83,7 +83,13 @@ if ev_et.selection.rows:
 # 2. Player value — cost vs return
 # ============================================================
 st.subheader(t("market.quadrant_header"))
-owned = pm[pm.costo > 0].copy()
+# Require realized-return data: a few auction buys were never fielded, so
+# they're absent from player_season (NaN apps_active / total_active_fv) and
+# Plotly's marker-size validator rejects NaN. They have no cost-vs-return
+# point to plot; the ROI tables below filter on apps/cost anyway.
+owned = pm[(pm.costo > 0)
+           & pm.total_active_fv.notna()
+           & pm.apps_active.notna()].copy()
 fig_q = px.scatter(
     owned, x="costo", y="total_active_fv",
     color="role", size="apps_active", size_max=22,
