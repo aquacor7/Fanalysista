@@ -21,6 +21,7 @@ st.title(t("app.title"))
 # ---- onboarding: what is this + final-season-snapshot notice ----
 st.info(t("home.snapshot"))
 st.markdown(t("home.intro"))
+st.caption(t("home.name_explainer"))
 with st.expander(t("home.how_to_title"), expanded=False):
     st.markdown(t("home.how_to_body"))
 

@@ -1,5 +1,5 @@
 {
-  "app.title": "Fantacalcio Analytics",
+  "app.title": "Fanalysista",
 
   "sidebar.language": "Language",
   "sidebar.league": "League",
@@ -126,6 +126,7 @@
 
   "home.snapshot": "📅 **2025/26 season — final snapshot.** These are end-of-season figures, not live data.",
   "home.intro": "**Fanalysista** turns a fantacalcio league's weekly lineups into a manager's analytical dashboard — how efficiently you used your squad, who your top contributors were, where your points came from, and how far each giornata was from the theoretically optimal lineup.",
+  "home.name_explainer": "The name blends **Fanta**(calcio) + **analysi**s + fanta**sista** — the Italian word for a creative, imaginative playmaker (Baggio, Totti, Del Piero). The aim: not just stats, but a fantasista's eye for the game.",
   "home.how_to_title": "ℹ️ New here? How to read this dashboard",
   "home.how_to_body": "**Structure** — a drill-in hierarchy:\n\n- **League Table** — the whole competition at a glance.\n- **Team Detail** — one participant's season: schedule, squad usage, contribution breakdown.\n- **Player Detail** — one footballer: appearances, form, and how well they were used.\n- **Players** — compare all footballers across the competition.\n- **Regret** — points left on the bench: how far each lineup was from the optimum.\n\n**Navigation** — click any team or player (in a table, a bar, or a chart point) to open a summary card, then jump to its full page. Use the sidebar to switch **league** and **competition**, and the toggle at the bottom to switch language.\n\n**Key terms**\n- **Team** — a participant (manager) in the league; their team name identifies them.\n- **Player** — a real footballer in a participant's squad.\n- **FV (fantavoto)** — a player's fantasy score in a giornata (matchday).\n- **Active FV** counted toward your total; **missed FV** was left on the bench.",
   "home.league_table_header": "League table — click any team row for a summary",

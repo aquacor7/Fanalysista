@@ -17,7 +17,7 @@ import streamlit as st
 
 from i18n import render_language_toggle, t
 
-st.set_page_config(page_title="Fantacalcio Analytics", layout="wide")
+st.set_page_config(page_title="Fanalysista", layout="wide")
 
 # Page titles are localised via t(); the active language is read from
 # st.session_state["_lang"] (set by the toggle below). On a language switch
