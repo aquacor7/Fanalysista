@@ -12,8 +12,10 @@ import streamlit as st
 
 import i18n
 from data import (
+    has_market,
     load_appearances,
     load_matches,
+    load_player_market,
     load_player_season,
     persist_sidebar_selectbox,
     require_data,
@@ -161,6 +163,51 @@ with col_kpi:
         )
     else:
         st.info(t("player_detail.verdict_insufficient"))
+
+# ---- value & cost (auction/market) ----
+if has_market(league, comp):
+    pmk = load_player_market(league, comp)
+    mrow = pmk[(pmk.team == sel_team) & (pmk.player == sel_player)]
+    if not mrow.empty:
+        m = mrow.iloc[0]
+        st.divider()
+        st.subheader(t("player_detail.market_header"))
+        v1, v2, v3, v4, v5 = st.columns(5)
+        v1.metric(i18n.col("costo"), f"{m.costo:.0f}" if pd.notna(m.costo) else "—")
+        v2.metric(t("player_detail.market_price_label"),
+                  f"{m.qt_i:.0f} → {m.qt_a:.0f}" if pd.notna(m.qt_a) else "—",
+                  delta=f"{m.val_diff:+.0f}" if pd.notna(m.val_diff) else None)
+        v3.metric(i18n.col("fvm_scaled"),
+                  f"{m.fvm_scaled:.0f}" if pd.notna(m.fvm_scaled) else "—")
+        v4.metric(i18n.col("roi_active"),
+                  f"{m.roi_active:.2f}" if pd.notna(m.roi_active) else "—")
+        v5.metric(i18n.col("roi_total"),
+                  f"{m.roi_total:.2f}" if pd.notna(m.roi_total) else "—")
+
+        # verdict: auction edge (bargain/overpay) + market-value trend
+        notes = []
+        if pd.notna(m.auction_edge):
+            e = m.auction_edge
+            if e > 3:
+                notes.append(("green", t("player_detail.market_bargain", edge=f"{e:.0f}")))
+            elif e < -3:
+                notes.append(("red", t("player_detail.market_overpay", edge=f"{-e:.0f}")))
+            else:
+                notes.append(("grey", t("player_detail.market_fair", edge=f"{e:+.0f}")))
+        if pd.notna(m.val_diff):
+            d = m.val_diff
+            if d > 0:
+                notes.append(("green", t("player_detail.market_value_up", diff=f"{d:.0f}")))
+            elif d < 0:
+                notes.append(("red", t("player_detail.market_value_down", diff=f"{-d:.0f}")))
+            else:
+                notes.append(("grey", t("player_detail.market_value_flat")))
+        for color, text in notes:
+            st.markdown(
+                f"<div style='padding:8px 10px;border-left:4px solid {color};"
+                f"background:#f7f7f7;margin:4px 0;'>{text}</div>",
+                unsafe_allow_html=True,
+            )
 
 st.divider()
 

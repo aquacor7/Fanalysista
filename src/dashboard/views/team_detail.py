@@ -19,8 +19,11 @@ import streamlit as st
 
 import i18n
 from data import (
+    has_market,
     load_matches,
+    load_player_market,
     load_player_season,
+    load_team_market,
     load_team_season,
     persist_sidebar_selectbox,
     require_data,
@@ -252,3 +255,60 @@ event = st.dataframe(
 if event.selection.rows:
     selected = player_table.iloc[event.selection.rows[0]]
     maybe_open_player_modal(league, comp, sel_team, selected.player, key="td_player_select")
+
+# ============================================================
+# 3. Squad investment (auction / market)
+# ============================================================
+if has_market(league, comp):
+    tmk = load_team_market(league, comp)
+    trow = tmk[tmk.team == sel_team]
+    pmk = load_player_market(league, comp)
+    squad = pmk[pmk.team == sel_team]
+    if not trow.empty and not squad.empty:
+        tr = trow.iloc[0]
+        st.divider()
+        st.subheader(t("team_detail.invest_header"))
+
+        i1, i2, i3, i4 = st.columns(4)
+        i1.metric(i18n.col("total_spent"),
+                  f"{tr.total_spent:.0f}",
+                  delta=t("team_detail.invest_credits_left",
+                          n=int(tr.credits_residui)) if pd.notna(tr.credits_residui) else None,
+                  delta_color="off")
+        i2.metric(i18n.col("roi_active"),
+                  f"{tr.roi_active:.2f}" if pd.notna(tr.roi_active) else "—")
+        i3.metric(i18n.col("roi_total"),
+                  f"{tr.roi_total:.2f}" if pd.notna(tr.roi_total) else "—")
+        i4.metric(i18n.col("squad_value_delta"),
+                  f"{tr.squad_value_delta:+.0f}" if pd.notna(tr.squad_value_delta) else "—")
+
+        # spend by role
+        st.markdown(t("team_detail.spend_by_role"))
+        role_spend = pd.DataFrame({
+            "role": POSITION_ORDER,
+            "spend": [tr.get(f"spend_{r}", 0) or 0 for r in POSITION_ORDER],
+        })
+        fig_role = px.bar(
+            role_spend, x="role", y="spend", color="role",
+            color_discrete_map=POSITION_COLOR, category_orders={"role": POSITION_ORDER},
+            labels={"role": i18n.col("role"), "spend": i18n.col("total_spent")},
+        )
+        fig_role.update_layout(height=240, showlegend=False,
+                               margin=dict(l=10, r=10, t=10, b=10))
+        st.plotly_chart(fig_role, width="stretch")
+
+        # best & worst buys within this squad
+        buy_cols = ["player", "role", "costo", "total_active_fv", "roi_active"]
+        buy_fmt = {"costo": "%d", "total_active_fv": "%.1f", "roi_active": "%.2f"}
+        owned = squad[squad.costo > 0].dropna(subset=["roi_active"])
+        col_bb, col_wb = st.columns(2)
+        with col_bb:
+            st.markdown(t("team_detail.best_buys"))
+            bb = owned.sort_values("roi_active", ascending=False).head(5)[buy_cols]
+            st.dataframe(bb, width="stretch", hide_index=True,
+                         column_config=i18n.columns_config(bb, formats=buy_fmt))
+        with col_wb:
+            st.markdown(t("team_detail.worst_buys"))
+            wb = owned.sort_values("roi_active").head(5)[buy_cols]
+            st.dataframe(wb, width="stretch", hide_index=True,
+                         column_config=i18n.columns_config(wb, formats=buy_fmt))
